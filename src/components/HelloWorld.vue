@@ -1,23 +1,28 @@
 <script setup>
 import { ref } from 'vue'
-
+/* import SaludoProfe from './SaludoProfe.vue'
+ */
 defineProps({
   msg: String,
 })
 
 const count = ref(0)
 
-function sumarCount(){
+function sumarCount() {
   this.count++
 }
 
-function sumar(a,b){
-  return a+b
+function sumar(a, b) {
+  return a + b
 }
 
-function getNombre(nombre){
+function getNombre(nombre) {
   return "Tu nombre es " + nombre
 }
+/* 
+function condicion() {
+  return this.count > 3
+} */
 
 </script>
 
@@ -26,11 +31,13 @@ function getNombre(nombre){
 
   <div class="card">
     <button type="button" @click="sumarCount()">count is {{ count }}</button>
+    <!-- <SaludoProfe v-show="condicion()"/> -->
+    <!-- <SaludoProfe v-if="condicion()"/> -->
     <p>
       Edit
       <code>components/HelloWorld.vue</code> to test HMR
     </p>
-    <p>Esto es una suma de dos numeros: {{ sumar(2,count) }}, Devolver nombre {{ getNombre("Paco") }}</p>
+    <p>Esto es una suma de dos numeros: {{ sumar(2, count) }}, Devolver nombre {{ getNombre("Paco") }}</p>
   </div>
 
   <p>
