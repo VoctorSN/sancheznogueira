@@ -1,32 +1,22 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import SaludoProfe from './components/SaludoProfe.vue';
+import FooTer from './components/FooTer.vue';
+import GestionClientes from './components/GestionClientes.vue';
+import NavBar from './components/NavBar.vue';
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div id="app" class="d-flex flex-column vh-100">
+    <NavBar />
+    <main class="flex-grow-1 overflow-auto">
+      <GestionClientes />
+    </main>
+    <FooTer />
   </div>
-  <SaludoProfe/>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+<style>
+#app > nav,
+#app > footer{
+  width: 100%;
 }
 </style>
