@@ -15,7 +15,9 @@ import NavBar from './components/NavBar.vue';
 </template>
 
 <style>
-#app > nav,
+#app > nav{
+  width: 80%;
+}
 #app > footer{
   width: 100%;
 }
