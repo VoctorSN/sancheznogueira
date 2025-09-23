@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-dark text-light text-center py-3 fixed-bottom w-100">
+  <footer class="navbar navbar-dark bg-primary position-sticky top-0">
     <div class="container">
       <p class="mb-1">&copy; {{ new Date().getFullYear() }} MiSitio. Todos los derechos reservados.</p>
       <ul class="list-inline mb-0">
