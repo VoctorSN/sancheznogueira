@@ -1,16 +1,24 @@
 <template>
-    <div class="gestion-clientes">
+    <div class="gestion-clientes border rounded mt-3 mb-3 p-5 pt-2">
         <h2 class="text-center my-4">Gestión de Clientes</h2>
 
         <!-- Formulario -->
         <form @submit.prevent="agregarCliente" class="mb-5">
             <!-- DNI -->
-            <div class="mb-3 d-flex align-items-center">
-                <label for="dni" class="me-2 mb-0" style="width: 120px;">DNI:</label>
-                <input type="text" id="dni" v-model="nuevoCliente.dni" class="form-control" required />
+            <div class="mb-3 d-flex justify-content-between">
+                <div class="row">
+                    <label for=" dni" class="me-2 mb-0" style="width: 60px;">DNI:</label>
+                    <input type="text" id="dni" style="max-width: 180px;" @blur="validarDni"
+                        :class="{ 'is-invalid': !dniValido }" v-model="nuevoCliente.dni" class="form-control"
+                        required />
+                    <div v-if="!dniValido" class="is-invalid-feedback">DNI o NIE inválido</div>
+                </div>
 
-                <label for="fechaAlta" class="me-2 mb-2" style="width: 250px;">Fecha de Alta:</label>
-                <input type="date" id="fechaAlta" v-model="nuevoCliente.fechaAlta" class="form-control" />
+                <div class="row">
+                    <label for="fechaAlta" class="me-2 mb-2" style="width: 140px;">Fecha de Alta:</label>
+                    <input type="date" id="fechaAlta" style="max-width: 150px;" v-model="nuevoCliente.fechaAlta"
+                        class="form-control" />
+                </div>
             </div>
 
             <!-- Nombre y Apellidos -->
@@ -58,7 +66,7 @@
                 <label for="historico" class="form-check-label">Histórico</label>
             </div>
 
-            <button type="submit" class="btn btn-primary">Grabar</button>
+            <button type="submit" class="btn btn-primary mx-auto d-block">Grabar</button>
         </form>
 
         <!-- Lista de Clientes -->
@@ -85,7 +93,7 @@
                         <td>{{ cliente.municipio }}</td>
                         <td>
                             <button @click="eliminarCliente(index)" class="btn btn-danger btn-sm">
-                                Eliminar
+                                <i class="bi bi-trash"></i>
                             </button>
                         </td>
                     </tr>
@@ -133,6 +141,40 @@ const agregarCliente = () => {
 const eliminarCliente = (index) => {
     clientes.value.splice(index, 1);
 };
+
+
+///SCRIPTS AUXILIARES
+
+// Estado de validez del DNI/NIE si la estructura de datos es más compleja se usa reactive
+const dniValido = ref(true);  // Por defecto es válido y no muestra error al iniciar
+
+// Función para validar DNI y NIE
+const validarDniNie = (valor) => {
+    const letras = 'TRWAGMYFPDXBNJZSQVHLCKE';
+    const dniRegex = /^[0-9]{8}[A-Z]$/;
+    const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
+
+    valor = valor.toUpperCase();
+
+    if (dniRegex.test(valor)) {
+        const numero = parseInt(valor.slice(0, 8), 10);
+        const letra = valor.charAt(8);
+        return letra === letras[numero % 23];  //sale con true si es válido
+    } else if (nieRegex.test(valor)) {
+        const nie = valor.replace('X', '0').replace('Y', '1').replace('Z', '2');
+        const numero = parseInt(nie.slice(0, 8), 10);
+        const letra = valor.charAt(8);
+        return letra === letras[numero % 23];  //sale con true si es válido
+    }
+    return false;
+};
+
+// Validar al salir del campo
+const validarDni = () => {
+    const dni = nuevoCliente.value.dni.trim().toUpperCase();
+    dniValido.value = validarDniNie(dni);
+};
+
 </script>
 
 <style scoped>
@@ -144,6 +186,16 @@ const eliminarCliente = (index) => {
 }
 
 .form-control {
-    width: 100%;
+    width: auto;
+}
+
+.is-invalid {
+    border-color: rgb(194, 64, 64);
+    background-color: rgb(241, 224, 224);
+}
+
+.is-invalid-feedback {
+    display: block;
+    color: red;
 }
 </style>
