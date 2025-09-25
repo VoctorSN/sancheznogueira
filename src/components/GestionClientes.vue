@@ -1,97 +1,128 @@
 <template>
-    <div class="gestion-clientes border rounded mt-3 mb-3 p-5 pt-2">
-        <h2 class="text-center my-4">Gestión de Clientes</h2>
-
+    <div class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light">
+        <h3 class="text-center my-2">Gestión de Clientes</h3>
         <!-- Formulario -->
-        <form @submit.prevent="agregarCliente" class="mb-5">
-            <!-- DNI -->
-            <div class="mb-3 d-flex justify-content-between">
-                <div class="row">
-                    <label for=" dni" class="me-2 mb-0" style="width: 60px;">DNI:</label>
-                    <input type="text" id="dni" style="max-width: 180px;" @blur="validarDni"
-                        :class="{ 'is-invalid': !dniValido }" v-model="nuevoCliente.dni" class="form-control"
-                        required />
-                    <div v-if="!dniValido" class="is-invalid-feedback">DNI o NIE inválido</div>
+        <form @submit.prevent="agregarCliente" class="mb-4">
+            <!-- DNI con validación visual -->
+            <div class="mb-3 row align-items-center">
+                <!-- Columna DNI -->
+                <div class="col-md-4 d-flex align-items-center">
+                    <label for="dni" class="form-label mb-0 w-25">DNI: </label>
+                    <div class="flex-grow-1">
+                        <input type="text" id="dni" v-model="nuevoCliente.dni" @blur="validarDni"
+                            class="form-control w-auto" :class="{ 'is-invalid': !dniValido }" required />
+                        <div v-if="!dniValido" class="invalid-feedback">
+                            DNI o NIE inválido.
+                        </div>
+                    </div>
                 </div>
 
-                <div class="row">
-                    <label for="fechaAlta" class="me-2 mb-2" style="width: 140px;">Fecha de Alta:</label>
-                    <input type="date" id="fechaAlta" style="max-width: 150px;" v-model="nuevoCliente.fechaAlta"
-                        class="form-control" />
+                <!-- Columna Fecha de Alta a la derecha -->
+                <div class="col-md-4 ms-auto d-flex align-items-center justify-content-end">
+                    <label for="fechaAlta" class="form-label me-2 mb-0 text-nowrap">Fecha de Alta:</label>
+                    <input type="date" id="fechaAlta" v-model="nuevoCliente.fechaAlta" class="form-control w-auto" />
                 </div>
             </div>
 
             <!-- Nombre y Apellidos -->
-            <div class="mb-3 d-flex gap-3">
+            <div class="mb-3 row g-3 align-items-center">
+                <!-- Nombre -->
+                <div class="col-md-5 d-flex align-items-center">
+                    <label for="nombre" class="form-label  mb-0 text-nowrap w-25">Nombre:</label>
+                    <input type="text" id="nombre" v-model="nuevoCliente.nombre" class="form-control flex-grow-1"
+                        @blur="capitalizarNombre" required />
+                </div>
 
-                <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" id="nombre" v-model="nuevoCliente.nombre" class="form-control" required />
-                <label for="apellidos" class="form-label">Apellidos:</label>
-                <input type="text" id="apellidos" v-model="nuevoCliente.apellidos" class="form-control" required />
+                <!-- Apellidos -->
+                <div class="col-md-6 d-flex align-items-center ms-auto">
+                    <label for="apellidos" class="form-label me-4 mb-0 text-nowrap">Apellidos:</label>
+                    <input type="text" id="apellidos" v-model="nuevoCliente.apellidos" class="form-control flex-grow-1"
+                        @blur="capitalizarApellidos" required />
+                </div>
             </div>
 
-            <!-- Email -->
-            <div class="mb-3 d-flex align-items-center">
-                <label for="email" class="me-2 mb-0" style="width: 120px;">Email:</label>
-                <input type="email" id="email" v-model="nuevoCliente.email" class="form-control" required />
+            <!-- Email y Móvil -->
+            <div class="mb-3 row g-3 align-items-center">
+                <!-- Email -->
+                <div class="col-md-5 d-flex align-items-center">
+                    <label for="email" class="form-label mb-0 text-nowrap w-25">Email:</label>
+                    <input type="email" id="email" v-model="nuevoCliente.email" class="form-control flex-grow-1"
+                        @blur="validarEmail" :class="{ 'is-invalid': !emailValido }" required />
+                </div>
 
                 <!-- Móvil -->
-                <label for="movil" class="me-2 mb-0" style="width: 120px;">Móvil:</label>
-                <input type="tel" id="movil" v-model="nuevoCliente.movil" class="form-control" />
+                <div class="col-md-3 d-flex align-items-center">
+                    <label for="movil" class="form-label me-4 ms-5 mb-0 text-nowrap ">Móvil:</label>
+                    <input type="tel" id="movil" v-model="nuevoCliente.movil" @blur="validarMovil"
+                        class="form-control flex-grow-1 text-center" :class="{ 'is-invalid': !movilValido }" />
+                </div>
             </div>
 
-            <!-- Dirección -->
-            <div class="mb-3 d-flex align-items-center">
-                <label for="direccion" class="me-2 mb-0" style="width: 120px;">Dirección:</label>
-                <input type="text" id="direccion" v-model="nuevoCliente.direccion" class="form-control" />
-                <label for="provincia" class="form-label">Provincia:</label>
-                <select id="provincia" v-model="nuevoCliente.provincia" class="form-select" @change="filtrarMunicipios">
-                    <option disabled value="">Seleccione provincia</option>
-                    <option v-for="prov in provincias" :key="prov" :value="prov">
-                        {{ prov }}
-                    </option>
-                </select>
 
-                <label for="municipio" class="form-label">Municipio:</label>
-                <select id="municipio" v-model="nuevoCliente.municipio" class="form-select">
-                    <option disabled value="">Seleccione municipio</option>
-                    <option v-for="mun in municipiosFiltrados" :key="mun" :value="mun">
-                        {{ mun }}
-                    </option>
-                </select>
+
+            <!-- Dirección, Provincia y Municipio -->
+            <div class="mb-3 row g-3 align-items-center">
+                <!-- Dirección -->
+                <div class="col-md-5 d-flex align-items-center">
+                    <label for="direccion" class="form-label mb-0 w-25 text-nowrap">Dirección:</label>
+                    <input type="text" id="direccion" v-model="nuevoCliente.direccion"
+                        class="form-control flex-grow-1" />
+                </div>
+
+                <!-- Provincia -->
+                <div class="col-md-3 d-flex align-items-center">
+                    <label for="provincia" class="form-label me-2 ms-5 mb-0 text-nowrap">Provincia:</label>
+                    <select id="provincia" v-model="nuevoCliente.provincia" class="form-select flex-grow-1 w-25"
+                        @change="filtrarMunicipios">
+                        <option disabled value="">Seleccione provincia</option>
+                        <option v-for="prov in provincias" :key="prov" :value="prov">{{ prov }}</option>
+                    </select>
+                </div>
+
+                <!-- Municipio -->
+                <div class="col-md-3 d-flex align-items-center">
+                    <label for="municipio" class="form-label me-2 ms-4 mb-0 text-nowrap">Municipio:</label>
+                    <select id="municipio" v-model="nuevoCliente.municipio" class="form-select flex-grow-1 w-auto">
+                        <option disabled value="">Seleccione municipio</option>
+                        <option v-for="mun in municipiosFiltrados" :key="mun" :value="mun">{{ mun }}</option>
+                    </select>
+                </div>
             </div>
+
             <!-- Histórico -->
-            <div class="mb-3 form-check">
+            <div class="d-flex justify-content-end mb-2">
                 <input type="checkbox" id="historico" v-model="nuevoCliente.historico" class="form-check-input" />
-                <label for="historico" class="form-check-label">Histórico</label>
+                <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
             </div>
 
-            <button type="submit" class="btn btn-primary mx-auto d-block">Grabar</button>
-        </form>
+            <!-- Botón centrado -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Grabar</button>
+            </div>
 
+        </form>
         <!-- Lista de Clientes -->
         <div class="table-responsive">
-            <h3>Lista de Clientes</h3>
+            <h4 class="text-center w-100">Listado Clientes</h4>
             <table class="table table-bordered table-striped w-100">
                 <thead class="table-primary">
                     <tr>
-                        <th>ID</th>
-                        <th>Apellidos</th>
-                        <th>Nombre</th>
-                        <th>Móvil</th>
-                        <th>Municipio</th>
-
-                        <th>Acciones</th>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Apellidos</th>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Móvil</th>
+                        <th class="text-center">Municipio</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(cliente, index) in clientes" :key="index">
-                        <th scope="row">{{ index + 1 }}</th>
+                        <th scope="row" class="text-center">{{ index + 1 }}</th>
                         <td>{{ cliente.apellidos }}</td>
                         <td>{{ cliente.nombre }}</td>
-                        <td>{{ cliente.movil }}</td>
-                        <td>{{ cliente.municipio }}</td>
-                        <td>
+                        <td class="text-center">{{ cliente.movil }}</td>
+                        <td class="text-center">{{ cliente.municipio }}</td>
+                        <td class="align-middle text-center">
                             <button @click="eliminarCliente(index)" class="btn btn-danger btn-sm">
                                 <i class="bi bi-trash"></i>
                             </button>
@@ -102,6 +133,7 @@
         </div>
     </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue';
