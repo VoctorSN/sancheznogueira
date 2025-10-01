@@ -30,14 +30,14 @@
                 <div class="col-md-5 d-flex align-items-center">
                     <label for="nombre" class="form-label  mb-0 text-nowrap w-25">Nombre:</label>
                     <input type="text" id="nombre" v-model="nuevoCliente.nombre" class="form-control flex-grow-1"
-                        @blur="capitalizarNombre" required />
+                        @blur="capitalizarTexto('nombre')" required />
                 </div>
 
                 <!-- Apellidos -->
-                <div class="col-md-6 d-flex align-items-center ms-auto">
+                <div class="col-md-6 d-flex align-items-center ms-5">
                     <label for="apellidos" class="form-label me-4 mb-0 text-nowrap">Apellidos:</label>
                     <input type="text" id="apellidos" v-model="nuevoCliente.apellidos" class="form-control flex-grow-1"
-                        @blur="capitalizarApellidos" required />
+                        @blur="capitalizarTexto('apellidos')" required />
                 </div>
             </div>
 
@@ -66,7 +66,7 @@
                 <div class="col-md-5 d-flex align-items-center">
                     <label for="direccion" class="form-label mb-0 w-25 text-nowrap">Dirección:</label>
                     <input type="text" id="direccion" v-model="nuevoCliente.direccion"
-                        class="form-control flex-grow-1" />
+                        @blur="capitalizarTexto('direccion')" class="form-control flex-grow-1" />
                 </div>
 
                 <!-- Provincia -->
@@ -123,9 +123,14 @@
                         <td class="text-center">{{ cliente.movil }}</td>
                         <td class="text-center">{{ cliente.municipio }}</td>
                         <td class="align-middle text-center">
-                            <button @click="eliminarCliente(index)" class="btn btn-danger btn-sm">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                            <div>
+                                <button @click="eliminarCliente(index)" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                <button @click="eliminarCliente(index)" class="btn btn-warning btn-sm ms-2">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -137,6 +142,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import provmuniData from '@data/provmuni.json';
 
 const nuevoCliente = ref({
     dni: '',
@@ -200,27 +206,93 @@ const validarDniNie = (valor) => {
     }
     return false;
 };
+// control email 
+
+const emailValido = ref(true);
+const validarEmail = () => {
+    const email = nuevoCliente.value.email.trim();
+    if (email === '') {
+        emailValido.value = true
+        return true
+    }
+    // Expresión simple para email válido
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    emailValido.value = regex.test(email);
+};
+
+// Control móvil
+const movilValido = ref(true);
+const movilRegex = /^[67]\d{8}$/;
+
+const validarMovil = () => {
+    const movil = nuevoCliente.value.movil.trim();
+
+    if (movil === '') {
+        movilValido.value = true; // Vacío = válido (opcional)
+        return true;
+    }
+
+    if (movil.charAt(0) === '6' || movil.charAt(0) === '7') {
+        movilValido.value = movilRegex.test(movil);
+        return movilValido.value;
+    } else {
+        movilValido.value = false;
+        return false;
+    }
+};
+
+const capitalizarTexto = (campo) => {
+    const texto = nuevoCliente.value[campo] ?? '';
+    nuevoCliente.value[campo] = texto
+        .toLowerCase()
+        .split(' ')
+        .map(palabra => {
+            if (!palabra) return '';
+            return palabra.charAt(0).toLocaleUpperCase() + palabra.slice(1);
+        })
+        .join(' ');
+};
+
 
 // Validar al salir del campo
 const validarDni = () => {
-    const dni = nuevoCliente.value.dni.trim().toUpperCase();
-    dniValido.value = validarDniNie(dni);
+    nuevoCliente.value.dni = nuevoCliente.value.dni.trim().toUpperCase();
+    dniValido.value = validarDniNie(nuevoCliente.value.dni);
 };
+
+// Provincias y municipios
+
+const provincias = ref(provmuniData.provincias); // Array de provincias
+const municipios = ref(provmuniData.municipios); // Array de municipios para filtrarlos
+const municipiosFiltrados = ref([]);  // vacío pero contendrá los municipios filtrados
+
+const filtrarMunicipios = () => {
+    // nombre de la provincia elegida en el <select>
+    const nombreProv = nuevoCliente.value.provincia;
+
+    // 1️⃣ buscar en provincias el objeto con ese nombre
+    const prov = provincias.value.find(p => p.nm === nombreProv);
+    if (!prov) {
+        municipiosFiltrados.value = [];
+        return;
+    }
+
+    // 2️⃣ los dos primeros dígitos del id de la provincia
+    const codigoProv = prov.id.slice(0, 2);
+
+    // 3️⃣ filtrar los municipios cuyo id empiece por esos dos dígitos
+    municipiosFiltrados.value = municipios.value.filter(
+        m => m.id.startsWith(codigoProv)
+    );
+
+    // 4️⃣ opcional: resetear el municipio si ya no corresponde
+    nuevoCliente.value.municipio = '';
+};
+
 
 </script>
 
 <style scoped>
-.gestion-clientes {
-    width: 95%;
-    max-width: none;
-    margin: 0 auto;
-    padding: 2rem 0;
-}
-
-.form-control {
-    width: auto;
-}
-
 .is-invalid {
     border-color: rgb(194, 64, 64);
     background-color: rgb(241, 224, 224);
