@@ -1,6 +1,5 @@
 <template>
-  <nav class="navbar navbar-dark bg-primary sticky-top navbar-expand-lg">
-
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
     <div class="container-fluid">
       <!-- Marca o logo -->
       <a class="navbar-brand" href="#">EmpresaTeis</a>
@@ -13,12 +12,9 @@
 
       <!-- Links de navegación -->
       <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-        <ul class="navbar-nav d-flex justify-content-center w-80">
+        <ul class="navbar-nav d-flex justify-content-center w-100">
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="#">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Clientes</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Servicios</a>
@@ -42,15 +38,20 @@
 // No necesita lógica
 </script>
 
-<style>
-.navbar-dark .nav-link {
-  color: rgba(255, 255, 255, 0.9);
-  /* blanco suave */
+<style scoped>
+.navbar {
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1000;
 }
 
-.navbar-dark .nav-link:hover,
-.navbar-dark .nav-link:focus {
-  color: #fff;
-  /* blanco intenso al pasar el ratón */
+.navbar-nav {
+  gap: 1rem;
+  /* espacio entre links */
+}
+
+.nav-link {
+  text-align: center;
 }
 </style>
