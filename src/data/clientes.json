@@ -227,8 +227,8 @@
     },
     {
       "dni": "X4567891E",
-      "fecha_alta": "14/01/2022",
-      "nombre": "Ana",
+      "fecha_alta": "2022-01-14",
+      "nombre": "Victor",
       "apellidos": "Fernández López",
       "email": "ana.fernandez@example.com",
       "movil": "612345679",
@@ -314,6 +314,19 @@
       "lopd": false,
       "password": "",
       "id": "dbfb"
+    },
+    {
+      "id": "8b5f",
+      "dni": "12345678Z",
+      "nombre": "Víctor",
+      "apellidos": "Sánchez Nogueira",
+      "email": "victorsancheznogueira@gmail.com",
+      "movil": "648684684",
+      "direccion": "Rúa Da Laxe, 10",
+      "provincia": "Girona",
+      "municipio": "Aiguaviva",
+      "fechaAlta": "2025-10-01",
+      "historico": false
     }
   ]
 }
