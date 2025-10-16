@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light"
-  >
+  <div class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light">
     <h3 class="text-center my-2">Gestión de Clientes</h3>
     <!-- Formulario -->
     <form @submit.prevent="guardarCliente" class="mb-4">
@@ -11,15 +9,14 @@
         <div class="col-md-4 d-flex align-items-center">
           <label for="dni" class="form-label mb-0 w-25">DNI: </label>
           <div class="flex-grow-1">
-            <input
-              type="text"
-              id="dni"
-              v-model="nuevoCliente.dni"
-              @blur="validarDni"
-              class="form-control w-auto"
-              :class="{ 'is-invalid': !dniValido }"
-              required
-            />
+
+            <input type="text" id="dni" v-model="nuevoCliente.dni" @blur="validarDni" class="form-control w-auto"
+              :class="{ 'is-invalid': !dniValido }" required />
+            <button @click="buscarClientePorDNI(nuevoCliente.dni)"
+              class="btn btn-primary btn-sm me-2 mw-2 border-0 shadow-none rounded-0" title="Buscar DNI"
+              aria-label="Buscar DNI">
+              <i class="bi bi-search"></i>
+            </button>
             <div v-if="!dniValido" class="invalid-feedback">
               DNI o NIE inválido.
             </div>
@@ -27,18 +24,10 @@
         </div>
 
         <!-- Columna Fecha de Alta a la derecha -->
-        <div
-          class="col-md-4 ms-auto d-flex align-items-center justify-content-end"
-        >
-          <label for="fechaAlta" class="form-label me-2 mb-0 text-nowrap"
-            >Fecha de Alta:</label
-          >
-          <input
-            type="date"
-            id="fechaAlta"
-            v-model="nuevoCliente.fechaAlta"
-            class="form-control w-auto"
-          />
+        <div class="col-md-4 ms-auto d-flex align-items-center justify-content-end">
+          <label for="fecha_alta" class="form-label me-2 mb-0 text-nowrap">Fecha de Alta:</label>
+          <input type="date" id="fecha_alta" v-model="nuevoCliente.fecha_alta" class="form-control w-auto"
+            oninvalid="this.setCustomValidity('Por favor, rellene este campo')" oninput="this.setCustomValidity('')" />
         </div>
       </div>
 
@@ -46,32 +35,16 @@
       <div class="mb-3 row g-3 align-items-center">
         <!-- Nombre -->
         <div class="col-md-5 d-flex align-items-center">
-          <label for="nombre" class="form-label mb-0 text-nowrap w-25"
-            >Nombre:</label
-          >
-          <input
-            type="text"
-            id="nombre"
-            v-model="nuevoCliente.nombre"
-            class="form-control flex-grow-1"
-            @blur="capitalizarTexto('nombre')"
-            required
-          />
+          <label for="nombre" class="form-label mb-0 text-nowrap w-25">Nombre:</label>
+          <input type="text" id="nombre" v-model="nuevoCliente.nombre" class="form-control flex-grow-1"
+            @blur="capitalizarTexto('nombre')" required />
         </div>
 
         <!-- Apellidos -->
         <div class="col-md-6 d-flex align-items-center ms-5">
-          <label for="apellidos" class="form-label me-4 mb-0 text-nowrap"
-            >Apellidos:</label
-          >
-          <input
-            type="text"
-            id="apellidos"
-            v-model="nuevoCliente.apellidos"
-            class="form-control flex-grow-1 ms-1"
-            @blur="capitalizarTexto('apellidos')"
-            required
-          />
+          <label for="apellidos" class="form-label me-4 mb-0 text-nowrap">Apellidos:</label>
+          <input type="text" id="apellidos" v-model="nuevoCliente.apellidos" class="form-control flex-grow-1 ms-1"
+            @blur="capitalizarTexto('apellidos')" required />
         </div>
       </div>
 
@@ -79,33 +52,16 @@
       <div class="mb-3 row g-3 align-items-center">
         <!-- Email -->
         <div class="col-md-5 d-flex align-items-center">
-          <label for="email" class="form-label mb-0 text-nowrap w-25"
-            >Email:</label
-          >
-          <input
-            type="email"
-            id="email"
-            v-model="nuevoCliente.email"
-            class="form-control flex-grow-1"
-            @blur="validarEmail"
-            :class="{ 'is-invalid': !emailValido }"
-            required
-          />
+          <label for="email" class="form-label mb-0 text-nowrap w-25">Email:</label>
+          <input type="email" id="email" v-model="nuevoCliente.email" class="form-control flex-grow-1"
+            @blur="validarEmail" :class="{ 'is-invalid': !emailValido }" required />
         </div>
 
         <!-- Móvil -->
         <div class="col-md-3 d-flex align-items-center">
-          <label for="movil" class="form-label me-4 ms-5 mb-0 text-nowrap"
-            >Móvil:</label
-          >
-          <input
-            type="tel"
-            id="movil"
-            v-model="nuevoCliente.movil"
-            @blur="validarMovil"
-            class="form-control flex-grow-1 text-center ms-4"
-            :class="{ 'is-invalid': !movilValido }"
-          />
+          <label for="movil" class="form-label me-4 ms-5 mb-0 text-nowrap">Móvil:</label>
+          <input type="tel" id="movil" v-model="nuevoCliente.movil" @blur="validarMovil"
+            class="form-control flex-grow-1 text-center ms-4" :class="{ 'is-invalid': !movilValido }" />
         </div>
       </div>
 
@@ -113,29 +69,16 @@
       <div class="mb-3 row g-3 align-items-center">
         <!-- Dirección -->
         <div class="col-md-5 d-flex align-items-center">
-          <label for="direccion" class="form-label mb-0 w-25 text-nowrap"
-            >Dirección:</label
-          >
-          <input
-            type="text"
-            id="direccion"
-            @blur="capitalizarTexto('direccion')"
-            v-model="nuevoCliente.direccion"
-            class="form-control flex-grow-1"
-          />
+          <label for="direccion" class="form-label mb-0 w-25 text-nowrap">Dirección:</label>
+          <input type="text" id="direccion" @blur="capitalizarTexto('direccion')" v-model="nuevoCliente.direccion"
+            class="form-control flex-grow-1" />
         </div>
 
         <!-- Provincia -->
         <div class="col-md-3 d-flex align-items-center">
-          <label for="provincia" class="form-label me-2 ms-5 mb-0 text-nowrap"
-            >Provincia:</label
-          >
-          <select
-            id="provincia"
-            v-model="nuevoCliente.provincia"
-            class="form-select flex-grow-1 w-25"
-            @change="filtrarMunicipios"
-          >
+          <label for="provincia" class="form-label me-2 ms-5 mb-0 text-nowrap">Provincia:</label>
+          <select id="provincia" v-model="nuevoCliente.provincia" class="form-select flex-grow-1 w-25"
+            @change="filtrarMunicipios">
             <option disabled value="">Seleccione provincia</option>
             <option v-for="prov in provincias" :key="prov" :value="prov.nm">
               {{ prov.nm }}
@@ -145,20 +88,10 @@
 
         <!-- Municipio -->
         <div class="col-md-3 d-flex align-items-center">
-          <label for="municipio" class="form-label me-2 ms-4 mb-0 text-nowrap"
-            >Municipio:</label
-          >
-          <select
-            id="municipio"
-            v-model="nuevoCliente.municipio"
-            class="form-select flex-grow-1 w-auto"
-          >
+          <label for="municipio" class="form-label me-2 ms-4 mb-0 text-nowrap">Municipio:</label>
+          <select id="municipio" v-model="nuevoCliente.municipio" class="form-select flex-grow-1 w-auto">
             <option disabled value="">Seleccione municipio</option>
-            <option
-              v-for="mun in municipiosFiltrados"
-              :key="mun"
-              :value="mun.nm"
-            >
+            <option v-for="mun in municipiosFiltrados" :key="mun" :value="mun.nm">
               {{ mun.nm }}
             </option>
           </select>
@@ -166,33 +99,23 @@
       </div>
 
       <!-- Histórico -->
-      <div class="d-flex justify-content-end mb-2">
-        <input
-          type="checkbox"
-          id="historico"
-          v-model="nuevoCliente.historico"
-          class="form-check-input"
-          @change="cargarClientes"
-        />
-        <label for="historico" class="form-check-label ms-3 me-5 mb-0"
-          >Histórico</label
-        >
+      <div class="d-flex justify-content-end mb-2 form-switch">
+        <input type="checkbox" id="historico" v-model="mostrarHistorico" class="form-check-input"
+          @change="cargarClientes" />
+        <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
       </div>
 
       <!-- Botón centrado -->
       <div class="text-center">
-        <button
-          type="submit"
-          class="btn btn-primary border-0 shadow-none rounded-0"
-        >
-          {{editando ? 'Modificar Cliente' : 'Grabar Cliente'}}
+        <button type="submit" class="btn btn-primary border-0 shadow-none rounded-0">
+          {{ editando ? 'Modificar Cliente' : 'Grabar Cliente' }}
         </button>
       </div>
     </form>
     <!-- Lista de Clientes -->
     <div class="table-responsive">
       <h4 class="text-center w-100">Listado Clientes</h4>
-      <table class="table table-bordered table-striped w-100">
+      <table class="table table-bordered table-striped table-hover table-sm align-middle">
         <thead class="table-primary">
           <tr>
             <th class="text-center">ID</th>
@@ -211,26 +134,29 @@
             <td class="text-center">{{ cliente.movil }}</td>
             <td class="text-center">{{ cliente.municipio }}</td>
             <td class="align-middle text-center">
-              <button
-                @click="eliminarCliente(cliente.movil)"
-                class="btn btn-danger btn-sm me-2 border-0 shadow-none rounded-0"
-                title="Eliminar cliente"
-                aria-label="Eliminar cliente"
-              >
+              <button @click="eliminarCliente(cliente.movil)"
+                class="btn btn-danger btn-sm me-2 border-0 shadow-none rounded-0" title="Eliminar cliente"
+                aria-label="Eliminar cliente">
                 <i class="bi bi-trash"></i>
               </button>
-              <button
-                @click="editarCliente(cliente.movil)"
-                class="btn btn-warning btn-sm border-0 shadow-none rounded-0"
-                title="Editar cliente"
-                aria-label="Editar cliente"
-              >
+              <button @click="editarCliente(cliente.movil)" class="btn btn-warning btn-sm border-0 dow-none rounded-0"
+                title="Editar cliente" aria-label="Editar cliente">
                 <i class="bi bi-pencil"></i>
+              </button>
+              <button v-if="cliente.historico" @click="activarCliente(cliente)"
+                class="btn btn-secondary btn-sm ms-2 border-0 shadow-none rounded-0" title="Activar cliente">
+                <i class="bi bi-person-check"></i>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
+
+      <!--  NAVEGACION DE PAGINAS -->
+      <div>
+
+      </div>
+
     </div>
   </div>
 </template>
@@ -239,7 +165,7 @@
 import { ref, onMounted } from "vue";
 import provmuniData from "@/data/provmuni.json";
 import Swal from "sweetalert2";
-import { getClientes, deleteCliente, addCliente, updateCliente } from "@/api/clientes.js";
+import { getClientes, deleteCliente, addCliente, updateCliente, getClientePorDni } from "@/api/clientes.js";
 
 /* =================================== SCRIPT CRUD =================================== */
 
@@ -252,7 +178,7 @@ const nuevoCliente = ref({
   direccion: "",
   provincia: "",
   municipio: "",
-  fechaAlta: "",
+  fecha_alta: "",
   historico: false,
 });
 
@@ -272,10 +198,14 @@ onMounted(async () => {
   cargarClientes()
 })
 
-const cargarClientes = () => {
+const updateTabla = () => {
   getClientes(mostrarHistorico.value).then(data => {
     clientes.value = data
   })
+}
+
+const cargarClientes = () => {
+  updateTabla()
   Swal.fire({
     icon: 'success',
     title: "Listando Clientes...",
@@ -286,6 +216,7 @@ const cargarClientes = () => {
 
 const guardarCliente = async () => {
   // Validar duplicados solo si estás creando (no si editando)
+
   if (!editando.value) {
     const duplicado = clientes.value.find(cliente =>
       cliente.dni === nuevoCliente.value.dni ||
@@ -313,11 +244,14 @@ const guardarCliente = async () => {
   });
 
   if (!result.isConfirmed) return;
-
+  //  cliente.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
   try {
     if (editando.value) {
-      // Modificar cliente (PUT)
+      // Validar campos
+      // Modificar cliente (PUT)+
+
       const clienteActualizado = await updateCliente(clienteEditandoId.value, nuevoCliente.value);
+
       // Actualiza el cliente en la lista local
       const index = clientes.value.findIndex(c => c.id === clienteEditandoId.value);
       if (index !== -1) clientes.value[index] = clienteActualizado;
@@ -329,6 +263,7 @@ const guardarCliente = async () => {
       });
     } else {
       // Agregar cliente (POST)
+
       const clienteAgregado = await addCliente(nuevoCliente.value);
       clientes.value.push(clienteAgregado);
       Swal.fire({
@@ -350,7 +285,7 @@ const guardarCliente = async () => {
       provincia: '',
       municipio: '',
       fecha_alta: '',
-      historico: true
+      historico: false
     };
     editando.value = false;
     clienteEditandoId.value = null;
@@ -361,7 +296,7 @@ const guardarCliente = async () => {
     emailValido.value = true;
 
     // Refrescar lista completa (opcional)
-    clientes.value = await getClientes();
+    updateTabla();
 
   } catch (error) {
     console.error('Error al guardar cliente:', error);
@@ -378,7 +313,7 @@ const guardarCliente = async () => {
 // Funcion Eliminar Cliente con patch (histórico a false)
 const eliminarCliente = async (movil) => {
   // Refrescar lista desde la API
-  clientes.value = cargarClientes();
+  cargarClientes();
   // Buscar cliente completo (que incluye el ID)
   const clienteAEliminar = clientes.value.find(cliente => cliente.movil === movil);
 
@@ -442,6 +377,109 @@ const editarCliente = (movil) => {
   nuevoCliente.value.municipio = cliente.municipio; // 🟢 Ahora estamos en modo edición
   clienteEditandoId.value = cliente.id;
 };
+
+// Función para activar cliente (poner historico en true)
+const activarCliente = async (cliente) => {
+  const confirmacion = await Swal.fire({
+    title: `¿Activar cliente ${cliente.nombre} ${cliente.apellidos}?`,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Activar',
+    cancelButtonText: 'Cancelar'
+  });
+
+  if (!confirmacion.isConfirmed) return;
+
+  try {
+    // Crear una copia del cliente con historico en true
+    const clienteActivado = { ...cliente, historico: false };
+
+    // Llamar a la API para actualizar
+    const actualizado = await updateCliente(cliente.id, clienteActivado);
+
+    // Actualizar la lista local (opcional, también puedes volver a cargar todo)
+    const index = clientes.value.findIndex(c => c.id === cliente.id);
+    if (index !== -1) {
+      clientes.value[index] = actualizado;
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Cliente reactivado',
+      showConfirmButton: false,
+      timer: 1500
+    });
+
+    // Recargar lista actualizada
+    cargarClientes();
+
+  } catch (error) {
+    console.error('Error al reactivar cliente:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al activar cliente',
+      text: 'Por favor, intenta de nuevo.',
+      timer: 1500
+    });
+  }
+};
+
+///CODIGO BUSQUEDA COMPONENTES
+
+const buscarClientePorDNI = async (dni) => {
+  if (!dni || dni.trim() === '') {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Debe introducir un DNI antes de buscar.',
+      timer: 1500,
+      showConfirmButton: false
+    });
+    return;
+  }
+
+  try {
+    const cliente = await getClientePorDni(dni.trim().toUpperCase());
+
+    if (!cliente) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Cliente no encontrado',
+        text: 'No existe ningún cliente con ese DNI.',
+        timer: 1500,
+        showConfirmButton: false
+      });
+      return;
+    }
+
+    // ✅ Cargar los datos en el formulario
+    nuevoCliente.value = { ...cliente };
+    nuevoCliente.value.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
+
+    // Actualiza lista de municipios si cambia la provincia
+    filtrarMunicipios();
+    nuevoCliente.value.municipio = cliente.municipio;
+
+    //opcional
+    editando.value = true;
+    clienteEditandoId.value = cliente.id;
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Cliente encontrado y cargado',
+      timer: 1500,
+      showConfirmButton: false
+    });
+  } catch (error) {
+    console.error('Error buscando cliente por DNI:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al buscar cliente',
+      text: 'Verifique la conexión o contacte con el administrador.',
+      timer: 2000,
+      showConfirmButton: false
+    });
+  }
+}
 
 /* =================================== SCRIPT AUXILIARES =================================== */
 
@@ -547,16 +585,23 @@ const filtrarMunicipios = () => {
 };
 
 // conversor fecha
-const formatearFechaParaInput = (fecha) => {
-  if (!fecha) return "";
-  const partes = fecha.split("/");
-  if (partes.length !== 3) return "";
-  // partes = [dd, mm, yyyy]
-  return `${partes[2]}-${partes[1].padStart(2, "0")}-${partes[0].padStart(
-    2,
-    "0"
-  )}`;
-};
+function formatearFechaParaInput(fecha) {
+  if (!fecha) return '';
+
+  // Detecta formato dd/mm/yyyy
+  if (fecha.includes('/')) {
+    const [dd, mm, yyyy] = fecha.split('/');
+    return `${yyyy}-${mm.padStart(2, '0')}-${dd.padStart(2, '0')}`;
+  }
+
+  // Detecta formato yyyy-mm-dd
+  if (fecha.includes('-')) {
+    const partes = fecha.split('-');
+    if (partes.length === 3) return fecha; // ya formato ISO
+  }
+
+  return '';
+}
 </script>
 
 <style scoped>
@@ -575,6 +620,7 @@ const formatearFechaParaInput = (fecha) => {
   border-color: #f28b82 !important;
   background-color: #ffe6e6;
 }
+
 .invalid-feedback {
   display: block;
 }
