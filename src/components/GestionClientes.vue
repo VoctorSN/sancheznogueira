@@ -127,13 +127,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(cliente, index) in clientes" :key="index">
-            <th scope="row" class="text-center">{{ index + 1 }}</th>
+          <tr v-for="(cliente, index) in clientesPaginados" :key="index">
+            <th scope="row" class="text-center">{{ (currentPage -1) * clientesPerPage + index + 1 }}</th>
             <td>{{ cliente.apellidos }}</td>
             <td>{{ cliente.nombre }}</td>
             <td class="text-center">{{ cliente.movil }}</td>
             <td class="text-center">{{ cliente.municipio }}</td>
-            <td class="align-middle text-center">
+            <td class="ms-3 ">
               <button @click="eliminarCliente(cliente.movil)"
                 class="btn btn-danger btn-sm me-2 border-0 shadow-none rounded-0" title="Eliminar cliente"
                 aria-label="Eliminar cliente">
@@ -153,16 +153,26 @@
       </table>
 
       <!--  NAVEGACION DE PAGINAS -->
-      <div>
-
+      <!-- Navegación de página-->
+      <div class="d-flex justify-content-center my-3">
+        <button class="btn btn-outline-primary btn-sm me-2 rounded-0 border-1 shadow-none" @click="beforePagina"
+          :disabled="currentPage <= 1">
+          <i class="bi bi-chevron-left "></i>
+        </button>
+        <span class="mx-3 align-self-center text-muted">Página {{ currentPage }}</span>
+        <button class="btn btn-outline-primary btn-sm rounded-0 border-1 shadow-none" @click="nextPagina"
+          :disabled="currentPage >= totalPages">
+          <i class="bi bi-chevron-right "></i>
+        </button>
       </div>
+
 
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import provmuniData from "@/data/provmuni.json";
 import Swal from "sweetalert2";
 import { getClientes, deleteCliente, addCliente, updateCliente, getClientePorDni } from "@/api/clientes.js";
@@ -187,6 +197,10 @@ const clienteEditandoId = ref(null);
 
 var mostrarHistorico = ref(false);
 
+var numClientes = ref(0);
+var currentPage = ref(1);
+var clientesPerPage = 10;
+
 // Función Listar Clientes con get
 
 const clientes = ref([]);
@@ -201,8 +215,35 @@ onMounted(async () => {
 const updateTabla = () => {
   getClientes(mostrarHistorico.value).then(data => {
     clientes.value = data
+    numClientes.value = data.length
   })
 }
+
+///avanzar y retroceder
+
+// Métodos de paginación
+const beforePagina = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const nextPagina = () => {
+  //redondear hacia arriba para mostrar la última página aunque no esté completa
+  
+  if (currentPage.value < totalPages.value) {
+    console.log('siguiente Pagina');
+    
+    currentPage.value++;
+  }
+};
+
+const clientesPaginados = computed(() => {
+  const start = (currentPage.value -1) * clientesPerPage
+  const end = start + clientesPerPage
+  return clientes.value.slice(start,end)
+})
+
 
 const cargarClientes = () => {
   updateTabla()
@@ -213,6 +254,11 @@ const cargarClientes = () => {
     timer: 1500
   });
 }
+
+const totalPages = computed(() => {
+  return Math.ceil(numClientes.value / clientesPerPage)
+})
+
 
 const guardarCliente = async () => {
   // Validar duplicados solo si estás creando (no si editando)

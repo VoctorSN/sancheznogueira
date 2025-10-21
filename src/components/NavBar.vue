@@ -14,19 +14,19 @@
       <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
         <ul class="navbar-nav d-flex justify-content-center w-100">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">Inicio</a>
+            <router-link class="nav-link" to="/">Inicio</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Servicios</a>
+            <router-link class="nav-link" to="/clientes">Clientes</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Productos</a>
+            <router-link class="nav-link" to="/#">Noticias</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Blog</a>
+            <router-link class="nav-link" to="/#">Modelos</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contacto</a>
+            <router-link class="nav-link" to="/#">Contacto</router-link>
           </li>
         </ul>
       </div>
