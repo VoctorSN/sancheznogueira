@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="297mm"
+   height="210mm"
+   viewBox="0 0 297 210"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="logo.svg"
+   inkscape:version="1.4.2 (ebf0e94, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.35945918"
+     inkscape:cx="333.83484"
+     inkscape:cy="897.18114"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="powerclip"
+       message=""
+       id="path-effect2"
+       is_visible="true"
+       lpeversion="1"
+       inverse="true"
+       flatten="false"
+       hide_clip="false" />
+    <linearGradient
+       id="linearGradient91"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#00ffff;stop-opacity:1;"
+         offset="0"
+         id="stop92" />
+      <stop
+         style="stop-color:#05ffff;stop-opacity:0.49803922;"
+         offset="0.55844158"
+         id="stop96" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop93" />
+    </linearGradient>
+    <linearGradient
+       id="swatch86"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop87" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient84"
+       inkscape:swatch="gradient">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop85" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop86" />
+    </linearGradient>
+    <linearGradient
+       id="swatch76"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop76" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient73"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#00ffff;stop-opacity:1;"
+         offset="0"
+         id="stop73" />
+      <stop
+         style="stop-color:#00ffff;stop-opacity:0;"
+         offset="1"
+         id="stop74" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient71"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop71" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop72" />
+    </linearGradient>
+    <linearGradient
+       id="swatch70"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop70" />
+    </linearGradient>
+    <linearGradient
+       id="swatch69"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop69" />
+    </linearGradient>
+    <symbol
+       id="FlowSymbols.svg:Connector">
+      <title
+         id="title20">Connector</title>
+      <desc
+         id="desc20">Exit to or entry from another part of chart.</desc>
+      <circle
+         cx="75"
+         cy="75"
+         r="20"
+         style="stroke-width:2"
+         id="circle20" />
+    </symbol>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#swatch69"
+       id="linearGradient69"
+       x1="87.208015"
+       y1="130.97322"
+       x2="90.704292"
+       y2="130.97322"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(4.4180563,0,0,4.3566458,-173.4227,-445.29239)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#swatch70"
+       id="linearGradient70"
+       x1="54.652416"
+       y1="131.40903"
+       x2="58.148701"
+       y2="131.40903"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(4.4180563,0,0,4.3566458,-173.4227,-445.29239)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient71"
+       id="linearGradient72"
+       x1="49.912491"
+       y1="72.856003"
+       x2="101.00587"
+       y2="72.856003"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient73"
+       id="linearGradient74"
+       x1="74.567612"
+       y1="98.387146"
+       x2="76.350746"
+       y2="47.324871"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient73"
+       id="linearGradient75"
+       gradientUnits="userSpaceOnUse"
+       x1="74.567612"
+       y1="98.387146"
+       x2="76.350746"
+       y2="47.324871" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#swatch86"
+       id="linearGradient87"
+       x1="262.63443"
+       y1="573.94873"
+       x2="291.14966"
+       y2="573.94873"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.3012864,0,0,1.546265,-211.07646,-715.79386)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient91"
+       id="linearGradient96"
+       x1="73.171021"
+       y1="142.40388"
+       x2="73.171021"
+       y2="150.74977"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(4.918248,0,0,5.8441514,-210.43649,-683.85581)" />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath2">
+      <rect
+         style="display:none;fill:none;stroke-width:0.878016"
+         id="rect2"
+         width="13.706106"
+         height="19.50326"
+         x="68.734482"
+         y="83.594574"
+         d="M 68.734482,83.594574 H 82.440588 V 103.09783 H 68.734482 Z" />
+      <path
+         id="lpe_path-effect2"
+         style="fill:none;stroke-width:0.878016"
+         class="powerclip"
+         d="M 44.912492,48.891061 H 106.00587 V 96.820945 H 44.912492 Z m 23.82199,34.703513 V 103.09783 H 82.440588 V 83.594574 Z" />
+    </clipPath>
+  </defs>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="use1-2"
+       style="fill:url(#linearGradient74);stroke:#000000;stroke-opacity:1"
+       transform="matrix(5.4867076,0,0,4.4599262,-264.37691,-234.08863)">
+      <title
+         id="title3"
+         style="fill:url(#linearGradient74);stroke:url(#linearGradient72)">Connector</title>
+      <desc
+         id="desc3"
+         style="fill:url(#linearGradient74);stroke:url(#linearGradient72)">Exit to or entry from another part of chart.</desc>
+      <path
+         style="fill:url(#linearGradient75);stroke:#000000;stroke-width:0.746428;stroke-dasharray:none;stroke-opacity:1"
+         id="path67"
+         clip-path="url(#clipPath2)"
+         inkscape:path-effect="#path-effect2"
+         sodipodi:type="arc"
+         sodipodi:cx="75.459183"
+         sodipodi:cy="72.856003"
+         sodipodi:rx="25.173477"
+         sodipodi:ry="18.591728"
+         d="M 100.63266,72.856003 A 25.173477,18.591728 0 0 1 75.459183,91.447731 25.173477,18.591728 0 0 1 50.285706,72.856003 25.173477,18.591728 0 0 1 75.459183,54.264275 25.173477,18.591728 0 0 1 100.63266,72.856003 Z" />
+    </g>
+    <g
+       id="use1"
+       style="fill:none;stroke:#000000"
+       transform="matrix(0.79888429,0,0,0.80808502,-3.3899348,71.114454)">
+      <title
+         id="title1">Connector</title>
+      <desc
+         id="desc1">Exit to or entry from another part of chart.</desc>
+    </g>
+    <use
+       xlink:href="#FlowSymbols.svg:Connector"
+       style="fill:#ffffff;stroke:#000000"
+       id="use1-5"
+       transform="matrix(3.5295159,0,0,3.5205399,-44.584413,-135.45461)" />
+    <ellipse
+       style="fill:#ffffff;stroke:#000000;stroke-width:7.05004"
+       id="circle1"
+       cy="128.56856"
+       cx="76.314049"
+       rx="70.590309"
+       ry="70.410789" />
+    <rect
+       style="fill:none;stroke:none;stroke-width:0.551353;stroke-dasharray:none;stroke-opacity:1"
+       id="rect96"
+       width="7.983511"
+       height="6.8025441"
+       x="1.7638259"
+       y="123.89168" />
+    <rect
+       style="fill:#ffffff;stroke:none;stroke-width:2.39934;stroke-dasharray:none;stroke-opacity:1"
+       id="rect96-1"
+       width="151.19064"
+       height="6.8025441"
+       x="111.7997"
+       y="122.98667" />
+    <ellipse
+       cx="75.746506"
+       cy="126.21766"
+       style="fill:#ffffff;stroke:#000000;stroke-width:3.33981"
+       id="circle1-1"
+       rx="33.028538"
+       ry="33.771973" />
+    <ellipse
+       cx="220.15346"
+       cy="126.14151"
+       style="fill:#ffffff;stroke:#000000;stroke-width:3.33981"
+       id="circle1-1-9"
+       rx="33.028538"
+       ry="33.771973" />
+    <path
+       style="fill:#00ffff;stroke:url(#linearGradient70);stroke-width:4.03607;stroke-dasharray:none"
+       id="path69"
+       sodipodi:type="arc"
+       sodipodi:cx="75.758141"
+       sodipodi:cy="127.21019"
+       sodipodi:rx="7.7233872"
+       sodipodi:ry="8.4177189"
+       sodipodi:start="0"
+       sodipodi:end="6.267243"
+       sodipodi:arc-type="slice"
+       d="m 83.481528,127.21019 a 7.7233872,8.4177189 0 0 1 -7.692605,8.41765 7.7233872,8.4177189 0 0 1 -7.753924,-8.35055 7.7233872,8.4177189 0 0 1 7.630797,-8.48422 7.7233872,8.4177189 0 0 1 7.81475,8.28293 l -7.722405,0.13419 z" />
+    <path
+       style="fill:#00ffff;stroke:url(#linearGradient69);stroke-width:4.03607;stroke-dasharray:none"
+       id="path69-2"
+       sodipodi:type="arc"
+       sodipodi:cx="219.59059"
+       sodipodi:cy="125.31152"
+       sodipodi:rx="7.7233872"
+       sodipodi:ry="8.4177189"
+       sodipodi:start="0"
+       sodipodi:end="6.267243"
+       sodipodi:arc-type="slice"
+       d="m 227.31398,125.31152 a 7.7233872,8.4177189 0 0 1 -7.69261,8.41766 7.7233872,8.4177189 0 0 1 -7.75392,-8.35056 7.7233872,8.4177189 0 0 1 7.6308,-8.48421 7.7233872,8.4177189 0 0 1 7.81475,8.28292 l -7.72241,0.13419 z" />
+    <path
+       style="display:inline;fill:url(#linearGradient96);stroke:url(#linearGradient87);stroke-width:2.11718;stroke-dasharray:none;stroke-opacity:1"
+       d="m 147.42541,192.79269 c -2.54486,-8.28821 -7.21767,-15.1824 -13.57719,-20.03159 l -3.16208,-2.41115 3.81536,-3.02735 c 5.61554,-4.45587 10.04186,-11.10157 12.20009,-18.31716 0.84412,-2.82214 1.87575,-3.8193 1.87575,-1.81311 0,0.57095 0.99728,3.40725 2.21625,6.30242 2.64215,6.2757 7.62481,12.49646 13.07665,16.32613 l 3.92237,2.75521 -2.01383,0.99124 c -2.16566,1.06594 -7.84302,6.14646 -9.69737,8.67796 -2.54359,3.47242 -5.20621,8.44619 -6.21938,11.61774 l -1.07484,3.36468 z"
+       id="path79" />
+  </g>
+</svg>

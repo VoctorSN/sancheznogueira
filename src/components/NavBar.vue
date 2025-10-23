@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
     <div class="container-fluid">
       <!-- Marca o logo -->
-      <a class="navbar-brand" href="#">EmpresaTeis</a>
+      <a class="navbar-brand" href="#"><img class="logo" src="@/assets/logo.svg" alt="logo"/></a>
 
       <!-- Botón de hamburguesa en pantallas pequeñas -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -53,5 +53,9 @@
 
 .nav-link {
   text-align: center;
+}
+
+.logo{
+  width: 45px;
 }
 </style>
