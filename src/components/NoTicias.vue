@@ -2,7 +2,25 @@
     <div class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light">
         <h3 class="text-center my-4">Noticias</h3>
 
-        
+        <form @submit.prevent="guardarNoticia" class="mb-4">
+            <div class="card shadow-sm p-4 mb-5">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Título:</label>
+                    <input type="text" class="form-control" v-model="nuevaNoticia.titulo"
+                        placeholder="Introduce el título de la noticia" @blur="capitalizarTexto('titulo')" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Contenido:</label>
+                    <textarea class="form-control" rows="4" placeholder="Escribe el contenido de la noticia"
+                        v-model="nuevaNoticia.contenido" required></textarea>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary fw-bold">{{ editando ? 'Modificar' : 'Grabar' }}</button>
+                </div>
+            </div>
+        </form>
 
         <div class="noticias-list">
             <div v-for="noticia in noticias" :key="noticia.id" class="noticia-item card mb-3 shadow-sm border-0"
@@ -29,6 +47,20 @@
                         </small>
                     </div>
                 </div>
+                <button @click.stop="editarNoticia(noticia.id)" class="btn btn-warning btn-sm border-0 dow-none rounded-0"
+                    title="Editar noticia" aria-label="Editar noticia">
+                    <i class="bi bi-pencil"></i>
+                </button>
+                <button @click.stop="eliminarNoticia(noticia.id)"
+                    class="btn btn-danger btn-sm border-0 shadow-none rounded-0" title="Eliminar noticia"
+                    aria-label="Eliminar noticia">
+                    <i class="bi bi-trash"></i>
+                </button>
+                <button @click.stop="limpiarCampos()"
+                    class="btn btn-primary btn-sm border-0 shadow-none rounded-0" title="Eliminar noticia"
+                    aria-label="Eliminar noticia">
+                    <i class="bi bi-trash"></i>
+                </button>
             </div>
         </div>
 
@@ -43,12 +75,15 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import Swal from "sweetalert2";
-import { getNoticias, addNoticia } from "@/api/noticias.js";
+import { getNoticias, addNoticia, deleteNoticia, updateNoticia } from "@/api/noticias.js";
 
 /* =================================== SCRIPT CRUD =================================== */
 
 const noticias = ref([]);
 const expandidas = ref(new Set()); // Para rastrear qué noticias están expandidas
+
+const editando = ref(false);
+const noticiaEditandoId = ref(null);
 
 const nuevaNoticia = ref({
     titulo: "",
@@ -60,7 +95,7 @@ const nuevaNoticia = ref({
 
 // Zona Cargar clientes Al Montar el componente 
 onMounted(async () => {
-    await cargarNoticias()   
+    await cargarNoticias()
 })
 
 const updateTabla = async () => {
@@ -71,9 +106,9 @@ const updateTabla = async () => {
             const fechaB = new Date(b.fecha_publicacion)
             return fechaB - fechaA // Descendente: más nueva primero
         })
-        
+
     })
-    
+
 }
 
 const cargarNoticias = async () => {
@@ -86,83 +121,83 @@ const cargarNoticias = async () => {
     });
 }
 
+const limpiarCampos = () => {
+    editando.value = false
+    noticiaEditandoId.value = null
+    
+    nuevaNoticia.value = {
+        titulo: "",
+        contenido: "",
+        fecha_publicacion: "",
+    };
+}
+
 const guardarNoticia = async () => {
     // Validar duplicados solo si estás creando (no si editando)
 
-    /* if (!editando.value) {
-        const duplicado = clientes.value.find(cliente =>
-            cliente.dni === nuevoCliente.value.dni ||
-            cliente.movil === nuevoCliente.value.movil ||
-            cliente.email === nuevoCliente.value.email
-        );
-        if (duplicado) {
-            Swal.fire({
-                icon: 'error',
-                title: 'DNI, móvil o email duplicados',
-                showConfirmButton: false,
-                timer: 2000
-            });
-            return;
-        }
-    } */
+    const duplicado = noticias.value.find(noticia =>
+        noticia.titulo === nuevaNoticia.value.titulo
+    );
+    if (duplicado) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Título duplicado',
+            showConfirmButton: false,
+            timer: 2000
+        });
+        return;
+    }
+
 
     // Confirmación antes de guardar
     const result = await Swal.fire({
-       /*  title: editando.value ? '¿Desea modificar este cliente?' : '¿Desea grabar este cliente?', */
-        title: '¿Desea grabar esta noticia ?',
+        title: editando.value ? '¿Desea modificar esta noticia?' : '¿Desea grabar esta noticia?',
         icon: 'warning',
         showCancelButton: true,
-        /* confirmButtonText: editando.value ? 'Modificar' : 'Grabar', */
-        confirmButtonText: 'Grabar',
+        confirmButtonText: editando.value ? 'Modificar' : 'Grabar', 
         cancelButtonText: 'Cancelar'
     });
 
     if (!result.isConfirmed) return;
-    //  cliente.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
     try {
-        /* if (editando.value) {
+        const hoy = new Date();
+        nuevaNoticia.value.fecha_publicacion = hoy.toISOString().split('T')[0];
+        if (editando.value) {
             // Validar campos
             // Modificar cliente (PUT)+
 
-            const clienteActualizado = await updateCliente(clienteEditandoId.value, nuevoCliente.value);
+            const noticiaActualizada = await updateNoticia(noticiaEditandoId.value, nuevaNoticia.value);
 
             // Actualiza el cliente en la lista local
-            const index = clientes.value.findIndex(c => c.id === clienteEditandoId.value);
-            if (index !== -1) clientes.value[index] = clienteActualizado;
+            const index = noticias.value.findIndex(n => n.id === noticiaEditandoId.value);
+            if (index !== -1) noticias.value[index] = noticiaActualizada;
             Swal.fire({
                 icon: 'success',
-                title: 'Cliente modificado',
+                title: 'Noticia modificada',
                 showConfirmButton: false,
                 timer: 1500
             });
-        } else { */
+        } else {
             // Agregar cliente (POST)
-        
-/*         nuevaNoticia.fecha_publicacion=;
- */
-        const noticiaAgregada = await addNoticia(nuevaNoticia.value);
+
+
+
+            const noticiaAgregada = await addNoticia(nuevaNoticia.value);
             noticias.value.push(noticiaAgregada);
+
             Swal.fire({
                 icon: 'success',
                 title: 'Noticia agregada',
                 showConfirmButton: false,
                 timer: 1500
             });
-        /* } */
-
+        }
         // Reset formulario y estado
         nuevaNoticia.value = {
             titulo: "",
             contenido: "",
             fecha_publicacion: "",
         };
-        /* editando.value = false;
-        clienteEditandoId.value = null; */
-
-        // Reset validaciones si tienes (dniValido, movilValido, etc)
-        /* dniValido.value = true;
-        movilValido.value = true;
-        emailValido.value = true; */
 
         // Refrescar lista completa (opcional)
         updateTabla();
@@ -177,6 +212,69 @@ const guardarNoticia = async () => {
             timer: 1500
         });
     }
+    editando.value = false;
+    noticiaEditandoId.value = null;
+};
+
+const editarNoticia = (id) => {
+    const noticia = noticias.value.find((n) => n.id === id);
+    if (!noticia) {
+        Swal.fire({
+            icon: "error",
+            title: "Noticia no encontrada",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+        return;
+    }
+
+    // Copiar datos al formulario
+    nuevaNoticia.value = { ...noticia }; // 🔁 Aquí cargas el formulario con los datos
+    editando.value = true;
+
+    noticiaEditandoId.value = noticia.id;
+};
+
+const eliminarNoticia = async (id) => {
+    // Refrescar lista desde la API
+    updateTabla();
+    // Buscar cliente completo (que incluye el ID)
+    const noticiaAEliminar = noticias.value.find(noticia => noticia.id === id);
+
+    if (!noticiaAEliminar) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Noticia no encontrado',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        return;
+    }
+
+    // Pedir confirmación antes de eliminar
+    const result = await Swal.fire({
+        title: `¿Eliminar la noticia ${noticiaAEliminar.titulo}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    });
+
+
+    // Si no confirma, salir
+    if (!result.isConfirmed) return;
+
+    // Si confirma, eliminar cliente usando la API y movil como ID
+    await deleteNoticia(noticiaAEliminar.id);
+    // Refrescar la lista desde la "API"
+    noticias.value = cargarNoticias();
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Noticia eliminada',
+        showConfirmButton: false,
+        timer: 1500
+    });
 };
 
 // Formatear fecha a formato legible
@@ -203,6 +301,18 @@ const toggleNoticia = (id) => {
     // Forzar actualización de la vista
     expandidas.value = new Set(expandidas.value);
 };
+
+const capitalizarTexto = (campo) => {
+    const texto = nuevaNoticia.value[campo] ?? "";
+    nuevaNoticia.value[campo] = texto
+        .toLowerCase()
+        .split(" ")
+        .map((palabra) => {
+            if (!palabra) return "";
+            return palabra.charAt(0).toLocaleUpperCase() + palabra.slice(1);
+        })
+        .join(" ");
+};
 </script>
 
 <style scoped>
@@ -210,12 +320,13 @@ const toggleNoticia = (id) => {
     cursor: pointer;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
     transition: all 0.3s ease;
 }
 
-.fade-enter-from, .fade-leave-to {
+.fade-enter-from,
+.fade-leave-to {
     opacity: 0;
 }
 </style>
-

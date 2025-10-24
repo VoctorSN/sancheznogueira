@@ -235,7 +235,7 @@
       "direccion": "Calle García 12",
       "provincia": "Madrid",
       "municipio": "Móstoles",
-      "historico": false,
+      "historico": true,
       "lopd": true,
       "password": "",
       "id": "76d6"
@@ -326,7 +326,7 @@
       "provincia": "Cuenca",
       "municipio": "Alconchel de la Estrella",
       "fecha_alta": "2025-10-02",
-      "historico": false
+      "historico": true
     },
     {
       "id": "9afd",
@@ -423,9 +423,9 @@
   ],
   "noticias": [
     {
-      "titulo": "Nuevo Modelo Deportivo 2025",
+      "titulo": "Nuevo Modelo Deportivo 2026",
       "contenido": "La industria automotriz ha dado un salto cualitativo con el lanzamiento del nuevo modelo deportivo GT-X 2025. Este vehículo incorpora la última tecnología en motores híbridos, combinando un motor de combustión de 3.0 litros V6 con dos motores eléctricos que generan una potencia combinada de 650 caballos de fuerza. El diseño aerodinámico ha sido perfeccionado en túnel de viento, logrando un coeficiente de resistencia de apenas 0.25. El interior cuenta con tapicería de cuero premium, sistema de infoentretenimiento de última generación con pantalla táctil de 15 pulgadas, conectividad 5G y un sistema de sonido premium de 18 altavoces. La seguridad no se queda atrás, incorporando 12 airbags, sistema de frenado automático de emergencia, asistente de mantenimiento de carril y control de crucero adaptativo.",
-      "fecha_publicacion": "2025-10-20",
+      "fecha_publicacion": "2025-10-24",
       "id": "1"
     },
     {
