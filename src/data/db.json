@@ -420,5 +420,31 @@
       "fecha_alta": "2025-10-24",
       "historico": false
     }
+  ],
+  "noticias": [
+    {
+      "titulo": "Nuevo Modelo Deportivo 2025",
+      "contenido": "La industria automotriz ha dado un salto cualitativo con el lanzamiento del nuevo modelo deportivo GT-X 2025. Este vehículo incorpora la última tecnología en motores híbridos, combinando un motor de combustión de 3.0 litros V6 con dos motores eléctricos que generan una potencia combinada de 650 caballos de fuerza. El diseño aerodinámico ha sido perfeccionado en túnel de viento, logrando un coeficiente de resistencia de apenas 0.25. El interior cuenta con tapicería de cuero premium, sistema de infoentretenimiento de última generación con pantalla táctil de 15 pulgadas, conectividad 5G y un sistema de sonido premium de 18 altavoces. La seguridad no se queda atrás, incorporando 12 airbags, sistema de frenado automático de emergencia, asistente de mantenimiento de carril y control de crucero adaptativo.",
+      "fecha_publicacion": "2025-10-20",
+      "id": "1"
+    },
+    {
+      "titulo": "Revolución en Vehículos Eléctricos",
+      "contenido": "El mercado de vehículos eléctricos experimenta un crecimiento exponencial con la introducción de baterías de estado sólido que prometen autonomías de hasta 1000 kilómetros con una sola carga. Los fabricantes han invertido miles de millones en investigación y desarrollo para hacer realidad esta tecnología que reduce el tiempo de carga a tan solo 15 minutos para alcanzar el 80% de la capacidad. Además, los nuevos modelos incorporan paneles solares integrados en el techo y capó que pueden generar hasta 20 kilómetros adicionales de autonomía diariamente. Los gobiernos de diversos países están apoyando esta transición con incentivos fiscales y la instalación masiva de estaciones de carga rápida en autopistas y ciudades.",
+      "fecha_publicacion": "2024-08-15",
+      "id": "2"
+    },
+    {
+      "titulo": "Clásicos que Nunca Pasan de Moda",
+      "contenido": "Los vehículos clásicos siguen siendo muy apreciados por coleccionistas y entusiastas.",
+      "fecha_publicacion": "2023-05-10",
+      "id": "3"
+    },
+    {
+      "titulo": "Tecnología de Conducción Autónoma",
+      "contenido": "Los avances en inteligencia artificial y sensores han llevado la conducción autónoma a un nivel completamente nuevo. Los vehículos equipados con sistemas de nivel 4 ya pueden circular por áreas urbanas sin intervención humana en condiciones normales. Utilizan una combinación de cámaras de alta resolución, radar, lidar y ultrasonido para crear un mapa tridimensional del entorno en tiempo real. El procesamiento se realiza mediante chips especializados que pueden realizar billones de operaciones por segundo. Las pruebas en ciudades piloto han demostrado una reducción del 90% en accidentes de tráfico.",
+      "fecha_publicacion": "2025-09-01",
+      "id": "4"
+    }
   ]
 }

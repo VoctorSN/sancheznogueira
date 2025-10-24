@@ -216,6 +216,7 @@ const updateTabla = () => {
   getClientes(mostrarHistorico.value).then(data => {
     clientes.value = data
     numClientes.value = data.length
+    
   })
 }
 
