@@ -16,8 +16,14 @@
                         v-model="nuevaNoticia.contenido" required></textarea>
                 </div>
 
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary fw-bold">{{ editando ? 'Modificar' : 'Grabar' }}</button>
+                <div class="d-flex justify-content-between  ">
+                    <div></div>
+                    <button type="submit" class="btn btn-primary fw-bold">{{ editando ? 'Modificar' : 'Grabar'
+                        }}</button>
+                    <button @click.stop="limpiarCampos()" class="btn btn-primary btn-sm border-0 shadow-none rounded-0"
+                        title="Eliminar noticia" aria-label="Eliminar noticia">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
                 </div>
             </div>
         </form>
@@ -47,8 +53,9 @@
                         </small>
                     </div>
                 </div>
-                <button @click.stop="editarNoticia(noticia.id)" class="btn btn-warning btn-sm border-0 dow-none rounded-0"
-                    title="Editar noticia" aria-label="Editar noticia">
+                <button @click.stop="editarNoticia(noticia.id)"
+                    class="btn btn-warning btn-sm border-0 dow-none rounded-0" title="Editar noticia"
+                    aria-label="Editar noticia">
                     <i class="bi bi-pencil"></i>
                 </button>
                 <button @click.stop="eliminarNoticia(noticia.id)"
@@ -56,11 +63,7 @@
                     aria-label="Eliminar noticia">
                     <i class="bi bi-trash"></i>
                 </button>
-                <button @click.stop="limpiarCampos()"
-                    class="btn btn-primary btn-sm border-0 shadow-none rounded-0" title="Eliminar noticia"
-                    aria-label="Eliminar noticia">
-                    <i class="bi bi-trash"></i>
-                </button>
+
             </div>
         </div>
 

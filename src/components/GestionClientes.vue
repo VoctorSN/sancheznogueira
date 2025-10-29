@@ -1,9 +1,12 @@
 <template>
     <div class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light">
-        <h2 class="text-center my-4 text-primary fw-bold">
-            <i class="bi bi-people-fill me-2"></i>
-            Gestión de Clientes
-        </h2>
+        <div class="d-flex justify-content-center">
+            <h2 class="text-center my-4 text-primary fw-bold">
+                <i class="bi bi-people-fill me-2"></i>
+                Gestión de Clientes
+            </h2>
+        </div>
+
         <!-- Formulario -->
         <form @submit.prevent="guardarCliente" class="mb-4">
             <!-- DNI con validación visual -->
