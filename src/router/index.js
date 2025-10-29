@@ -1,6 +1,7 @@
 import NotFound from "../components/NotFound.vue";
 import PaginaInicio from "../components/PaginaInicio.vue";
 import GestionClientes from "../components/GestionClientes.vue";
+import AvisoLegal from "../components/AvisoLegal.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import Noticias from "../components/Noticias.vue";
 
@@ -19,6 +20,11 @@ const routes = [
         path: '/noticias',
         name: 'NoTicias',
         component: Noticias
+    },
+    {
+        path: '/avisolegal',
+        name: 'AvisoLegal',
+        component: AvisoLegal
     },
     {
         path: '/:pathMatch(.*)*',

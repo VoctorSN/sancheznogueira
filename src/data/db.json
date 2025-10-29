@@ -340,7 +340,8 @@
       "municipio": "Vigo",
       "fecha_alta": "2025-02-10",
       "historico": false,
-      "email": "asdf@asdf.ok"
+      "email": "asdf@asdf.ok",
+      "lopd": true
     },
     {
       "id": "c9ee",
