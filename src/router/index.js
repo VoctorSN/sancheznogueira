@@ -4,6 +4,7 @@ import GestionClientes from "../components/GestionClientes.vue";
 import AvisoLegal from "../components/AvisoLegal.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import Noticias from "../components/Noticias.vue";
+import PoliticaPrivacidad from "../components/PoliticaPrivacidad.vue";
 
 const routes = [
     {
@@ -25,6 +26,11 @@ const routes = [
         path: '/avisolegal',
         name: 'AvisoLegal',
         component: AvisoLegal
+    },
+    {
+        path: '/politicaprivacidad',
+        name: 'PoliticaPrivacidad',
+        component: PoliticaPrivacidad
     },
     {
         path: '/:pathMatch(.*)*',

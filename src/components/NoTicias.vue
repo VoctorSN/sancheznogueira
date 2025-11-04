@@ -53,16 +53,19 @@
                         </small>
                     </div>
                 </div>
-                <button @click.stop="editarNoticia(noticia.id)"
-                    class="btn btn-warning btn-sm border-0 dow-none rounded-0" title="Editar noticia"
-                    aria-label="Editar noticia">
-                    <i class="bi bi-pencil"></i>
-                </button>
-                <button @click.stop="eliminarNoticia(noticia.id)"
-                    class="btn btn-danger btn-sm border-0 shadow-none rounded-0" title="Eliminar noticia"
-                    aria-label="Eliminar noticia">
-                    <i class="bi bi-trash"></i>
-                </button>
+                <div class="d-flex justify-content-end">
+                    <button @click.stop="editarNoticia(noticia.id)"
+                        class="btn btn-warning btn-sm border-0 dow-none rounded-0 w-auto m-10" title="Editar noticia"
+                        aria-label="Editar noticia">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <button @click.stop="eliminarNoticia(noticia.id)"
+                        class="btn btn-danger btn-sm border-0 shadow-none rounded-0 m-10" title="Eliminar noticia"
+                        aria-label="Eliminar noticia">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+
 
             </div>
         </div>

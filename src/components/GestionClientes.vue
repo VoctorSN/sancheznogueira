@@ -211,20 +211,6 @@ import { getClientes, deleteCliente, addCliente, updateCliente, getClientePorDni
 
 /* =================================== SCRIPT CRUD =================================== */
 
-const nuevoCliente = ref({
-    dni: "",
-    nombre: "",
-    apellidos: "",
-    email: "",
-    movil: "",
-    direccion: "",
-    provincia: "",
-    municipio: "",
-    fecha_alta: "",
-    historico: false,
-    lopd: false,
-});
-
 const clienteVacio = {
     dni: "",
     nombre: "",
@@ -239,6 +225,10 @@ const clienteVacio = {
     lopd: false,
 
 }
+
+const nuevoCliente = ref({
+    ...clienteVacio
+});
 
 const editando = ref(false);
 const clienteEditandoId = ref(null);
