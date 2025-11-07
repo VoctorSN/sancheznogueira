@@ -13,6 +13,7 @@
       "historico": false,
       "lopd": true,
       "password": "",
+      "tipo_cliente": "particular",
       "id": "7169"
     },
     {
@@ -28,6 +29,7 @@
       "historico": true,
       "lopd": false,
       "password": "",
+      "tipo_cliente": "particular",
       "id": "a079"
     },
     {
@@ -43,7 +45,8 @@
       "historico": false,
       "lopd": true,
       "password": "",
-      "id": "56df"
+      "id": "56df",
+      "tipo_cliente": "particular"
     },
     {
       "dni": "78912345N",
@@ -58,6 +61,7 @@
       "historico": true,
       "lopd": true,
       "password": "",
+      "tipo_cliente": "particular",
       "id": "c356"
     },
     {
@@ -71,9 +75,10 @@
       "provincia": "Málaga",
       "municipio": "Ronda",
       "historico": false,
-      "lopd": false,
+      "lopd": true,
       "password": "",
-      "id": "960a"
+      "id": "960a",
+      "tipo_cliente": "particular"
     },
     {
       "dni": "Z2345678M",
@@ -86,6 +91,7 @@
       "provincia": "Zaragoza",
       "municipio": "Calatayud",
       "historico": true,
+      "tipo_cliente": "particular",
       "lopd": false,
       "password": "",
       "id": "eda8"
@@ -101,6 +107,7 @@
       "provincia": "Murcia",
       "municipio": "Cartagena",
       "historico": false,
+      "tipo_cliente": "particular",
       "lopd": true,
       "password": "",
       "id": "39b2"
@@ -116,6 +123,7 @@
       "provincia": "Granada",
       "municipio": "Motril",
       "historico": true,
+      "tipo_cliente": "particular",
       "lopd": true,
       "password": "",
       "id": "d6a9"
@@ -131,6 +139,7 @@
       "provincia": "Cádiz",
       "municipio": "Chiclana de la Frontera",
       "historico": false,
+      "tipo_cliente": "particular",
       "lopd": false,
       "password": "",
       "id": "0f47"
@@ -145,6 +154,7 @@
       "direccion": "Calle Rodríguez 19",
       "provincia": "Bizkaia",
       "municipio": "Getxo",
+      "tipo_cliente": "particular",
       "historico": true,
       "lopd": false,
       "password": "",
@@ -160,6 +170,7 @@
       "direccion": "Calle García 33",
       "provincia": "Madrid",
       "municipio": "Getafe",
+      "tipo_cliente": "particular",
       "historico": true,
       "lopd": true,
       "password": "",
@@ -178,6 +189,7 @@
       "historico": true,
       "lopd": false,
       "password": "",
+      "tipo_cliente": "particular",
       "id": "58cf"
     },
     {
@@ -192,6 +204,7 @@
       "municipio": "Écija",
       "historico": false,
       "lopd": true,
+      "tipo_cliente": "particular",
       "password": "",
       "id": "e406"
     },
@@ -207,6 +220,7 @@
       "municipio": "Gandía",
       "historico": true,
       "lopd": true,
+      "tipo_cliente": "particular",
       "password": "",
       "id": "ba17"
     },
@@ -222,6 +236,7 @@
       "municipio": "Marbella",
       "historico": false,
       "lopd": false,
+      "tipo_cliente": "particular",
       "password": "",
       "id": "b1f4"
     },
@@ -237,6 +252,7 @@
       "municipio": "Móstoles",
       "historico": true,
       "lopd": true,
+      "tipo_cliente": "particular",
       "password": "",
       "id": "76d6"
     },
@@ -252,6 +268,7 @@
       "municipio": "Sabadell",
       "historico": true,
       "lopd": false,
+      "tipo_cliente": "particular",
       "password": "",
       "id": "66fd"
     },
@@ -268,6 +285,7 @@
       "historico": false,
       "lopd": true,
       "password": "",
+      "tipo_cliente": "particular",
       "id": "4d3e"
     },
     {
@@ -283,7 +301,8 @@
       "historico": false,
       "lopd": true,
       "password": "",
-      "id": "bacd"
+      "id": "bacd",
+      "tipo_cliente": "particular"
     },
     {
       "dni": "87654321X",
@@ -298,6 +317,7 @@
       "historico": false,
       "lopd": false,
       "password": "",
+      "tipo_cliente": "particular",
       "id": "9115"
     },
     {
@@ -312,6 +332,7 @@
       "municipio": "Ejea de los Caballeros",
       "historico": true,
       "lopd": false,
+      "tipo_cliente": "particular",
       "password": "",
       "id": "82f2"
     },
@@ -326,6 +347,7 @@
       "provincia": "Cuenca",
       "municipio": "Alconchel de la Estrella",
       "fecha_alta": "2025-10-02",
+      "tipo_cliente": "particular",
       "historico": true
     },
     {
@@ -341,7 +363,8 @@
       "fecha_alta": "2025-02-10",
       "historico": false,
       "email": "asdf@asdf.ok",
-      "lopd": true
+      "lopd": true,
+      "tipo_cliente": "particular"
     },
     {
       "id": "c9ee",
@@ -354,7 +377,10 @@
       "provincia": "Guadalajara",
       "municipio": "Driebes",
       "fecha_alta": "2025-10-03",
-      "historico": false
+      "historico": false,
+      "tipo_cliente": "empresa",
+      "lopd": true,
+      "email": "victorsancheznogueira@gmail.com"
     },
     {
       "id": "ec7e",
@@ -367,6 +393,7 @@
       "provincia": "Girona",
       "municipio": "Arbúcies",
       "fecha_alta": "2025-10-03",
+      "tipo_cliente": "particular",
       "historico": true
     },
     {
@@ -379,6 +406,7 @@
       "direccion": "Calle Rúa, 14 4ºa",
       "provincia": "Huelva",
       "municipio": "Alájar",
+      "tipo_cliente": "particular",
       "fecha_alta": "2025-10-09",
       "historico": true
     },
@@ -391,6 +419,7 @@
       "movil": "652145786",
       "direccion": "Calle Sol, 25",
       "provincia": "Huelva",
+      "tipo_cliente": "particular",
       "municipio": "Cerro de Andévalo, El",
       "fecha_alta": "2025-10-08",
       "historico": true
@@ -406,6 +435,7 @@
       "provincia": "Tarragona",
       "municipio": "Calafell",
       "fecha_alta": "2025-10-14",
+      "tipo_cliente": "particular",
       "historico": true
     },
     {
@@ -419,7 +449,23 @@
       "provincia": "Pontevedra",
       "municipio": "Cambados",
       "fecha_alta": "2025-10-24",
+      "tipo_cliente": "particular",
       "historico": false
+    },
+    {
+      "id": "3c3e",
+      "dni": "19900996Q",
+      "nombre": "Víctor",
+      "apellidos": "Sánchez Nogueira",
+      "email": "victorsancheznogueira12@gmail.com",
+      "movil": "626654287",
+      "direccion": "Rúa Da Laxe, 10",
+      "provincia": "Pontevedra",
+      "municipio": "Barro",
+      "fecha_alta": "2025-11-13",
+      "tipo_cliente": "particular",
+      "historico": false,
+      "lopd": true
     }
   ],
   "noticias": [

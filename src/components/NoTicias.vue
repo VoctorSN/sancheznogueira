@@ -1,11 +1,18 @@
 <template>
     <div class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light">
-        <h3 class="text-center my-4">Noticias</h3>
+        <h3 class="text-center my-4 text-primary"><i class="bi bi-newspaper"></i> Noticias</h3>
 
         <form @submit.prevent="guardarNoticia" class="mb-4">
             <div class="card shadow-sm p-4 mb-5">
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Título:</label>
+                    <div class="d-flex justify-content-between mb-2">
+                        <label class="form-label fw-semibold">Título:</label>
+                        <button type="button" @click.stop="limpiarCampos()"
+                            class="btn btn-outline-primary btn-sm shadow-none rounded" title="Eliminar noticia"
+                            aria-label="Eliminar noticia">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                    </div>
                     <input type="text" class="form-control" v-model="nuevaNoticia.titulo"
                         placeholder="Introduce el título de la noticia" @blur="capitalizarTexto('titulo')" required />
                 </div>
@@ -15,15 +22,8 @@
                     <textarea class="form-control" rows="4" placeholder="Escribe el contenido de la noticia"
                         v-model="nuevaNoticia.contenido" required></textarea>
                 </div>
-
-                <div class="d-flex justify-content-between  ">
-                    <div></div>
-                    <button type="submit" class="btn btn-primary fw-bold">{{ editando ? 'Modificar' : 'Grabar'
-                        }}</button>
-                    <button @click.stop="limpiarCampos()" class="btn btn-primary btn-sm border-0 shadow-none rounded-0"
-                        title="Eliminar noticia" aria-label="Eliminar noticia">
-                        <i class="bi bi-arrow-clockwise"></i>
-                    </button>
+                <div class="d-flex justify-content-center"> <button type="submit"
+                        class="btn btn-primary border-0 shadow-none rounded-0">Publicar</button>
                 </div>
             </div>
         </form>
@@ -34,10 +34,17 @@
                 <!-- Cabecera: Título a la izquierda, Fecha a la derecha -->
                 <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom">
                     <h5 class="mb-0 text-primary fw-semibold">{{ noticia.titulo }}</h5>
-                    <small class="text-muted text-nowrap ms-3">
-                        <i class="bi bi-calendar-event me-1"></i>
-                        {{ formatearFecha(noticia.fecha_publicacion) }}
-                    </small>
+                    <div class="d-flex justify-content-end">
+                        <button @click.stop="eliminarNoticia(noticia.id)"
+                            class="btn btn-outline-danger btn-sm shadow-none rounded m-10" title="Eliminar noticia"
+                            aria-label="Eliminar noticia">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <small class="text-muted text-nowrap ms-3">
+                            <i class="bi bi-calendar-event me-1"></i>
+                            {{ formatearFecha(noticia.fecha_publicacion) }}
+                        </small>
+                    </div>
                 </div>
 
                 <!-- Cuerpo: Texto truncado o completo -->
@@ -47,24 +54,15 @@
                             {{ expandidas.has(noticia.id) ? noticia.contenido : truncarTexto(noticia.contenido, 256) }}
                         </p>
                     </transition>
+
                     <div v-if="noticia.contenido.length > 256" class="text-end mt-2">
                         <small class="text-primary fw-bold user-select-none">
                             {{ expandidas.has(noticia.id) ? 'Ver menos ▲' : 'Ver más ▼' }}
                         </small>
                     </div>
+
                 </div>
-                <div class="d-flex justify-content-end">
-                    <button @click.stop="editarNoticia(noticia.id)"
-                        class="btn btn-warning btn-sm border-0 dow-none rounded-0 w-auto m-10" title="Editar noticia"
-                        aria-label="Editar noticia">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button @click.stop="eliminarNoticia(noticia.id)"
-                        class="btn btn-danger btn-sm border-0 shadow-none rounded-0 m-10" title="Eliminar noticia"
-                        aria-label="Eliminar noticia">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </div>
+
 
 
             </div>
@@ -130,7 +128,7 @@ const cargarNoticias = async () => {
 const limpiarCampos = () => {
     editando.value = false
     noticiaEditandoId.value = null
-    
+
     nuevaNoticia.value = {
         titulo: "",
         contenido: "",
@@ -160,7 +158,7 @@ const guardarNoticia = async () => {
         title: editando.value ? '¿Desea modificar esta noticia?' : '¿Desea grabar esta noticia?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: editando.value ? 'Modificar' : 'Grabar', 
+        confirmButtonText: editando.value ? 'Modificar' : 'Grabar',
         cancelButtonText: 'Cancelar'
     });
 

@@ -1,24 +1,24 @@
 <template>
     <div class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light">
         <div class="d-flex justify-content-center">
-            <h2 class="text-center my-4 text-primary fw-bold">
+            <h2 class="text-center mb-3 text-primary fw-bold">
                 <i class="bi bi-people-fill me-2"></i>
                 Gestión de Clientes
             </h2>
         </div>
 
         <!-- Formulario -->
-        <form @submit.prevent="guardarCliente" class="mb-4">
+        <form @submit.prevent="guardarCliente" class="mt-1 mb-2">
             <!-- DNI con validación visual -->
             <div class="mb-3 row g-3 align-items-center">
 
                 <!-- Columna DNI -->
-                <div class="col-md-5 d-flex align-items-center">
+                <div class="col-md-4 d-flex align-items-center">
                     <label for="dni" class="form-label mb-0 text-nowrap flex-shrink-0" style="min-width: 120px;">DNI:
                     </label>
                     <input type="text" id="dni" v-model="nuevoCliente.dni" @blur="validarDni"
                         class="form-control w-auto" :class="{ 'is-invalid': !dniValido }" required />
-                    <button @click="buscarClientePorDNI(nuevoCliente.dni)"
+                    <button type="button" @click="buscarClientePorDNI(nuevoCliente.dni)"
                         class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0" title="Buscar DNI"
                         aria-label="Buscar DNI">
                         <i class="bi bi-search"></i>
@@ -37,8 +37,21 @@
                         oninput="this.setCustomValidity('')" />
                 </div>
 
+                <!-- Tipo Cliente -->
+                <div class="col-md-3 d-flex align-items-center">
+                    <label for="tipocliente2" class="ms-1">Tipo De Cliente: </label>
+                    <div class="mx-3 d-flex align-items-center">
+                        <input type="radio" id="tipocliente" v-model="nuevoCliente.tipo_cliente" value="particular" checked />
+                        <label for="tipocliente" class="ms-1">Particular</label>
+                    </div>
+                    <div class="mx-3 d-flex align-items-center">
+                        <input type="radio" id="tipocliente2" v-model="nuevoCliente.tipo_cliente" value="empresa" />
+                        <label for="tipocliente2" class="ms-1">Empresa</label>
+                    </div>
+                </div>
+
                 <div class="col-md-1 ms-auto d-flex align-items-center justify-content-end">
-                    <button class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0"
+                    <button type="button" class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0"
                         @click="vaciarFormulario()">
                         <i class=" bi bi-arrow-clockwise"></i>
                     </button>
@@ -107,9 +120,9 @@
                 </div>
 
                 <!-- Municipio -->
-                <div class="col-md-3 d-flex align-items-center">
+                <div class="col-md-4 d-flex align-items-center">
                     <label for="municipio" class="form-label mb-0 text-nowrap flex-shrink-0 ms-4"
-                        style="min-width: 120px;">Municipio:</label>
+                        style="min-width: 100px;">Municipio:</label>
                     <select id="municipio" v-model="nuevoCliente.municipio" class="form-select flex-grow-1">
                         <option disabled value="">Seleccione municipio</option>
                         <option v-for="mun in municipiosFiltrados" :key="mun" :value="mun.nm">
@@ -119,26 +132,34 @@
                 </div>
             </div>
 
-            <div class="text-center ">
-                <input type="checkbox" id="avisolegal" v-model="nuevoCliente.lopd" class="form-check-input" />
-                <span class="form-check-label ms-3 me-5 mb-0">
-                    Aceptar terminos y condiciones: <a target="_blank" href="/avisolegal">Aviso Legal</a>
-                </span>
+            <div class="d-flex justify-content-between mb-2">
+                <div class="d-flex justify-content-end form-switch invisible">
+                    <input type="checkbox" id="historico" v-model="mostrarHistorico" class="form-check-input"
+                        @change="cargarClientes" />
+                    <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
+                </div>
+                <div class="text-center ">
+                    <input type="checkbox" id="avisolegal" v-model="nuevoCliente.lopd" class="form-check-input" />
+                    <span class="form-check-label ms-3 me-5 mb-0">
+                        Aceptar terminos y condiciones: <a target="_blank" href="/avisolegal">Aviso Legal</a>
+                    </span>
+                </div>
+                <div class="d-flex justify-content-end form-switch">
+                    <input type="checkbox" id="historico" v-model="mostrarHistorico" class="form-check-input"
+                        @change="cargarClientes" />
+                    <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
+                </div>
             </div>
+
 
             <!-- Histórico -->
-            <div class="d-flex justify-content-end mb-2 form-switch">
-                <input type="checkbox" id="historico" v-model="mostrarHistorico" class="form-check-input"
-                    @change="cargarClientes" />
-                <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
 
-            </div>
 
             <!-- Botón centrado -->
             <div class="text-center">
                 <button type="submit" class="btn btn-primary border-0 shadow-none rounded-0"
                     :disabled="!nuevoCliente.lopd">
-                    {{ editando ? 'Modificar Cliente' : 'Grabar Cliente' }}
+                    {{ editando ? 'Modificar' : 'Grabar' }}
                 </button>
             </div>
         </form>
@@ -221,6 +242,7 @@ const clienteVacio = {
     provincia: "",
     municipio: "",
     fecha_alta: "",
+    tipo_cliente: "",
     historico: false,
     lopd: false,
 
@@ -450,6 +472,9 @@ const editarCliente = (movil) => {
     filtrarMunicipios();
     nuevoCliente.value.municipio = cliente.municipio; // 🟢 Ahora estamos en modo edición
     clienteEditandoId.value = cliente.id;
+    if (nuevoCliente.value.tipo_cliente === undefined) {
+        nuevoCliente.value.tipo_cliente = "particular"
+    }
 };
 
 // Función para activar cliente (poner historico en true)

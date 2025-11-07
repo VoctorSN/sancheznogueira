@@ -1,7 +1,7 @@
 <template>
   <footer class="navbar navbar-dark bg-primary position-sticky top-0">
     <div class="container">
-      <p class="mb-1">&copy; {{ new Date().getFullYear() }} MiSitio. Todos los derechos reservados.</p>
+      <p class="mb-1 text-light">&copy; {{ new Date().getFullYear() }} MiSitio. Todos los derechos reservados.</p>
       <ul class="list-inline mb-0">
         <li class="list-inline-item"><a target="_blank" href="/avisolegal" class="text-light text-decoration-none">Aviso
             legal</a></li>
