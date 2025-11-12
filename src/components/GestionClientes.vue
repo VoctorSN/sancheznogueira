@@ -17,7 +17,7 @@
                     <label for="dni" class="form-label mb-0 text-nowrap flex-shrink-0" style="min-width: 120px;">DNI:
                     </label>
                     <input type="text" id="dni" v-model="nuevoCliente.dni" @blur="validarDni"
-                        class="form-control w-auto" :class="{ 'is-invalid': !dniValido }" required />
+                        class="form-control w-auto" :class="{ 'is-invalid': !dniValido }" :disabled="editando" required />
                     <button type="button" @click="buscarClientePorDNI(nuevoCliente.dni)"
                         class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0" title="Buscar DNI"
                         aria-label="Buscar DNI">
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="col-md-1 ms-auto d-flex align-items-center justify-content-end">
-                    <button type="button" class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0"
+                    <button type="submit" class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0"
                         @click="vaciarFormulario()">
                         <i class=" bi bi-arrow-clockwise"></i>
                     </button>

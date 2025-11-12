@@ -3,8 +3,9 @@ import PaginaInicio from "../components/PaginaInicio.vue";
 import GestionClientes from "../components/GestionClientes.vue";
 import AvisoLegal from "../components/AvisoLegal.vue";
 import { createRouter, createWebHistory } from "vue-router";
-import Noticias from "../components/Noticias.vue";
 import PoliticaPrivacidad from "../components/PoliticaPrivacidad.vue";
+import NoTicias from "../components/NoTicias.vue";
+import MoDelos from "../components/MoDelos.vue";
 
 const routes = [
     {
@@ -20,7 +21,12 @@ const routes = [
     {
         path: '/noticias',
         name: 'NoTicias',
-        component: Noticias
+        component: NoTicias
+    },
+    {
+        path: '/modelos',
+        name: 'MoDelos',
+        component: MoDelos
     },
     {
         path: '/avisolegal',

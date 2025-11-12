@@ -1,0 +1,175 @@
+[{
+  "_id": {
+    "$oid": "6909b9faf474abc658dc6e54"
+  },
+  "tipo": "coche",
+  "marca": "Toyota",
+  "modelo": "Corolla",
+  "anio": 2019,
+  "kilometros": 73500,
+  "precio": 13500,
+  "combustible": "gasolina",
+  "transmision": "manual",
+  "potencia_cv": 122,
+  "descripcion": "Toyota Corolla 2019 en muy buen estado, único propietario, revisiones al día.",
+  "ubicacion": {
+    "ciudad": "Santiago de Compostela",
+    "provincia": "A Coruña"
+  },
+  "contacto": {
+    "nombre": "Juan Pérez",
+    "telefono": "+34 612 345 678",
+    "email": "juan.perez@example.com"
+  },
+  "fecha_publicacion": {
+    "$date": "2025-11-04T00:00:00.000Z"
+  },
+  "estado": "disponible",
+  "matricula": "ABC1213"
+},
+{
+  "_id": {
+    "$oid": "690b1a9f7e347ebd181254a7"
+  },
+  "tipo": "coche",
+  "marca": "Volkswagen",
+  "modelo": "Golf",
+  "anio": 2020,
+  "kilometros": 48000,
+  "precio": 15800,
+  "combustible": "diésel",
+  "transmision": "manual",
+  "potencia_cv": 115,
+  "descripcion": "Volkswagen Golf 2020 con bajo consumo y mantenimiento reciente. ITV pasada.",
+  "ubicacion": {
+    "ciudad": "Vigo",
+    "provincia": "Pontevedra"
+  },
+  "contacto": {
+    "nombre": "María López",
+    "telefono": "+34 698 112 903",
+    "email": "maria.lopez@example.com"
+  },
+  "fecha_publicacion": {
+    "$date": "2025-11-03T00:00:00.000Z"
+  },
+  "estado": "disponible",
+  "matricula": "BBD1245"
+},
+{
+  "_id": {
+    "$oid": "690b1a9f7e347ebd181254a8"
+  },
+  "tipo": "coche",
+  "marca": "Peugeot",
+  "modelo": "208",
+  "anio": 2018,
+  "kilometros": 91000,
+  "precio": 9700,
+  "combustible": "gasolina",
+  "transmision": "automático",
+  "potencia_cv": 100,
+  "descripcion": "Peugeot 208 automático en excelente estado interior, ideal para ciudad.",
+  "ubicacion": {
+    "ciudad": "A Coruña",
+    "provincia": "A Coruña"
+  },
+  "contacto": {
+    "nombre": "Carlos Fernández",
+    "telefono": "+34 611 223 345",
+    "email": "carlos.fernandez@example.com"
+  },
+  "fecha_publicacion": {
+    "$date": "2025-10-28T00:00:00.000Z"
+  },
+  "estado": "disponible",
+  "matricula": "CAD4567"
+},
+{
+  "_id": {
+    "$oid": "690b1a9f7e347ebd181254a9"
+  },
+  "tipo": "coche",
+  "marca": "Tesla",
+  "modelo": "Model 3",
+  "anio": 2021,
+  "kilometros": 32000,
+  "precio": 32500,
+  "combustible": "eléctrico",
+  "transmision": "automático",
+  "potencia_cv": 283,
+  "descripcion": "Tesla Model 3 Long Range con Autopilot y mantenimiento oficial.",
+  "ubicacion": {
+    "ciudad": "Ourense",
+    "provincia": "Ourense"
+  },
+  "contacto": {
+    "nombre": "Laura González",
+    "telefono": "+34 600 889 451",
+    "email": "laura.gonzalez@example.com"
+  },
+  "fecha_publicacion": {
+    "$date": "2025-10-20T00:00:00.000Z"
+  },
+  "estado": "reservado",
+  "matricula": "ABF5467"
+},
+{
+  "_id": {
+    "$oid": "690b1a9f7e347ebd181254aa"
+  },
+  "tipo": "coche",
+  "marca": "Seat",
+  "modelo": "León",
+  "anio": 2017,
+  "kilometros": 112000,
+  "precio": 8900,
+  "combustible": "diésel",
+  "transmision": "manual",
+  "color": "gris oscuro",
+  "puertas": 5,
+  "potencia_cv": 105,
+  "descripcion": "Seat León 1.6 TDI, cadena de distribución cambiada, muy cuidado.",
+  "ubicacion": {
+    "ciudad": "Lugo",
+    "provincia": "Lugo"
+  },
+  "contacto": {
+    "nombre": "Andrés Castro",
+    "telefono": "+34 622 774 982",
+    "email": "andres.castro@example.com"
+  },
+  "fecha_publicacion": {
+    "$date": "2025-09-15T00:00:00.000Z"
+  },
+  "estado": "vendido"
+},
+{
+  "_id": {
+    "$oid": "690b1a9f7e347ebd181254ab"
+  },
+  "tipo": "coche",
+  "marca": "Renault",
+  "modelo": "Clio",
+  "anio": 2016,
+  "kilometros": 125000,
+  "precio": 6800,
+  "combustible": "gasolina",
+  "transmision": "manual",
+  "potencia_cv": 90,
+  "descripcion": "Renault Clio 1.2, consumo muy bajo, revisado y sin accidentes.",
+  "ubicacion": {
+    "ciudad": "Ferrol",
+    "provincia": "A Coruña"
+  },
+  "contacto": {
+    "nombre": "Beatriz Méndez",
+    "telefono": "+34 690 440 871",
+    "email": "beatriz.mendez@example.com"
+  },
+  "fecha_publicacion": {
+    "$date": "2025-08-10T00:00:00.000Z"
+  },
+  "estado": "disponible",
+  "matricula": "FDG4564"
+}]
