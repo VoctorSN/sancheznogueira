@@ -548,7 +548,8 @@
       "fecha_cita": "2025-11-14",
       "servicio_taller": "neumaticos",
       "estado_cita": "pendiente",
-      "acepta": true
+      "acepta": true,
+      "tipo_cliente": "pendiente"
     },
     {
       "id": "c465",
@@ -556,6 +557,16 @@
       "movil_cliente": "684022897",
       "fecha_cita": "2025-11-06",
       "servicio_taller": "cambioAceite",
+      "estado_cita": "pendiente",
+      "acepta": true,
+      "tipo_cliente": "pendiente"
+    },
+    {
+      "id": "47b6",
+      "matricula": "1231231231",
+      "movil_cliente": "684654654",
+      "fecha_cita": "2025-11-20",
+      "servicio_taller": "prelTV",
       "estado_cita": "pendiente",
       "acepta": true
     }

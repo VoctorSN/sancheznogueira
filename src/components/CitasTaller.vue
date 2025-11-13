@@ -30,7 +30,7 @@
                     <label for="fecha_cita" class="form-label ms-3 me-2 mb-0 text-nowrap">Fecha de la Cita:</label>
                     <input type="date" id="fecha_cita" v-model="nuevaCita.fecha_cita" class="form-control w-auto ms-3"
                         oninvalid="this.setCustomValidity('Por favor, rellene este campo')"
-                        oninput="this.setCustomValidity('')" required />
+                        oninput="this.setCustomValidity('')" />
                 </div>
 
                 <!-- Provincia -->
@@ -265,6 +265,16 @@ const guardarCita = async () => {
         }
     }
 
+    if (nuevaCita.value.fecha_cita === undefined || nuevaCita.value.fecha_cita === "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Rellena la fecha de Cita',
+            showConfirmButton: false,
+            timer: 2000
+        });
+        return;
+    }
+
     // Confirmación antes de guardar
     const result = await Swal.fire({
         title: editando.value ? '¿Desea modificar esta cita?' : '¿Desea grabar esta cita?',
@@ -307,6 +317,7 @@ const guardarCita = async () => {
 
         // Reset formulario y estado
         nuevaCita.value = { ...citaVacia };
+        nuevaCita.value.estado_cita = "pendiente"
         editando.value = false;
         citaEditandoId.value = null;
 
