@@ -493,5 +493,71 @@
       "fecha_publicacion": "2025-09-01",
       "id": "4"
     }
+  ],
+  "taller": [
+    {
+      "id": "7656",
+      "matricula": "1231231231",
+      "movil_cliente": "684022890",
+      "fecha_cita": "2025-11-14",
+      "servicio_taller": "revision",
+      "estado_cita": "finalizado",
+      "acepta": true,
+      "tipo_cliente": "pendiente"
+    },
+    {
+      "id": "a5f1",
+      "matricula": "1231231231",
+      "movil_cliente": "684022891",
+      "fecha_cita": "2025-11-14",
+      "servicio_taller": "frenos",
+      "estado_cita": "pendiente",
+      "acepta": true
+    },
+    {
+      "id": "96e5",
+      "matricula": "1231231231",
+      "movil_cliente": "684022892",
+      "fecha_cita": "2025-11-14",
+      "servicio_taller": "prelTV",
+      "estado_cita": "pendiente",
+      "acepta": true
+    },
+    {
+      "id": "c44a",
+      "matricula": "1231231231",
+      "movil_cliente": "684022893",
+      "fecha_cita": "2025-11-15",
+      "servicio_taller": "prelTV",
+      "estado_cita": "pendiente",
+      "acepta": true
+    },
+    {
+      "id": "5a87",
+      "matricula": "1231231231",
+      "movil_cliente": "684022895",
+      "fecha_cita": "2025-11-07",
+      "servicio_taller": "neumaticos",
+      "estado_cita": "pendiente",
+      "acepta": true
+    },
+    {
+      "id": "3548",
+      "matricula": "1231231231",
+      "movil_cliente": "684022896",
+      "fecha_cita": "2025-11-14",
+      "servicio_taller": "neumaticos",
+      "estado_cita": "pendiente",
+      "acepta": true
+    },
+    {
+      "id": "c465",
+      "matricula": "1231231231",
+      "movil_cliente": "684022897",
+      "fecha_cita": "2025-11-06",
+      "servicio_taller": "cambioAceite",
+      "estado_cita": "pendiente",
+      "acepta": true
+    }
   ]
 }

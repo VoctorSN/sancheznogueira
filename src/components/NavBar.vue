@@ -26,6 +26,9 @@
             <router-link class="nav-link" to="/modelos">Modelos</router-link>
           </li>
           <li class="nav-item">
+            <router-link class="nav-link" to="/taller">Taller</router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" to="/#">Contacto</router-link>
           </li>
         </ul>

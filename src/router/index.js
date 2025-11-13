@@ -5,6 +5,7 @@ import AvisoLegal from "../components/AvisoLegal.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import PoliticaPrivacidad from "../components/PoliticaPrivacidad.vue";
 import NoTicias from "../components/NoTicias.vue";
+import CitasTaller from "../components/CitasTaller.vue";
 import MoDelos from "../components/MoDelos.vue";
 
 const routes = [
@@ -27,6 +28,11 @@ const routes = [
         path: '/modelos',
         name: 'MoDelos',
         component: MoDelos
+    },
+    {
+        path: '/taller',
+        name: 'CitasTaller',
+        component: CitasTaller
     },
     {
         path: '/avisolegal',
