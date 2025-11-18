@@ -191,43 +191,47 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import Swal from "sweetalert2"
+import { ref, computed } from "vue"
+import { addArticulo } from "@/api/articulos.js"
 
 const vehiculo = ref({
     tipo: "",
+    matricula: "",
     marca: "",
     modelo: "",
     anio: "",
+    estado: "",
     kilometros: "",
     precio: "",
-    color: "",
     combustible: "",
     transmision: "",
-    puertas: "",
     potencia_cv: "",
     descripcion: "",
     ubicacion: {
         provincia: "",
-        ciudad: "",
+        ciudad: ""
     },
     contacto: {
         nombre: "",
         telefono: "",
-        email: "",
+        email: ""
     },
     fecha_publicacion: "",
-    estado: "disponible",
-});
+    estado: "disponible"
+})
 
-const tiposVehiculo = ref(["coche", "moto", "furgoneta", "camión"]);
-const tiposCombustible = ref(["gasolina", "diésel", "híbrido", "eléctrico"]);
+const editando = ref(false);
+
+//const tiposVehiculo = ref(["coche", "moto", "furgoneta", "camión"])
+//const tiposCombustible = ref(["gasolina", "diésel", "híbrido", "eléctrico"])
 
 const provincias = ref([
     { id: 1, nm: "A Coruña" },
     { id: 2, nm: "Lugo" },
     { id: 3, nm: "Ourense" },
-    { id: 4, nm: "Pontevedra" },
-]);
+    { id: 4, nm: "Pontevedra" }
+])
 
 const municipios = ref([
     { id: 1, nm: "Santiago de Compostela", prov: "A Coruña" },
@@ -236,12 +240,60 @@ const municipios = ref([
     { id: 4, nm: "Monforte de Lemos", prov: "Lugo" },
     { id: 5, nm: "Ourense", prov: "Ourense" },
     { id: 6, nm: "Vigo", prov: "Pontevedra" },
-    { id: 7, nm: "Pontevedra", prov: "Pontevedra" },
-]);
+    { id: 7, nm: "Pontevedra", prov: "Pontevedra" }
+])
+
 
 const municipiosFiltrados = computed(() =>
-    municipios.value.filter((m) => m.prov === vehiculo.value.ubicacion.provincia)
-);
+    municipios.value.filter(m => m.prov === vehiculo.value.ubicacion.provincia)
+)
+
+// Enviar datos al backend
+const guardarVehiculo = async () => {
+    try {
+        const nuevo = await addArticulo(vehiculo.value);
+        if (nuevo && nuevo._id) {
+            Swal.fire({
+                icon: "success",
+                title: "Vehículo guardado",
+                text: "El vehículo ha sido guardado correctamente.",
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else {
+            console.error("Error al guardar el vehículo");
+        }
+        // limpiar formulario si quieres
+        // Limpiar formulario (opcional)
+        Object.assign(vehiculo.value, {
+            tipo: "",
+            matricula: "",
+            marca: "",
+            modelo: "",
+            anio: "",
+            estado: "disponible",
+            kilometros: "",
+            precio: "",
+            combustible: "",
+            transmision: "",
+            potencia_cv: "",
+            descripcion: "",
+            ubicacion: {
+                provincia: "",
+                ciudad: ""
+            },
+            contacto: {
+                nombre: "",
+                telefono: "",
+                email: ""
+            },
+            fecha_publicacion: ""
+        });
+
+    } catch (error) {
+        console.error("Error al guardar:", error);
+    }
+};
 </script>
-<style></style>
+<style scoped></style>
   

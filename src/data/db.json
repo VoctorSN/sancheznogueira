@@ -569,6 +569,15 @@
       "servicio_taller": "prelTV",
       "estado_cita": "pendiente",
       "acepta": true
+    },
+    {
+      "id": "7bbd",
+      "matricula": "1231231231",
+      "movil_cliente": "wda",
+      "fecha_cita": "2025-11-14",
+      "servicio_taller": "neumaticos",
+      "estado_cita": "pendiente",
+      "acepta": true
     }
   ]
 }

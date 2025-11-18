@@ -101,7 +101,7 @@
                     :disabled="!nuevaCita.acepta">
                     {{ editando ? 'Modificar' : 'Grabar' }}
                 </button>
-                <button type="submit" class="btn btn-danger border-0 shadow-none rounded-0" :disabled="!editando"
+                <button type="button" class="btn btn-danger border-0 shadow-none rounded-0" :disabled="!editando"
                     @click="eliminarCita(nuevaCita.movil_cliente)">
                     Eliminar
                 </button>
