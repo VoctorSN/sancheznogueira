@@ -33,7 +33,9 @@ const ArticuloSchema = new mongoose.Schema(
     fecha_publicacion: {
       type: Date,
       default: Date.now
-    }
+    },
+    
+    imagen_url: { type: String , required: false}
   },
   {
     collection: "articulos"

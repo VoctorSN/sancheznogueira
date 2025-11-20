@@ -12,9 +12,12 @@ export const getArticulosById = (id) => {
         .then(res => res.data)
 }
 
-export const addArticulo = (nuevoArticulo) => {
-    return axios.post(API_URL, nuevoArticulo)
-        .then(res => res.data)
+export const addArticulo = (formData) => {
+    return axios.post(API_URL, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(res => res.data);
 }
 
 export const deleteArticulo = (id) => {
@@ -26,3 +29,4 @@ export const updateArticulo = (id, articuloActualizado) => {
     return axios.put(`${API_URL}/${id}`, articuloActualizado)
         .then(res => res.data)
 }
+
