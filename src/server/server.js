@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 // MONGOSEE NO SABE NADA DE RUTAS CONTROLADRES Y MODELOS, HAY QUE CREARLOS MANUALMENTE
 
 import articulosRoutes from "./articulosRoutes.js"; // ruta al router backend
+import authRouter from "./authRouter.js"; // ruta al router backend
 
 dotenv.config();
 const app = express();
@@ -20,7 +21,10 @@ const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middleware
-app.use(cors()); // si no funciona lo siguiente
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials:true
+})); // si no funciona lo siguiente
 
 /* app.use(cors({
     origin: "http://localhost:5173",
@@ -34,6 +38,7 @@ app.use(express.json());
 // Express es un backend que TÚ construyes.
 // Por eso json-server no requiere rutas y Express sí.
 app.use("/api/articulos", articulosRoutes);
+app.use("/api/auth", authRouter);
 
 // Verificar variable
 //console.log("MONGODB_URI =", process.env.MONGODB_URI);
