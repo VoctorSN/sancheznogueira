@@ -132,9 +132,22 @@
                 </div>
             </div>
 
+            <!-- Contraseña y Repetir Contraseña -->
+            <div class="mb-3 row g-3 align-items-center justify-content-center">
+                <div class="col-md-4 d-flex align-items-center">
+                    <label for="password" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Contraseña:</label>
+                    <input type="password" id="password" v-model="nuevoCliente.password" class="form-control flex-grow-1" />
+                </div>
+                <div class="col-md-4 d-flex align-items-center ms-4">
+                    <label for="repetirPassword" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Repetir
+                        Contraseña:</label>
+                    <input type="password" id="repetirPassword" v-model="repetirPassword" class="form-control flex-grow-1" />
+                </div>
+            </div>
+
             <div class="d-flex justify-content-between mb-2">
                 <div class="d-flex justify-content-end form-switch invisible">
-                    <input type="checkbox" id="historico" v-model="mostrarHistorico" class="form-check-input"
+                    <input type="checkbox" v-model="mostrarHistorico" class="form-check-input"
                         @change="cargarClientes" />
                     <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
                 </div>
@@ -164,7 +177,7 @@
             </div>
         </form>
         <!-- Lista de Clientes -->
-        <div class="table-responsive">
+        <div v-if="admin" class="table-responsive">
             <h4 class="text-center w-100">Listado Clientes</h4>
             <table class="table table-bordered table-striped table-hover table-sm align-middle">
                 <thead class="table-primary">
@@ -229,6 +242,7 @@ import { ref, onMounted, computed } from "vue";
 import provmuniData from "@/data/provmuni.json";
 import Swal from "sweetalert2";
 import { getClientes, deleteCliente, addCliente, updateCliente, getClientePorDni } from "@/api/clientes.js";
+import bcrypt from "bcryptjs";
 
 /* =================================== SCRIPT CRUD =================================== */
 
@@ -245,12 +259,15 @@ const clienteVacio = {
     tipo_cliente: "",
     historico: false,
     lopd: false,
-
+    password: "",
+    tipo:"user"
 }
 
 const nuevoCliente = ref({
     ...clienteVacio
 });
+
+const repetirPassword = ref("");
 
 const editando = ref(false);
 const clienteEditandoId = ref(null);
@@ -260,6 +277,9 @@ var mostrarHistorico = ref(false);
 var numClientes = ref(0);
 var currentPage = ref(1);
 var clientesPerPage = 10;
+
+const admin = localStorage.getItem("isAdmin") !== "true"
+const usuario = localStorage.getItem("isUsuario") !== "true"
 
 // Función Listar Clientes con get
 
@@ -322,6 +342,20 @@ const totalPages = computed(() => {
 
 
 const guardarCliente = async () => {
+    // Validar contraseñas
+    if (nuevoCliente.value.password !== repetirPassword.value) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error en contraseña',
+            text: 'Las contraseñas no coinciden.',
+            showConfirmButton: true
+        });
+        return;
+    }
+
+    const salt = bcrypt.genSaltSync(10)
+    const hash = bcrypt.hashSync(nuevoCliente.value.password,salt)
+
     // Validar duplicados solo si estás creando (no si editando)
 
     if (!editando.value) {
@@ -353,6 +387,8 @@ const guardarCliente = async () => {
     if (!result.isConfirmed) return;
     //  cliente.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
     try {
+
+        nuevoCliente.value.password = hash
         if (editando.value) {
             // Validar campos
             // Modificar cliente (PUT)+
@@ -385,6 +421,7 @@ const guardarCliente = async () => {
         nuevoCliente.value = { ...clienteVacio };
         editando.value = false;
         clienteEditandoId.value = null;
+        repetirPassword.value = ""
 
         // Reset validaciones si tienes (dniValido, movilValido, etc)
         dniValido.value = true;
@@ -464,7 +501,7 @@ const editarCliente = (movil) => {
     }
 
     // Copiar datos al formulario
-    nuevoCliente.value = { ...cliente }; // 🔁 Aquí cargas el formulario con los datos
+    nuevoCliente.value = { ...cliente, password: "" }; // 🔁 Aquí cargas el formulario con los datos
     editando.value = true;
     // Formatear fecha para el input type="date"
     nuevoCliente.value.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
@@ -552,6 +589,7 @@ const buscarClientePorDNI = async (dni) => {
 
         // ✅ Cargar los datos en el formulario
         nuevoCliente.value = { ...cliente };
+        repetirPassword.value = nuevoCliente.value.password;
         nuevoCliente.value.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
 
         // Actualiza lista de municipios si cambia la provincia
@@ -581,6 +619,7 @@ const buscarClientePorDNI = async (dni) => {
 }
 const vaciarFormulario = async () => {
     nuevoCliente.value = { ...clienteVacio };
+    repetirPassword.value = "";
     editando.value = false;
     clienteEditandoId.value = null;
 

@@ -2,7 +2,7 @@
     <div class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light">
         <div class="d-flex justify-content-center">
             <h2 class="text-center mb-3 text-primary fw-bold">
-                <i class="bi bi-people-fill me-2"></i>
+                <i class="bi bi-tools me-2"></i>
                 Gestión de Citas
             </h2>
         </div>
@@ -57,7 +57,9 @@
                     <input type="tel" id="movil" v-model="nuevaCita.movil_cliente" @blur="validarMovil"
                         style="max-width: 200px;" class="form-control flex-grow-1 text-center"
                         :class="{ 'is-invalid': !movilValido }" required />
-
+                    <div v-if="!movilValido" class="ms-1 d-flex invalid-feedback">
+                        Móvil inválido.
+                    </div>
                 </div>
 
                 <!-- Tipo Cliente -->
@@ -101,10 +103,6 @@
                     :disabled="!nuevaCita.acepta">
                     {{ editando ? 'Modificar' : 'Grabar' }}
                 </button>
-                <button type="button" class="btn btn-danger border-0 shadow-none rounded-0" :disabled="!editando"
-                    @click="eliminarCita(nuevaCita.movil_cliente)">
-                    Eliminar
-                </button>
             </div>
         </form>
         <!-- Lista de Clientes -->
@@ -131,11 +129,16 @@
                         <td class="text-center">{{ cita.servicio_taller }}</td>
                         <td class="text-center">{{ cita.estado_cita }}</td>
                         <td class="text-center w-10">
-                            <button @click="editarCita(cita.movil_cliente)"
-                                class="btn btn-warning btn-sm border-0 dow-none rounded-0" title="Editar cita"
-                                aria-label="Editar cita">
-                                <i class="bi bi-pencil"></i>
-                            </button>
+                            <button @click="eliminarCita(cita.movil_cliente)"
+                            class="btn btn-danger btn-sm me-2 border-0 shadow-none rounded-0" title="Eliminar cita"
+                            aria-label="Eliminar cita">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button @click="editarCita(cita.movil_cliente)"
+                            class="btn btn-warning btn-sm border-0 dow-none rounded-0" title="Editar cita"
+                            aria-label="Editar cita">
+                            <i class="bi bi-pencil"></i>
+                        </button>
                         </td>
                     </tr>
                 </tbody>
@@ -248,6 +251,28 @@ const totalPages = computed(() => {
 
 
 const guardarCita = async () => {
+    // Validar matrícula antes de guardar
+    if (!matriculaValida.value) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Matrícula inválida',
+            text: 'La matrícula debe tener 10 caracteres.',
+            showConfirmButton: true
+        });
+        return;
+    }
+
+    // Validar móvil antes de guardar
+    if (!movilValido.value) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Móvil inválido',
+            text: 'El móvil debe empezar por 6 o 7 y tener 9 dígitos.',
+            showConfirmButton: true
+        });
+        return;
+    }
+
     // Validar duplicados solo si estás creando (no si editando)
 
     if (!editando.value) {
@@ -398,7 +423,7 @@ const editarCita = (movil) => {
         });
         return;
     }
-    
+
 
     // Copiar datos al formulario
     nuevaCita.value = { ...cita }; // 🔁 Aquí cargas el formulario con los datos
@@ -444,6 +469,7 @@ const matriculaValida = ref(true);
 const validarMatricula = () => {
     const matricula = nuevaCita.value.matricula.trim().toUpperCase();
     matriculaValida.value = matricula.length === 10;
+    nuevaCita.value.matricula = matricula.toUpperCase();
 };
 
 // Validar móvil

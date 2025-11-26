@@ -7,6 +7,7 @@ import PoliticaPrivacidad from "../components/PoliticaPrivacidad.vue";
 import NoTicias from "../components/NoTicias.vue";
 import CitasTaller from "../components/CitasTaller.vue";
 import MoDelos from "../components/MoDelos.vue";
+import TablaLogin from "../components/TablaLogin.vue";
 
 const routes = [
     {
@@ -15,10 +16,15 @@ const routes = [
         component: PaginaInicio
     },
     {
+        path: '/login',
+        name: 'TablaLogin',
+        component: TablaLogin
+    },
+    {
         path: '/clientes',
         name: 'GestionClientes',
         component: GestionClientes
-    },
+    }, 
     {
         path: '/noticias',
         name: 'NoTicias',

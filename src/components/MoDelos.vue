@@ -43,6 +43,7 @@
                 <div class="col-12 col-md-2 d-flex align-items-center">
                     <label for="matricula" class="form-label mb-0 me-3 text-nowrap">Matrícula:</label>
                     <input type="text" id="matricula" v-model="vehiculo.matricula"
+                        @blur="vehiculo.matricula = vehiculo.matricula.toUpperCase()"
                         class="form-control rounded-0 shadow-none border" />
                 </div>
 
@@ -155,14 +156,12 @@
                 <div class="col-12 col-md-4">
                     <label for="contacto_nombre" class="form-label">Nombre Contacto:</label>
                     <input type="text" id="contacto_nombre" v-model="vehiculo.contacto.nombre"
-                        @blur="capitalizarContacto('nombre')"
-                        class="form-control rounded shadow-none border" />
+                        @blur="capitalizarContacto('nombre')" class="form-control rounded shadow-none border" />
                 </div>
                 <div class="col-12 col-md-4">
                     <label for="contacto_telefono" class="form-label">Teléfono:</label>
                     <input type="tel" id="contacto_telefono" v-model="vehiculo.contacto.telefono"
-                        @blur="validarTelefono"
-                        class="form-control rounded shadow-none border text-center"
+                        @blur="validarTelefono" class="form-control rounded shadow-none border text-center"
                         :class="{ 'is-invalid': !telefonoValido }" />
                     <div v-if="!telefonoValido" class="invalid-feedback">
                         Teléfono inválido (debe empezar por 6 o 7 y tener 9 dígitos).
@@ -170,10 +169,8 @@
                 </div>
                 <div class="col-12 col-md-4">
                     <label for="contacto_email" class="form-label">Email:</label>
-                    <input type="email" id="contacto_email" v-model="vehiculo.contacto.email"
-                        @blur="validarEmail"
-                        class="form-control rounded shadow-none border"
-                        :class="{ 'is-invalid': !emailValido }" />
+                    <input type="email" id="contacto_email" v-model="vehiculo.contacto.email" @blur="validarEmail"
+                        class="form-control rounded shadow-none border" :class="{ 'is-invalid': !emailValido }" />
                     <div v-if="!emailValido" class="invalid-feedback">
                         Email inválido.
                     </div>
@@ -413,7 +410,7 @@ const guardarVehiculo = async () => {
 
         const formData = new FormData();
 
-        if(archivo.value){
+        if (archivo.value) {
             formData.append('imagen', archivo.value);
         }
 

@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
     <div class="container-fluid">
       <!-- Marca o logo -->
-      <a class="navbar-brand" href="#"><img class="logo" src="@/assets/logo.svg" alt="logo"/></a>
+      <a class="navbar-brand" href="#"><img class="logo" src="@/assets/logo.svg" alt="logo" /></a>
 
       <!-- Botón de hamburguesa en pantallas pequeñas -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -33,6 +33,22 @@
           </li>
         </ul>
       </div>
+
+      <div class="dropdown ms-auto">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person fs-2"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <!-- Mostra “Acceso/Registro” se NON hai usuario logueado -->
+          <li v-if="!isLogueado"><router-link class="dropdown-item" to="/login">Acceso</router-link></li>
+          <li v-if="!isLogueado"><router-link class="dropdown-item" to="/clientes">Registro</router-link></li>
+          <!-- Mostra “Cerrar Sesión” se está logueado -->
+          <li v-if="isLogueado">
+            <a class="dropdown-item" href="#" @click.prevent="logout">Cerrar Sesión</a>
+          </li>
+        </ul>
+      </div>
+
     </div>
   </nav>
 </template>

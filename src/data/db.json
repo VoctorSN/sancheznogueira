@@ -348,7 +348,11 @@
       "municipio": "Alconchel de la Estrella",
       "fecha_alta": "2025-10-02",
       "tipo_cliente": "particular",
-      "historico": true
+      "historico": true,
+      "password": "$2b$10$cvNk/wb.RSI8sJSyU/Fsz.11zxhpoOUrdgO82WieDXQBVfB5TRaQe",
+      "tipo": "admin",
+      "email": "ana.fernandez123@example.com",
+      "lopd": true
     },
     {
       "id": "9afd",
@@ -364,7 +368,8 @@
       "historico": false,
       "email": "asdf@asdf.ok",
       "lopd": true,
-      "tipo_cliente": "particular"
+      "tipo_cliente": "particular",
+      "password": "$2b$10$6O4ko1V4jCqGWT17jOrGDemOWjdQQ5mb9hE9epi4MB7A98BCvPRNe"
     },
     {
       "id": "c9ee",
@@ -466,6 +471,22 @@
       "tipo_cliente": "particular",
       "historico": false,
       "lopd": true
+    },
+    {
+      "id": "500e",
+      "dni": "99651246C",
+      "nombre": "Víctor",
+      "apellidos": "Sánchez Nogueira",
+      "email": "laura.gomeeeeeeeeeeez@example.com",
+      "movil": "684684644",
+      "direccion": "Rúa Da Laxe, 10",
+      "provincia": "Pontevedra",
+      "municipio": "Bueu",
+      "fecha_alta": "2025-11-29",
+      "tipo_cliente": "",
+      "historico": false,
+      "lopd": true,
+      "password": "abc123"
     }
   ],
   "noticias": [
@@ -576,6 +597,15 @@
       "movil_cliente": "wda",
       "fecha_cita": "2025-11-14",
       "servicio_taller": "neumaticos",
+      "estado_cita": "pendiente",
+      "acepta": true
+    },
+    {
+      "id": "9b0f",
+      "matricula": "123122C",
+      "movil_cliente": "666",
+      "fecha_cita": "2025-11-07",
+      "servicio_taller": "frenos",
       "estado_cita": "pendiente",
       "acepta": true
     }
