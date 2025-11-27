@@ -2,7 +2,7 @@
     <div class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light">
         <h3 class="text-center my-4 text-primary"><i class="bi bi-newspaper"></i> Noticias</h3>
 
-        <form @submit.prevent="guardarNoticia" class="mb-4">
+        <form v-if="isAdmin" @submit.prevent="guardarNoticia" class="mb-4">
             <div class="card shadow-sm p-4 mb-5">
                 <div class="mb-3">
                     <div class="d-flex justify-content-between mb-2">
@@ -88,6 +88,8 @@ const expandidas = ref(new Set()); // Para rastrear qué noticias están expandi
 
 const editando = ref(false);
 const noticiaEditandoId = ref(null);
+
+const isAdmin = localStorage.getItem("isAdmin") === "true"
 
 const nuevaNoticia = ref({
     titulo: "",

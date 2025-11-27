@@ -35,7 +35,10 @@
       </div>
 
       <div class="dropdown ms-auto">
+        <span class="text-white" v-if="isLogueado">{{ userName }}</span>
+
         <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
           <i class="bi bi-person fs-2"></i>
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
@@ -54,7 +57,29 @@
 </template>
 
 <script setup>
-// No necesita lógica
+import { ref, onMounted } from 'vue'
+
+const isLogueado = ref(false)
+const userName = ref('')
+const isAdmin = ref('')
+
+onMounted(() => {
+  isLogueado.value = localStorage.getItem('isLogueado') === 'true'
+  isAdmin.value = localStorage.getItem('isAdmin') === 'true'
+  userName.value = localStorage.getItem('userName') || ''
+})
+
+function logout() {
+  localStorage.removeItem('isLogueado')
+  localStorage.removeItem('userName')
+  localStorage.removeItem('isAdmin')
+  localStorage.removeItem('isUsuario')
+
+  isLogueado.value = false
+  userName.value = ''
+
+  window.location.href = '/'
+}
 </script>
 
 <style scoped>
@@ -74,7 +99,7 @@
   text-align: center;
 }
 
-.logo{
+.logo {
   width: 45px;
 }
 </style>

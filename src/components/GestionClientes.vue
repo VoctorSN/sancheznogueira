@@ -177,7 +177,7 @@
             </div>
         </form>
         <!-- Lista de Clientes -->
-        <div v-if="admin" class="table-responsive">
+        <div v-if="isAdmin" class="table-responsive">
             <h4 class="text-center w-100">Listado Clientes</h4>
             <table class="table table-bordered table-striped table-hover table-sm align-middle">
                 <thead class="table-primary">
@@ -278,8 +278,9 @@ var numClientes = ref(0);
 var currentPage = ref(1);
 var clientesPerPage = 10;
 
-const admin = localStorage.getItem("isAdmin") !== "true"
-const usuario = localStorage.getItem("isUsuario") !== "true"
+const isAdmin = localStorage.getItem("isAdmin") === "true"
+const isLogueado = localStorage.getItem("isLogueado") === "true"
+const dni = localStorage.getItem("dni")
 
 // Función Listar Clientes con get
 
@@ -290,6 +291,10 @@ const clientes = ref([]);
 // Zona Cargar clientes Al Montar el componente 
 onMounted(async () => {
     cargarClientes()
+
+    if (isLogueado && dni) {
+        buscarClientePorDNI(dni)
+    }
 })
 
 const updateTabla = () => {
@@ -588,8 +593,7 @@ const buscarClientePorDNI = async (dni) => {
         }
 
         // ✅ Cargar los datos en el formulario
-        nuevoCliente.value = { ...cliente };
-        repetirPassword.value = nuevoCliente.value.password;
+        nuevoCliente.value = { ...cliente, password: ""};
         nuevoCliente.value.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
 
         // Actualiza lista de municipios si cambia la provincia

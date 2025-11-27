@@ -56,12 +56,16 @@ export default {
         localStorage.setItem('token', data.token);
         localStorage.setItem('userName', data.nombre);
         localStorage.setItem('isLogueado', 'true');
+        localStorage.setItem('dni', this.dni);
 
         if (data.tipo === "admin") {
           localStorage.setItem('isAdmin', 'true');
         } else {
-          localStorage.setItem('isUsuario', 'true');
+          localStorage.setItem('isAdmin', 'false');
         }
+
+        console.log(data);
+        
 
         Swal.fire({
           title: "Bienvenido",

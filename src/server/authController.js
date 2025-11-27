@@ -6,7 +6,6 @@ export const login = async (req, res) => {
     const { dni, password } = req.body;
 
     try {
-
         const response = await axios.get(`http://localhost:3000/clientes?dni=${dni}`);
         const user = response.data[0];
 
@@ -14,6 +13,9 @@ export const login = async (req, res) => {
 
         const ok = await bcrypt.compare(password, user.password);
         if (!ok) return res.status(400).json({ message: 'Contraseña incorrecta' });
+
+        const historico = user.historico
+        if (!historico) return res.status(400).json({ message: 'Usuario Historico' });
 
         const token = jwt.sign(
             {
