@@ -1,8 +1,8 @@
 {
   "clientes": [
     {
+      "id": "7169",
       "dni": "73289465B",
-      "fecha_alta": "2022-02-14",
       "nombre": "Laura",
       "apellidos": "López Sánchez",
       "email": "laura.lopez@example.com",
@@ -10,15 +10,16 @@
       "direccion": "Calle Rodríguez 18",
       "provincia": "Madrid",
       "municipio": "Alcalá de Henares",
+      "fecha_alta": "2022-02-14",
+      "tipo_cliente": "particular",
       "historico": false,
       "lopd": true,
-      "password": "",
-      "tipo_cliente": "particular",
-      "id": "7169"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "a079",
       "dni": "X3456789G",
-      "fecha_alta": "2023-07-05",
       "nombre": "José",
       "apellidos": "Martín Pérez",
       "email": "jose.martin@example.com",
@@ -26,15 +27,16 @@
       "direccion": "Calle Fernández 95",
       "provincia": "Barcelona",
       "municipio": "Badalona",
+      "fecha_alta": "2023-07-05",
+      "tipo_cliente": "particular",
       "historico": true,
       "lopd": false,
-      "password": "",
-      "tipo_cliente": "particular",
-      "id": "a079"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "56df",
       "dni": "45678912S",
-      "fecha_alta": "2021-11-20",
       "nombre": "Ana",
       "apellidos": "García Gómez",
       "email": "ana.garcia@example.com",
@@ -42,15 +44,16 @@
       "direccion": "Calle Sánchez 55",
       "provincia": "Sevilla",
       "municipio": "Utrera",
+      "fecha_alta": "2021-11-20",
+      "tipo_cliente": "particular",
       "historico": false,
       "lopd": true,
-      "password": "",
-      "id": "56df",
-      "tipo_cliente": "particular"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "c356",
       "dni": "78912345N",
-      "fecha_alta": "2024-03-08",
       "nombre": "Antonio",
       "apellidos": "Pérez López",
       "email": "antonio.perez@example.com",
@@ -58,15 +61,16 @@
       "direccion": "Calle González 72",
       "provincia": "Valencia",
       "municipio": "Torrent",
+      "fecha_alta": "2024-03-08",
+      "tipo_cliente": "particular",
       "historico": true,
       "lopd": true,
-      "password": "",
-      "tipo_cliente": "particular",
-      "id": "c356"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "960a",
       "dni": "90123456A",
-      "fecha_alta": "2022-06-27",
       "nombre": "María",
       "apellidos": "Fernández Martín",
       "email": "maria.fernandez@example.com",
@@ -74,15 +78,16 @@
       "direccion": "Calle Gómez 14",
       "provincia": "Málaga",
       "municipio": "Ronda",
+      "fecha_alta": "2022-06-27",
+      "tipo_cliente": "particular",
       "historico": false,
       "lopd": true,
-      "password": "",
-      "id": "960a",
-      "tipo_cliente": "particular"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "eda8",
       "dni": "Z2345678M",
-      "fecha_alta": "2023-04-15",
       "nombre": "Javier",
       "apellidos": "Sánchez García",
       "email": "javier.sanchez@example.com",
@@ -90,15 +95,16 @@
       "direccion": "Calle Martín 77",
       "provincia": "Zaragoza",
       "municipio": "Calatayud",
-      "historico": true,
+      "fecha_alta": "2023-04-15",
       "tipo_cliente": "particular",
+      "historico": true,
       "lopd": false,
-      "password": "",
-      "id": "eda8"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "39b2",
       "dni": "34567891H",
-      "fecha_alta": "2021-09-09",
       "nombre": "Carmen",
       "apellidos": "Rodríguez Martínez",
       "email": "carmen.rodriguez@example.com",
@@ -106,15 +112,16 @@
       "direccion": "Calle Pérez 42",
       "provincia": "Murcia",
       "municipio": "Cartagena",
-      "historico": false,
+      "fecha_alta": "2021-09-09",
       "tipo_cliente": "particular",
+      "historico": false,
       "lopd": true,
-      "password": "",
-      "id": "39b2"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "d6a9",
       "dni": "56789123F",
-      "fecha_alta": "2024-01-11",
       "nombre": "Luis",
       "apellidos": "Martínez Fernández",
       "email": "luis.martinez@example.com",
@@ -122,15 +129,16 @@
       "direccion": "Calle González 64",
       "provincia": "Granada",
       "municipio": "Motril",
-      "historico": true,
+      "fecha_alta": "2024-01-11",
       "tipo_cliente": "particular",
+      "historico": true,
       "lopd": true,
-      "password": "",
-      "id": "d6a9"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "0f47",
       "dni": "23456789D",
-      "fecha_alta": "2022-05-22",
       "nombre": "Isabel",
       "apellidos": "Gómez López",
       "email": "isabel.gomez@example.com",
@@ -138,15 +146,16 @@
       "direccion": "Calle Sánchez 80",
       "provincia": "Cádiz",
       "municipio": "Chiclana de la Frontera",
-      "historico": false,
+      "fecha_alta": "2022-05-22",
       "tipo_cliente": "particular",
+      "historico": false,
       "lopd": false,
-      "password": "",
-      "id": "0f47"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "1955",
       "dni": "67891234H",
-      "fecha_alta": "2023-08-03",
       "nombre": "Carlos",
       "apellidos": "Martín García",
       "email": "carlos.martin@example.com",
@@ -154,15 +163,16 @@
       "direccion": "Calle Rodríguez 19",
       "provincia": "Bizkaia",
       "municipio": "Getxo",
+      "fecha_alta": "2023-08-03",
       "tipo_cliente": "particular",
       "historico": true,
       "lopd": false,
-      "password": "",
-      "id": "1955"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "1b52",
       "dni": "78945612K",
-      "fecha_alta": "2021-12-29",
       "nombre": "Ana",
       "apellidos": "López Fernández",
       "email": "ana.lopez@example.com",
@@ -170,15 +180,16 @@
       "direccion": "Calle García 33",
       "provincia": "Madrid",
       "municipio": "Getafe",
+      "fecha_alta": "2021-12-29",
       "tipo_cliente": "particular",
       "historico": true,
       "lopd": true,
-      "password": "",
-      "id": "1b52"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "58cf",
       "dni": "X9876543K",
-      "fecha_alta": "2024-03-17",
       "nombre": "Javier",
       "apellidos": "Sánchez Gómez",
       "email": "javier.sanchez@example.com",
@@ -186,15 +197,16 @@
       "direccion": "Calle Martín 48",
       "provincia": "Barcelona",
       "municipio": "Terrassa",
+      "fecha_alta": "2024-03-17",
+      "tipo_cliente": "particular",
       "historico": true,
       "lopd": false,
-      "password": "",
-      "tipo_cliente": "particular",
-      "id": "58cf"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "e406",
       "dni": "34561278Y",
-      "fecha_alta": "2022-06-05",
       "nombre": "Luis",
       "apellidos": "Pérez Martínez",
       "email": "luis.perez@example.com",
@@ -202,15 +214,16 @@
       "direccion": "Calle Fernández 12",
       "provincia": "Sevilla",
       "municipio": "Écija",
+      "fecha_alta": "2022-06-05",
+      "tipo_cliente": "particular",
       "historico": false,
       "lopd": true,
-      "tipo_cliente": "particular",
-      "password": "",
-      "id": "e406"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "ba17",
       "dni": "Y1234567X",
-      "fecha_alta": "2025-09-07",
       "nombre": "María Del Mar",
       "apellidos": "Gómez Rodríguez",
       "email": "maria.gomez@example.com",
@@ -218,15 +231,16 @@
       "direccion": "Calle García 21",
       "provincia": "Valencia",
       "municipio": "Gandía",
+      "fecha_alta": "2025-09-07",
+      "tipo_cliente": "particular",
       "historico": true,
       "lopd": true,
-      "tipo_cliente": "particular",
-      "password": "",
-      "id": "ba17"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "b1f4",
       "dni": "56712389R",
-      "fecha_alta": "2021-11-12",
       "nombre": "Carlos",
       "apellidos": "Martín Sánchez",
       "email": "carlos.martin@example.com",
@@ -234,15 +248,16 @@
       "direccion": "Calle López 77",
       "provincia": "Málaga",
       "municipio": "Marbella",
+      "fecha_alta": "2021-11-12",
+      "tipo_cliente": "particular",
       "historico": false,
       "lopd": false,
-      "tipo_cliente": "particular",
-      "password": "",
-      "id": "b1f4"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "76d6",
       "dni": "X4567891E",
-      "fecha_alta": "2022-01-27",
       "nombre": "Ana",
       "apellidos": "Fernández López",
       "email": "ana.fernandez@example.com",
@@ -250,15 +265,16 @@
       "direccion": "Calle García 12",
       "provincia": "Madrid",
       "municipio": "Móstoles",
+      "fecha_alta": "2022-01-27",
+      "tipo_cliente": "particular",
       "historico": true,
       "lopd": true,
-      "tipo_cliente": "particular",
-      "password": "",
-      "id": "76d6"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "66fd",
       "dni": "Y2345678Z",
-      "fecha_alta": "2023-03-09",
       "nombre": "Carlos",
       "apellidos": "Martínez Sánchez",
       "email": "carlos.martinez@example.com",
@@ -266,15 +282,16 @@
       "direccion": "Calle López 45",
       "provincia": "Barcelona",
       "municipio": "Sabadell",
+      "fecha_alta": "2023-03-09",
+      "tipo_cliente": "particular",
       "historico": true,
       "lopd": false,
-      "tipo_cliente": "particular",
-      "password": "",
-      "id": "66fd"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "4d3e",
       "dni": "Z9876543A",
-      "fecha_alta": "2021-07-22",
       "nombre": "José",
       "apellidos": "Pérez Gómez",
       "email": "jose.perez@example.com",
@@ -282,15 +299,16 @@
       "direccion": "Calle Rodríguez 33",
       "provincia": "Sevilla",
       "municipio": "Dos Hermanas",
+      "fecha_alta": "2021-07-22",
+      "tipo_cliente": "particular",
       "historico": false,
       "lopd": true,
-      "password": "",
-      "tipo_cliente": "particular",
-      "id": "4d3e"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "bacd",
       "dni": "12345678Z",
-      "fecha_alta": "2022-09-30",
       "nombre": "Laura",
       "apellidos": "Gómez Fernández",
       "email": "laura.gomez@example.com",
@@ -298,15 +316,16 @@
       "direccion": "Calle Sánchez 18",
       "provincia": "Valencia",
       "municipio": "Xàtiva",
+      "fecha_alta": "2022-09-30",
+      "tipo_cliente": "particular",
       "historico": false,
       "lopd": true,
-      "password": "",
-      "id": "bacd",
-      "tipo_cliente": "particular"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "9115",
       "dni": "87654321X",
-      "fecha_alta": "2023-12-17",
       "nombre": "Luis",
       "apellidos": "López Martín",
       "email": "luis.lopez@example.com",
@@ -314,15 +333,16 @@
       "direccion": "Calle Fernández 29",
       "provincia": "Málaga",
       "municipio": "Antequera",
+      "fecha_alta": "2023-12-17",
+      "tipo_cliente": "particular",
       "historico": false,
       "lopd": false,
-      "password": "",
-      "tipo_cliente": "particular",
-      "id": "9115"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
+      "id": "82f2",
       "dni": "X3456789G",
-      "fecha_alta": "2024-05-05",
       "nombre": "Isabel",
       "apellidos": "Martín Pérez",
       "email": "isabel.martin@example.com",
@@ -330,11 +350,12 @@
       "direccion": "Calle Rodríguez 52",
       "provincia": "Zaragoza",
       "municipio": "Ejea de los Caballeros",
+      "fecha_alta": "2024-05-05",
+      "tipo_cliente": "particular",
       "historico": true,
       "lopd": false,
-      "tipo_cliente": "particular",
-      "password": "",
-      "id": "82f2"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
       "id": "971c",
@@ -349,9 +370,9 @@
       "fecha_alta": "2025-10-02",
       "tipo_cliente": "particular",
       "historico": true,
-      "password": "$2b$10$cvNk/wb.RSI8sJSyU/Fsz.11zxhpoOUrdgO82WieDXQBVfB5TRaQe",
-      "tipo": "admin",
-      "lopd": true
+      "lopd": true,
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "admin"
     },
     {
       "id": "9afd",
@@ -364,10 +385,11 @@
       "provincia": "Pontevedra",
       "municipio": "Vigo",
       "fecha_alta": "2025-02-10",
+      "tipo_cliente": "particular",
       "historico": false,
       "lopd": true,
-      "tipo_cliente": "particular",
-      "password": "$2b$10$6O4ko1V4jCqGWT17jOrGDemOWjdQQ5mb9hE9epi4MB7A98BCvPRNe"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
       "id": "c9ee",
@@ -380,9 +402,11 @@
       "provincia": "Guadalajara",
       "municipio": "Driebes",
       "fecha_alta": "2025-10-03",
-      "historico": false,
       "tipo_cliente": "empresa",
-      "lopd": true
+      "historico": false,
+      "lopd": true,
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
       "id": "ec7e",
@@ -396,7 +420,10 @@
       "municipio": "Arbúcies",
       "fecha_alta": "2025-10-03",
       "tipo_cliente": "particular",
-      "historico": true
+      "historico": true,
+      "lopd": true,
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
       "id": "a1b9",
@@ -408,9 +435,12 @@
       "direccion": "Calle Rúa, 14 4ºa",
       "provincia": "Huelva",
       "municipio": "Alájar",
-      "tipo_cliente": "particular",
       "fecha_alta": "2025-10-09",
-      "historico": true
+      "tipo_cliente": "particular",
+      "historico": true,
+      "lopd": true,
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
       "id": "68a1",
@@ -421,10 +451,13 @@
       "movil": "652145786",
       "direccion": "Calle Sol, 25",
       "provincia": "Huelva",
-      "tipo_cliente": "particular",
       "municipio": "Cerro de Andévalo, El",
       "fecha_alta": "2025-10-08",
-      "historico": true
+      "tipo_cliente": "particular",
+      "historico": true,
+      "lopd": true,
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
       "id": "b38d",
@@ -438,7 +471,10 @@
       "municipio": "Calafell",
       "fecha_alta": "2025-10-14",
       "tipo_cliente": "particular",
-      "historico": true
+      "historico": true,
+      "lopd": true,
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
       "id": "58c3",
@@ -452,7 +488,10 @@
       "municipio": "Cambados",
       "fecha_alta": "2025-10-24",
       "tipo_cliente": "particular",
-      "historico": false
+      "historico": false,
+      "lopd": true,
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
       "id": "3c3e",
@@ -467,7 +506,9 @@
       "fecha_alta": "2025-11-13",
       "tipo_cliente": "particular",
       "historico": false,
-      "lopd": true
+      "lopd": true,
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     },
     {
       "id": "500e",
@@ -480,36 +521,37 @@
       "provincia": "Pontevedra",
       "municipio": "Bueu",
       "fecha_alta": "2025-11-29",
-      "tipo_cliente": "",
+      "tipo_cliente": "particular",
       "historico": false,
       "lopd": true,
-      "password": "abc123"
+      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "tipo": "user"
     }
   ],
   "noticias": [
     {
+      "id": "1",
       "titulo": "Nuevo Modelo Deportivo 2026",
       "contenido": "La industria automotriz ha dado un salto cualitativo con el lanzamiento del nuevo modelo deportivo GT-X 2025. Este vehículo incorpora la última tecnología en motores híbridos, combinando un motor de combustión de 3.0 litros V6 con dos motores eléctricos que generan una potencia combinada de 650 caballos de fuerza. El diseño aerodinámico ha sido perfeccionado en túnel de viento, logrando un coeficiente de resistencia de apenas 0.25. El interior cuenta con tapicería de cuero premium, sistema de infoentretenimiento de última generación con pantalla táctil de 15 pulgadas, conectividad 5G y un sistema de sonido premium de 18 altavoces. La seguridad no se queda atrás, incorporando 12 airbags, sistema de frenado automático de emergencia, asistente de mantenimiento de carril y control de crucero adaptativo.",
-      "fecha_publicacion": "2025-10-24",
-      "id": "1"
+      "fecha_publicacion": "2025-10-24"
     },
     {
+      "id": "2",
       "titulo": "Revolución en Vehículos Eléctricos",
       "contenido": "El mercado de vehículos eléctricos experimenta un crecimiento exponencial con la introducción de baterías de estado sólido que prometen autonomías de hasta 1000 kilómetros con una sola carga. Los fabricantes han invertido miles de millones en investigación y desarrollo para hacer realidad esta tecnología que reduce el tiempo de carga a tan solo 15 minutos para alcanzar el 80% de la capacidad. Además, los nuevos modelos incorporan paneles solares integrados en el techo y capó que pueden generar hasta 20 kilómetros adicionales de autonomía diariamente. Los gobiernos de diversos países están apoyando esta transición con incentivos fiscales y la instalación masiva de estaciones de carga rápida en autopistas y ciudades.",
-      "fecha_publicacion": "2024-08-15",
-      "id": "2"
+      "fecha_publicacion": "2024-08-15"
     },
     {
+      "id": "3",
       "titulo": "Clásicos que Nunca Pasan de Moda",
       "contenido": "Los vehículos clásicos siguen siendo muy apreciados por coleccionistas y entusiastas.",
-      "fecha_publicacion": "2023-05-10",
-      "id": "3"
+      "fecha_publicacion": "2023-05-10"
     },
     {
+      "id": "4",
       "titulo": "Tecnología de Conducción Autónoma",
       "contenido": "Los avances en inteligencia artificial y sensores han llevado la conducción autónoma a un nivel completamente nuevo. Los vehículos equipados con sistemas de nivel 4 ya pueden circular por áreas urbanas sin intervención humana en condiciones normales. Utilizan una combinación de cámaras de alta resolución, radar, lidar y ultrasonido para crear un mapa tridimensional del entorno en tiempo real. El procesamiento se realiza mediante chips especializados que pueden realizar billones de operaciones por segundo. Las pruebas en ciudades piloto han demostrado una reducción del 90% en accidentes de tráfico.",
-      "fecha_publicacion": "2025-09-01",
-      "id": "4"
+      "fecha_publicacion": "2025-09-01"
     }
   ],
   "taller": [
