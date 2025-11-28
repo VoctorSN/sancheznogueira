@@ -278,9 +278,9 @@ var numClientes = ref(0);
 var currentPage = ref(1);
 var clientesPerPage = 10;
 
-const isAdmin = localStorage.getItem("isAdmin") === "true"
-const isLogueado = localStorage.getItem("isLogueado") === "true"
-const dni = localStorage.getItem("dni")
+/* const isAdmin = sessionStorage.getItem("isAdmin") === "true" */
+const isLogueado = sessionStorage.getItem("isLogueado") === "true"
+const dni = sessionStorage.getItem("dni")
 
 // Función Listar Clientes con get
 
@@ -290,6 +290,7 @@ const clientes = ref([]);
 
 // Zona Cargar clientes Al Montar el componente 
 onMounted(async () => {
+    
     cargarClientes()
 
     if (isLogueado && dni) {

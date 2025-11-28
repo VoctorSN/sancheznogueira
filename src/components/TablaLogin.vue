@@ -52,16 +52,16 @@ export default {
       try {
         const data = await loginUsuario(this.dni, this.pass);
 
-        // Guardar token y datos del usuario en localStorage
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('userName', data.nombre);
-        localStorage.setItem('isLogueado', 'true');
-        localStorage.setItem('dni', this.dni);
+        // Guardar token y datos del usuario en sessionStorage
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('userName', data.nombre);
+        sessionStorage.setItem('isLogueado', 'true');
+        sessionStorage.setItem('dni', this.dni);
 
         if (data.tipo === "admin") {
-          localStorage.setItem('isAdmin', 'true');
+          sessionStorage.setItem('isAdmin', 'true');
         } else {
-          localStorage.setItem('isAdmin', 'false');
+          sessionStorage.setItem('isAdmin', 'false');
         }
 
         console.log(data);

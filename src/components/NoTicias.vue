@@ -89,7 +89,7 @@ const expandidas = ref(new Set()); // Para rastrear qué noticias están expandi
 const editando = ref(false);
 const noticiaEditandoId = ref(null);
 
-const isAdmin = localStorage.getItem("isAdmin") === "true"
+const isAdmin = sessionStorage.getItem("isAdmin") === "true"
 
 const nuevaNoticia = ref({
     titulo: "",

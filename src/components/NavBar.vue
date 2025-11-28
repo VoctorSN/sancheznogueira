@@ -64,16 +64,16 @@ const userName = ref('')
 const isAdmin = ref('')
 
 onMounted(() => {
-  isLogueado.value = localStorage.getItem('isLogueado') === 'true'
-  isAdmin.value = localStorage.getItem('isAdmin') === 'true'
-  userName.value = localStorage.getItem('userName') || ''
+  isLogueado.value = sessionStorage.getItem('isLogueado') === 'true'
+  isAdmin.value = sessionStorage.getItem('isAdmin') === 'true'
+  userName.value = sessionStorage.getItem('userName') || ''
 })
 
 function logout() {
-  localStorage.removeItem('isLogueado')
-  localStorage.removeItem('userName')
-  localStorage.removeItem('isAdmin')
-  localStorage.removeItem('isUsuario')
+  sessionStorage.removeItem('isLogueado')
+  sessionStorage.removeItem('userName')
+  sessionStorage.removeItem('isAdmin')
+  sessionStorage.removeItem('isUsuario')
 
   isLogueado.value = false
   userName.value = ''

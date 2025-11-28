@@ -58,7 +58,7 @@ Este fichero actúa como intermediario entre el frontend (Vue) y el backend (Exp
 
 8. JWT permite que el servidor reconozca al usuario sin volver a pedir la contraseña y asegura que la información del usuario no haya sido alterada durante la comunicación.
 
-9. Vue recibe el token y los datos del usuario y los guarda en localStorage para sesiones futuras.
+9. Vue recibe el token y los datos del usuario y los guarda en sessionStorage para la sesión actual.
 
 10. Si algo falla (usuario no existe, contraseña incorrecta, error del servidor), se lanza un error y Vue muestra un mensaje al usuario.
 */
