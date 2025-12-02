@@ -58,18 +58,23 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { checkAdmin } from '@/api/authApi.js'
 
 const isLogueado = ref(false)
 const userName = ref('')
-const isAdmin = ref('')
+const isAdmin = ref(false)
 
-onMounted(() => {
+onMounted(async () => {
   isLogueado.value = sessionStorage.getItem('isLogueado') === 'true'
-  isAdmin.value = sessionStorage.getItem('isAdmin') === 'true'
   userName.value = sessionStorage.getItem('userName') || ''
+  
+  // Verificar si es admin mediante API
+  const adminCheck = await checkAdmin();
+  isAdmin.value = adminCheck.isAdmin;
 })
 
 function logout() {
+  sessionStorage.removeItem('token')
   sessionStorage.removeItem('isLogueado')
   sessionStorage.removeItem('userName')
   sessionStorage.removeItem('isAdmin')

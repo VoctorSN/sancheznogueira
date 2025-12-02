@@ -242,6 +242,7 @@ import { ref, onMounted, computed } from "vue";
 import provmuniData from "@/data/provmuni.json";
 import Swal from "sweetalert2";
 import { getClientes, deleteCliente, addCliente, updateCliente, getClientePorDni } from "@/api/clientes.js";
+import { checkAdmin } from "@/api/authApi.js";
 import bcrypt from "bcryptjs";
 
 /* =================================== SCRIPT CRUD =================================== */
@@ -278,7 +279,7 @@ var numClientes = ref(0);
 var currentPage = ref(1);
 var clientesPerPage = 10;
 
-/* const isAdmin = sessionStorage.getItem("isAdmin") === "true" */
+const isAdmin = ref(false);
 const isLogueado = sessionStorage.getItem("isLogueado") === "true"
 const dni = sessionStorage.getItem("dni")
 
@@ -290,6 +291,9 @@ const clientes = ref([]);
 
 // Zona Cargar clientes Al Montar el componente 
 onMounted(async () => {
+    // Verificar si es admin mediante API
+    const adminCheck = await checkAdmin();
+    isAdmin.value = adminCheck.isAdmin;
     
     cargarClientes()
 

@@ -80,6 +80,7 @@
 import { ref, onMounted, computed } from "vue";
 import Swal from "sweetalert2";
 import { getNoticias, addNoticia, deleteNoticia, updateNoticia } from "@/api/noticias.js";
+import { checkAdmin } from "@/api/authApi.js";
 
 /* =================================== SCRIPT CRUD =================================== */
 
@@ -89,7 +90,7 @@ const expandidas = ref(new Set()); // Para rastrear qué noticias están expandi
 const editando = ref(false);
 const noticiaEditandoId = ref(null);
 
-const isAdmin = sessionStorage.getItem("isAdmin") === "true"
+const isAdmin = ref(false);
 
 const nuevaNoticia = ref({
     titulo: "",
@@ -101,6 +102,10 @@ const nuevaNoticia = ref({
 
 // Zona Cargar clientes Al Montar el componente 
 onMounted(async () => {
+    // Verificar si es admin mediante API
+    const adminCheck = await checkAdmin();
+    isAdmin.value = adminCheck.isAdmin;
+    
     await cargarNoticias()
 })
 

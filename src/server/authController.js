@@ -63,3 +63,27 @@ export const soloAdmin = (req, res, next) => {
     }
     next();
 };
+
+// Función para verificar si el token pertenece a un admin
+export const checkAdmin = (req, res) => {
+    const authHeader = req.headers.authorization;
+    
+    if (!authHeader) {
+        return res.status(401).json({ isAdmin: false, mensaje: "Token no proporcionado" });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const isAdmin = decoded.tipo === "admin";
+        
+        res.json({ 
+            isAdmin, 
+            tipo: decoded.tipo,
+            dni: decoded.dni 
+        });
+    } catch (err) {
+        return res.status(403).json({ isAdmin: false, mensaje: "Token inválido o expirado" });
+    }
+};

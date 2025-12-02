@@ -18,7 +18,7 @@
 
         <div class="mb-3">
           <label for="password" class="form-label fw-bold">Contraseña:</label>
-          <input type="password" id="password" autocomplete="new-password" class="form-control" v-model="pass"
+          <input type="password" id="password" autocomplete="new-password" class="form-control" v-model="pass" placeholder="Más de 4 caracteres"
             required />
         </div>
 
@@ -37,6 +37,7 @@
 
 import Swal from 'sweetalert2';
 import { loginUsuario } from "@/api/authApi.js";
+import * as jwtDecode from "jwt-decode";
 
 export default {
   name: "TablaLogin",
@@ -47,7 +48,18 @@ export default {
     };
   },
 
+  computed: {
+    formularioValido() {
+      return this.pass.length > 4 && this.verificarDNI(this.dni);
+    }
+  },
+
   methods: {
+    verificarDNI(dni) {
+      const dniRegex = /^[0-9]{8}[A-Za-z]$/;
+      return dniRegex.test(dni);
+    },
+
     async iniciarSesion() {
       try {
         const data = await loginUsuario(this.dni, this.pass);
