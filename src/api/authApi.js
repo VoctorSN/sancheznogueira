@@ -9,7 +9,6 @@ export const loginUsuario = async (dni, password) => {
       dni,
       password
     });
-    console.log("Respuesta del loginUsuario:", response.data);
     return response.data; // { token, nombre, tipo }
   } catch (error) {
     console.error("Error en loginUsuario:", error);

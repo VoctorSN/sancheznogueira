@@ -30,7 +30,6 @@ export const login = async (req, res) => {
 
         res.json({ token, nombre: user.nombre, tipo: user.tipo || 'user' });
     } catch (error) {
-        console.log(error);
         res.status(500).json({ message: 'Error en el servidor' });
     }
 };
@@ -43,7 +42,6 @@ export const login = async (req, res) => {
 
 export const verificarToken = (req, res, next) => {
     const authHeader = req.headers.authorization; // Authorization: Bearer <token>
-    console.log("Verificando Token " + authHeader);
     
     if (!authHeader) return res.status(401).json({ mensaje: "Token no recibido" });
     
@@ -51,7 +49,6 @@ export const verificarToken = (req, res, next) => {
     
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("Verificando decoded " + decoded);
         req.user = decoded; // guardar info del usuario en req
         next(); // continuar al controlador
     } catch (err) {
@@ -63,7 +60,6 @@ export const verificarToken = (req, res, next) => {
 /// TAMBIEN EN EL FICHERO APARTE authMiddleware.js
 // Middleware: solo admin
 export const soloAdmin = (req, res, next) => {
-    console.log("Verificando admin " + req.user);
     if (req.user?.tipo !== "admin") {
         return res.status(403).json({ mensaje: "Acceso solo para administradores" });
     }

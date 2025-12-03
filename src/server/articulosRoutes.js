@@ -14,12 +14,10 @@ const __dirname = path.dirname(__filename);
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir);
-    console.log('Carpeta uploads creada automáticamente');
 }
 
 // Crear el router
 const router = express.Router();
-console.log("Router articulos cargado"); // para depurar
 
 
 

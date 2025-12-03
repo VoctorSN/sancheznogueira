@@ -222,8 +222,6 @@ const nextPagina = () => {
     //redondear hacia arriba para mostrar la última página aunque no esté completa
 
     if (currentPage.value < totalPages.value) {
-        console.log('siguiente Pagina');
-
         currentPage.value++;
     }
 };
