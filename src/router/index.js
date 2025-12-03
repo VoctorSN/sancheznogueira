@@ -28,8 +28,7 @@ const routes = [
     {
         path: '/noticias',
         name: 'NoTicias',
-        component: NoTicias,
-        meta: { requiresAuth: true }
+        component: NoTicias
     },
     {
         path: '/modelos',
@@ -38,6 +37,14 @@ const routes = [
         meta: {
             requiresAuth: true,
             requiresAdmin: true
+        }
+    },
+    {
+        path: '/ventas',
+        name: 'VenTas',
+        component: VenTas,
+        meta: {
+            requiresAuth: true,
         }
     },
     {
