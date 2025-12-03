@@ -17,7 +17,8 @@
                     <label for="dni" class="form-label mb-0 text-nowrap flex-shrink-0" style="min-width: 120px;">DNI:
                     </label>
                     <input type="text" id="dni" v-model="nuevoCliente.dni" @blur="validarDni"
-                        class="form-control w-auto" :class="{ 'is-invalid': !dniValido }" :disabled="editando" required />
+                        class="form-control w-auto" :class="{ 'is-invalid': !dniValido }" :disabled="editando"
+                        required />
                     <button type="button" @click="buscarClientePorDNI(nuevoCliente.dni)" :hidden="editando"
                         class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0" title="Buscar DNI"
                         aria-label="Buscar DNI">
@@ -41,7 +42,8 @@
                 <div class="col-md-3 d-flex align-items-center">
                     <label for="tipocliente2" class="ms-1">Tipo De Cliente: </label>
                     <div class="mx-3 d-flex align-items-center">
-                        <input type="radio" id="tipocliente" v-model="nuevoCliente.tipo_cliente" value="particular" checked />
+                        <input type="radio" id="tipocliente" v-model="nuevoCliente.tipo_cliente" value="particular"
+                            checked />
                         <label for="tipocliente" class="ms-1">Particular</label>
                     </div>
                     <div class="mx-3 d-flex align-items-center">
@@ -136,12 +138,14 @@
             <div class="mb-3 row g-3 align-items-center justify-content-center">
                 <div class="col-md-4 d-flex align-items-center">
                     <label for="password" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Contraseña:</label>
-                    <input type="password" id="password" v-model="nuevoCliente.password" class="form-control flex-grow-1" />
+                    <input type="password" id="password" v-model="nuevoCliente.password"
+                        class="form-control flex-grow-1" />
                 </div>
                 <div class="col-md-4 d-flex align-items-center ms-4">
                     <label for="repetirPassword" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Repetir
                         Contraseña:</label>
-                    <input type="password" id="repetirPassword" v-model="repetirPassword" class="form-control flex-grow-1" />
+                    <input type="password" id="repetirPassword" v-model="repetirPassword"
+                        class="form-control flex-grow-1" />
                 </div>
             </div>
 
@@ -261,7 +265,7 @@ const clienteVacio = {
     historico: false,
     lopd: false,
     password: "",
-    tipo:"user"
+    tipo: "user"
 }
 
 const nuevoCliente = ref({
@@ -294,9 +298,11 @@ onMounted(async () => {
     // Verificar si es admin mediante API
     const adminCheck = await checkAdmin();
     isAdmin.value = adminCheck.isAdmin;
-    
-    cargarClientes()
 
+    if (isAdmin.value) {
+        cargarClientes()
+    }
+    
     if (isLogueado && dni) {
         buscarClientePorDNI(dni)
     }
@@ -362,7 +368,7 @@ const guardarCliente = async () => {
     }
 
     const salt = bcrypt.genSaltSync(10)
-    const hash = bcrypt.hashSync(nuevoCliente.value.password,salt)
+    const hash = bcrypt.hashSync(nuevoCliente.value.password, salt)
 
     // Validar duplicados solo si estás creando (no si editando)
 
@@ -596,7 +602,7 @@ const buscarClientePorDNI = async (dni) => {
         }
 
         // ✅ Cargar los datos en el formulario
-        nuevoCliente.value = { ...cliente, password: ""};
+        nuevoCliente.value = { ...cliente, password: "" };
         nuevoCliente.value.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
 
         // Actualiza lista de municipios si cambia la provincia
