@@ -12,10 +12,12 @@ export const login = async (req, res) => {
         if (!user) return res.status(400).json({ message: 'Usuario no encontrado' });
 
         const ok = await bcrypt.compare(password, user.password);
+        
+
         if (!ok) return res.status(400).json({ message: 'Contraseña incorrecta' });
 
         const historico = user.historico
-        if (!historico) return res.status(400).json({ message: 'Usuario Historico' });
+        if (historico) return res.status(400).json({ message: 'Usuario Historico' });
 
         const token = jwt.sign(
             {
@@ -41,12 +43,15 @@ export const login = async (req, res) => {
 
 export const verificarToken = (req, res, next) => {
     const authHeader = req.headers.authorization; // Authorization: Bearer <token>
+    console.log("Verificando Token " + authHeader);
+    
     if (!authHeader) return res.status(401).json({ mensaje: "Token no recibido" });
-
+    
     const token = authHeader.split(" ")[1]; // separar "Bearer" del token
-
+    
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log("Verificando decoded " + decoded);
         req.user = decoded; // guardar info del usuario en req
         next(); // continuar al controlador
     } catch (err) {
@@ -58,6 +63,7 @@ export const verificarToken = (req, res, next) => {
 /// TAMBIEN EN EL FICHERO APARTE authMiddleware.js
 // Middleware: solo admin
 export const soloAdmin = (req, res, next) => {
+    console.log("Verificando admin " + req.user);
     if (req.user?.tipo !== "admin") {
         return res.status(403).json({ mensaje: "Acceso solo para administradores" });
     }

@@ -369,7 +369,7 @@
       "municipio": "Alconchel de la Estrella",
       "fecha_alta": "2025-10-02",
       "tipo_cliente": "particular",
-      "historico": true,
+      "historico": false,
       "lopd": true,
       "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
       "tipo": "admin"
@@ -388,7 +388,7 @@
       "tipo_cliente": "particular",
       "historico": false,
       "lopd": true,
-      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "password": "$2b$10$auQz.13vdZ7KNqBnu6stT.xZMLcPWv4jHWMw.Ej48o5zac/1gs/cO",
       "tipo": "user"
     },
     {

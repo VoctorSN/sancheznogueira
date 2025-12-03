@@ -75,10 +75,8 @@ onMounted(async () => {
 
 function logout() {
   sessionStorage.removeItem('token')
-  sessionStorage.removeItem('isLogueado')
+  sessionStorage.removeItem('dni')
   sessionStorage.removeItem('userName')
-  sessionStorage.removeItem('isAdmin')
-  sessionStorage.removeItem('isUsuario')
 
   isLogueado.value = false
   userName.value = ''

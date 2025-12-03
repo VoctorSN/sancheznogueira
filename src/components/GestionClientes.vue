@@ -18,7 +18,7 @@
                     </label>
                     <input type="text" id="dni" v-model="nuevoCliente.dni" @blur="validarDni"
                         class="form-control w-auto" :class="{ 'is-invalid': !dniValido }" :disabled="editando" required />
-                    <button type="button" @click="buscarClientePorDNI(nuevoCliente.dni)"
+                    <button type="button" @click="buscarClientePorDNI(nuevoCliente.dni)" :hidden="editando"
                         class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0" title="Buscar DNI"
                         aria-label="Buscar DNI">
                         <i class="bi bi-search"></i>

@@ -15,3 +15,12 @@ Puertos:
 
 -3000
     json database
+
+
+Usuarios para Probar:
+-admin
+    dni: 00000000T
+    password: abc123
+-no admin
+    dni: 99999999R
+    password: abc123
