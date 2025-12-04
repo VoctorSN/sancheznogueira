@@ -68,12 +68,14 @@ const userName = ref('')
 const isAdmin = ref(false)
 
 onMounted(async () => {
-  isLogueado.value = sessionStorage.getItem('isLogueado') === 'true'
-  userName.value = sessionStorage.getItem('userName') || ''
+  isLogueado.value = sessionStorage.getItem('token') !== null
   
   // Verificar si es admin mediante API
   const adminCheck = await checkAdmin();
+  console.log(adminCheck);
+  
   isAdmin.value = adminCheck.isAdmin;
+  userName.value = adminCheck.name;
 })
 
 function logout() {

@@ -22,7 +22,8 @@ export const login = async (req, res) => {
         const token = jwt.sign(
             {
                 dni: user.dni,
-                tipo: user.tipo || 'user'
+                tipo: user.tipo || 'user',
+                name: user.nombre
             },
             process.env.JWT_SECRET,
             { expiresIn: '2h' }
@@ -79,11 +80,14 @@ export const checkAdmin = (req, res) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const isAdmin = decoded.tipo === "admin";
+        console.log(decoded);
+        
         
         res.json({ 
             isAdmin, 
             tipo: decoded.tipo,
-            dni: decoded.dni 
+            dni: decoded.dni,
+            name: decoded.name
         });
     } catch (err) {
         return res.status(403).json({ isAdmin: false, mensaje: "Token inválido o expirado" });
