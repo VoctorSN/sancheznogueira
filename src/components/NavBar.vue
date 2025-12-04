@@ -23,10 +23,10 @@
             <router-link class="nav-link" to="/noticias">Noticias</router-link>
           </li>
           <li v-if="isAdmin" class="nav-item">
-            <router-link class="nav-link" to="/modelos">Modelos</router-link>
+            <router-link class="nav-link" to="/taller">Taller</router-link>
           </li>
           <li v-if="isAdmin" class="nav-item">
-            <router-link class="nav-link" to="/taller">Taller</router-link>
+            <router-link class="nav-link" to="/modelos">Modelos</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/ventas">Ventas</router-link>

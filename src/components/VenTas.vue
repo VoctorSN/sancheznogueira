@@ -9,14 +9,14 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ car.marca }} {{ car.modelo }}</h5>
                         <p class="card-text">
-                            <strong>Año:</strong>{{ car.anio }}<br>
-                            <strong>Km:</strong>{{ car.kilometros }}<br>
-                            <strong>Precio:</strong>{{ car.precio }}<br>
+                            <strong>Año: </strong>{{ car.anio }}<br>
+                            <strong>Km: </strong>{{ car.kilometros }}<br>
+                            <strong>Precio: </strong>{{ car.precio }}€<br>
                         </p>
                     </div>
 
                     <div class="card-footer text-end bg-white">
-                        <span class="badge bg-primary">{{ car.estado }}</span>
+                        <span class="badge" :class="getEstadoClass(car.estado)">{{ car.estado }}</span>
                     </div>
                 </div>
             </div>
@@ -35,8 +35,19 @@ onMounted(async () => {
 });
 
 const urlImagen = (ruta) => {
+    
     if (!ruta) return "/no-image.png";
+    console.log(ruta);
+    
     return `http://localhost:5000${ruta}`
+};
+
+const getEstadoClass = (estado) => {
+    const estadoLower = estado?.toLowerCase();
+    if (estadoLower === 'disponible') return 'bg-success';
+    if (estadoLower === 'vendido') return 'bg-danger';
+    if (estadoLower === 'reservado') return 'bg-warning';
+    return 'bg-secondary';
 };
 
 </script>
