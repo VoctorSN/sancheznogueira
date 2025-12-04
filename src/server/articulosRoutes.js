@@ -2,7 +2,7 @@
 import express from "express";
 import multer from "multer";
 import path from "path";
-import Articulo from "../modelos/Articulo.js";
+import Articulo from "../model/Articulo.js";
 import { fileURLToPath } from "url";
 import fs from 'fs';
 
