@@ -5,6 +5,7 @@ import AvisoLegal from "../components/AvisoLegal.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import PoliticaPrivacidad from "../components/PoliticaPrivacidad.vue";
 import NoTicias from "../components/NoTicias.vue";
+import VenTas from "../components/VenTas.vue";
 import CitasTaller from "../components/CitasTaller.vue";
 import MoDelos from "../components/MoDelos.vue";
 import TablaLogin from "../components/TablaLogin.vue";
