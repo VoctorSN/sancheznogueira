@@ -138,13 +138,13 @@
             <div class="mb-3 row g-3 align-items-center justify-content-center">
                 <div class="col-md-4 d-flex align-items-center">
                     <label for="password" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Contraseña:</label>
-                    <input type="password" id="password" v-model="nuevoCliente.password"
+                    <input type="password" id="password" v-model="nuevoCliente.password" :disabled="editingCurrentUser"
                         class="form-control flex-grow-1" />
                 </div>
                 <div class="col-md-4 d-flex align-items-center ms-4">
                     <label for="repetirPassword" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Repetir
                         Contraseña:</label>
-                    <input type="password" id="repetirPassword" v-model="repetirPassword"
+                    <input type="password" id="repetirPassword" v-model="repetirPassword" :disabled="editingCurrentUser"
                         class="form-control flex-grow-1" />
                 </div>
             </div>
@@ -239,7 +239,7 @@
 
         </div>
     </div>
-    
+
 </template>
 
 <script setup>
@@ -254,7 +254,6 @@ import bcrypt from "bcryptjs";
 const router = useRouter();
 
 /* =================================== SCRIPT CRUD =================================== */
-///TODO el admin no puede cambiar contraseñas
 const clienteVacio = {
     dni: "",
     nombre: "",
@@ -289,6 +288,14 @@ var clientesPerPage = 10;
 
 const isAdmin = ref(false);
 const dni = sessionStorage.getItem("dni")
+
+// Computed: verifica si está editando su propio perfil
+const editingCurrentUser = computed(() => {
+    if (!editando.value) return false;
+    console.log(nuevoCliente.value.dni, dni);
+    
+    return nuevoCliente.value.dni !== dni;
+});
 
 // Función Listar Clientes con get
 

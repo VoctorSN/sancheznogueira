@@ -5,52 +5,59 @@
         </h4>
 
         <form @submit.prevent="guardarVehiculo" class="mb-2 mt-1">
-            <!-- FILA: Tipo, Marca, Modelo -->
-            <div class="row g-3 align-items-center mt-1">
-                <div class="col-12 col-md-3 d-flex align-items-center">
-                    <label class="form-label mb-0 me-3 text-nowrap">Tipo:</label>
-                    <div class="d-flex align-items-center">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="tipo-coche" value="coche"
-                                v-model="vehiculo.tipo" />
-                            <label class="form-check-label" for="tipo-coche">Coche</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="tipo-furgoneta" value="furgoneta"
-                                v-model="vehiculo.tipo" />
-                            <label class="form-check-label" for="tipo-furgoneta">Furgoneta</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="tipo-moto" value="moto"
-                                v-model="vehiculo.tipo" />
-                            <label class="form-check-label" for="tipo-moto">Moto</label>
-                        </div>
+            <!-- FILA: Tipo, Marca, Modelo, Estado -->
+            <div class="row g-1 align-items-center">
+                <div class="col d-flex align-items-center">
+                    <label class="form-label mb-0 me-1 text-nowrap small">Tipo:</label>
+                    <div class="form-check form-check-inline mb-0">
+                        <input class="form-check-input" type="radio" id="tipo-coche" value="coche"
+                            v-model="vehiculo.tipo" />
+                        <label class="form-check-label small" for="tipo-coche">Coche</label>
+                    </div>
+                    <div class="form-check form-check-inline mb-0">
+                        <input class="form-check-input" type="radio" id="tipo-furgoneta" value="furgoneta"
+                            v-model="vehiculo.tipo" />
+                        <label class="form-check-label small" for="tipo-furgoneta">Furgoneta</label>
+                    </div>
+                    <div class="form-check form-check-inline mb-0">
+                        <input class="form-check-input" type="radio" id="tipo-moto" value="moto"
+                            v-model="vehiculo.tipo" />
+                        <label class="form-check-label small" for="tipo-moto">Moto</label>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-2 d-flex align-items-center">
-                    <label for="marca" class="form-label mb-0 me-3 text-nowrap">Marca:</label>
+                <div class="col d-flex align-items-center">
+                    <label for="marca" class="form-label mb-0 me-1 text-nowrap small">Marca:</label>
                     <input type="text" id="marca" v-model="vehiculo.marca" @blur="capitalizarTexto('marca')"
-                        class="form-control rounded-0 shadow-none border" required />
+                        class="form-control form-control-sm rounded-0 shadow-none border" required />
                 </div>
 
-                <div class="col-12 col-md-2 d-flex align-items-center">
-                    <label for="modelo" class="form-label mb-0 me-3 text-nowrap">Modelo:</label>
+                <div class="col d-flex align-items-center">
+                    <label for="modelo" class="form-label mb-0 me-1 text-nowrap small">Modelo:</label>
                     <input type="text" id="modelo" v-model="vehiculo.modelo" @blur="capitalizarTexto('modelo')"
-                        class="form-control rounded-0 shadow-none border" required />
+                        class="form-control form-control-sm rounded-0 shadow-none border" required />
                 </div>
 
-                <div class="col-12 col-md-2 d-flex align-items-center">
-                    <label for="matricula" class="form-label mb-0 me-3 text-nowrap">Matrícula:</label>
-                    <input type="text" id="matricula" v-model="vehiculo.matricula"
-                        @blur="vehiculo.matricula = vehiculo.matricula.toUpperCase()"
-                        class="form-control rounded-0 shadow-none border" />
+                <div class="col d-flex align-items-center">
+                    <label for="matricula" class="form-label mb-0 me-1 text-nowrap small">Matrícula:</label>
+                    <input type="text" id="matricula" v-model="vehiculo.matricula" @blur="convertirMatriculaMayusculas"
+                        class="form-control form-control-sm rounded-0 shadow-none border" />
                 </div>
 
-                <div class="col-12 col-md-2 d-flex align-items-center">
-                    <label for="anio" class="form-label mb-0 me-3 text-nowrap">Año:</label>
+                <div class="col d-flex align-items-center">
+                    <label for="anio" class="form-label mb-0 me-1 text-nowrap small">Año:</label>
                     <input type="number" id="anio" v-model="vehiculo.anio"
-                        class="form-control rounded-0 shadow-none border text-end" required />
+                        class="form-control form-control-sm rounded-0 shadow-none border text-end" required />
+                </div>
+
+                <div class="col-auto d-flex align-items-center">
+                    <label class="form-label mb-0 me-1 small">Estado:</label>
+                    <select v-model="vehiculo.estado"
+                        class="form-select form-select-sm d-inline-block w-auto rounded shadow-none border">
+                        <option value="disponible">Disponible</option>
+                        <option value="vendido">Vendido</option>
+                        <option value="reservado">Reservado</option>
+                    </select>
                 </div>
             </div>
 
@@ -177,18 +184,8 @@
                 </div>
             </div>
 
-            <!-- FILA: Estado y botón -->
-            <div class="d-flex align-items-center justify-content-between mt-3">
-                <div>
-                    <label class="form-label me-2">Estado:</label>
-                    <select v-model="vehiculo.estado"
-                        class="form-select d-inline-block w-auto rounded shadow-none border">
-                        <option value="disponible">Disponible</option>
-                        <option value="vendido">Vendido</option>
-                        <option value="reservado">Reservado</option>
-                    </select>
-                </div>
-
+            <!-- FILA: botón -->
+            <div class="d-flex align-items-center justify-content-center mt-3">
                 <div>
                     <button type="button" @click="limpiarFormulario"
                         class="btn btn-secondary rounded border shadow-none px-3 me-2" title="Limpiar formulario">
@@ -210,29 +207,31 @@
             <table class="table table-bordered table-striped table-hover table-sm align-middle">
                 <thead class="table-primary">
                     <tr>
-                        <th class="text-center">Estado</th>
+                        <th class="text-center">Matrícula</th>
                         <th class="text-center">Marca</th>
                         <th class="text-center">Modelo</th>
-                        <th class="text-center">Kilómetros</th>
-                        <th class="text-center">Precio</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Contacto</th>
                         <th class="text-center w-10">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="vehiculoItem in vehiculosPaginados" :key="vehiculoItem._id">
-                        <td class="text-center">
-                            <span class="badge" :class="getEstadoClass(vehiculoItem.estado)">
-                                {{ vehiculoItem.estado }}
-                            </span>
-                        </td>
+                        <th class="text-center">
+                            {{ vehiculoItem.matricula}}
+                        </th>
                         <td>{{ vehiculoItem.marca }}</td>
                         <td>{{ vehiculoItem.modelo }}</td>
-                        <td class="text-end">{{ vehiculoItem.kilometros }} km</td>
-                        <td class="text-end">{{ vehiculoItem.precio }} €</td>
+                        <td class="text-center"><span class="badge" :class="getEstadoClass(vehiculoItem.estado)">
+                                {{ vehiculoItem.estado }}
+                            </span></td>
+                        <td class="small">
+                            <strong>{{ vehiculoItem.contacto.nombre }}</strong> |
+                            <i class="bi bi-telephone me-1"></i>{{ vehiculoItem.contacto.telefono }}
+                        </td>
                         <td class="text-center">
                             <button @click="editarVehiculo(vehiculoItem)"
-                                class="btn btn-warning btn-sm border-0 shadow-none rounded-0"
-                                title="Editar vehículo">
+                                class="btn btn-warning btn-sm border-0 shadow-none rounded-0" title="Editar vehículo">
                                 <i class="bi bi-pencil"></i>
                             </button>
                         </td>
@@ -242,8 +241,8 @@
 
             <!-- Navegación de página -->
             <div class="d-flex justify-content-center my-3">
-                <button class="btn btn-outline-primary btn-sm me-2 rounded-0 border-1 shadow-none"
-                    @click="beforePagina" :disabled="currentPage <= 1">
+                <button class="btn btn-outline-primary btn-sm me-2 rounded-0 border-1 shadow-none" @click="beforePagina"
+                    :disabled="currentPage <= 1">
                     <i class="bi bi-chevron-left"></i>
                 </button>
                 <span class="mx-3 align-self-center text-muted">Página {{ currentPage }} de {{ totalPages }}</span>
@@ -514,7 +513,7 @@ const guardarVehiculo = async () => {
         if (editando.value) {
             // Modificar vehículo existente
             const actualizado = await updateArticulo(vehiculoEditandoId.value, formData);
-            
+
             if (actualizado && actualizado._id) {
                 Swal.fire({
                     icon: "success",
@@ -542,10 +541,10 @@ const guardarVehiculo = async () => {
                 console.error("Error al guardar el vehículo");
             }
         }
-        
+
         // Recargar lista
         await cargarVehiculos();
-        
+
         Object.assign(vehiculo.value, {
             tipo: "",
             matricula: "",
@@ -617,13 +616,13 @@ const limpiarFormulario = () => {
         },
         fecha_publicacion: ""
     });
-    
+
     archivo.value = null;
     editando.value = false;
     vehiculoEditandoId.value = null;
     telefonoValido.value = true;
     emailValido.value = true;
-    
+
     // Limpiar el input de archivo
     const inputFoto = document.getElementById('foto');
     if (inputFoto) {
@@ -636,10 +635,10 @@ const editarVehiculo = (vehiculoData) => {
     vehiculo.value = { ...vehiculoData };
     editando.value = true;
     vehiculoEditandoId.value = vehiculoData._id;
-    
+
     // Filtrar municipios según provincia
     filtrarCiudades();
-    
+
     // Scroll al formulario
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
@@ -659,7 +658,7 @@ const eliminarVehiculo = async (id) => {
     try {
         await deleteArticulo(id);
         await cargarVehiculos();
-        
+
         Swal.fire({
             icon: 'success',
             title: 'Vehículo eliminado',
