@@ -16,7 +16,7 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/">Inicio</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="isAdmin" class="nav-item">
             <router-link class="nav-link" to="/clientes">Clientes</router-link>
           </li>
           <li class="nav-item">
@@ -52,9 +52,10 @@
           <li v-if="isLogueado">
             <a class="dropdown-item" href="#" @click.prevent="logout">Cerrar Sesión</a>
           </li>
+          <li v-if="isLogueado"><router-link class="dropdown-item" to="/clientes">Perfil</router-link></li>
         </ul>
       </div>
-
+      
     </div>
   </nav>
 </template>

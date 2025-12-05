@@ -190,19 +190,81 @@
                 </div>
 
                 <div>
+                    <button type="button" @click="limpiarFormulario"
+                        class="btn btn-secondary rounded border shadow-none px-3 me-2" title="Limpiar formulario">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                    <button v-if="editando" @click.prevent="eliminarVehiculo(vehiculoEditandoId)"
+                        class="btn btn-danger rounded border shadow-none px-4 me-2" type="button">
+                        <i class="bi bi-trash me-1"></i>Eliminar
+                    </button>
                     <button class="btn btn-primary rounded border shadow-none px-4" type="submit">{{ editando ?
                         "Modificar" : "Guardar" }}</button>
                 </div>
             </div>
         </form>
+
+        <!-- Tabla de vehículos -->
+        <div class="table-responsive mt-5">
+            <h4 class="text-center w-100 mb-3">Listado de Vehículos</h4>
+            <table class="table table-bordered table-striped table-hover table-sm align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Marca</th>
+                        <th class="text-center">Modelo</th>
+                        <th class="text-center">Kilómetros</th>
+                        <th class="text-center">Precio</th>
+                        <th class="text-center w-10">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="vehiculoItem in vehiculosPaginados" :key="vehiculoItem._id">
+                        <td class="text-center">
+                            <span class="badge" :class="getEstadoClass(vehiculoItem.estado)">
+                                {{ vehiculoItem.estado }}
+                            </span>
+                        </td>
+                        <td>{{ vehiculoItem.marca }}</td>
+                        <td>{{ vehiculoItem.modelo }}</td>
+                        <td class="text-end">{{ vehiculoItem.kilometros }} km</td>
+                        <td class="text-end">{{ vehiculoItem.precio }} €</td>
+                        <td class="text-center">
+                            <button @click="editarVehiculo(vehiculoItem)"
+                                class="btn btn-warning btn-sm border-0 shadow-none rounded-0"
+                                title="Editar vehículo">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Navegación de página -->
+            <div class="d-flex justify-content-center my-3">
+                <button class="btn btn-outline-primary btn-sm me-2 rounded-0 border-1 shadow-none"
+                    @click="beforePagina" :disabled="currentPage <= 1">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <span class="mx-3 align-self-center text-muted">Página {{ currentPage }} de {{ totalPages }}</span>
+                <button class="btn btn-outline-primary btn-sm rounded-0 border-1 shadow-none" @click="nextPagina"
+                    :disabled="currentPage >= totalPages">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
 import Swal from "sweetalert2"
-import { ref, computed } from "vue"
-import { addArticulo } from "@/api/articulos.js"
+import { ref, computed, onMounted } from "vue"
+import { addArticulo, getArticulos, updateArticulo, deleteArticulo } from "@/api/articulos.js"
 import provmuniData from "@/data/provmuni.json"
+
+const vehiculos = ref([]);
+const currentPage = ref(1);
+const vehiculosPerPage = 10;
 
 const vehiculo = ref({
     tipo: "",
@@ -231,6 +293,39 @@ const vehiculo = ref({
 })
 
 const editando = ref(false);
+const vehiculoEditandoId = ref(null);
+
+// Cargar vehículos al montar
+onMounted(async () => {
+    await cargarVehiculos();
+});
+
+const cargarVehiculos = async () => {
+    try {
+        vehiculos.value = await getArticulos();
+    } catch (error) {
+        console.error("Error al cargar vehículos:", error);
+    }
+};
+
+// Paginación
+const vehiculosPaginados = computed(() => {
+    const start = (currentPage.value - 1) * vehiculosPerPage;
+    const end = start + vehiculosPerPage;
+    return vehiculos.value.slice(start, end);
+});
+
+const totalPages = computed(() => {
+    return Math.ceil(vehiculos.value.length / vehiculosPerPage);
+});
+
+const beforePagina = () => {
+    if (currentPage.value > 1) currentPage.value--;
+};
+
+const nextPagina = () => {
+    if (currentPage.value < totalPages.value) currentPage.value++;
+};
 
 // Cargar provincias y municipios desde JSON
 const provincias = ref(provmuniData.provincias);
@@ -416,19 +511,41 @@ const guardarVehiculo = async () => {
 
         formData.append('vehiculo', JSON.stringify(vehiculo.value));
 
-        const nuevo = await addArticulo(formData);
-
-        if (nuevo && nuevo._id) {
-            Swal.fire({
-                icon: "success",
-                title: "Vehículo guardado",
-                text: "El vehículo ha sido guardado correctamente.",
-                timer: 2000,
-                showConfirmButton: false
-            });
+        if (editando.value) {
+            // Modificar vehículo existente
+            const actualizado = await updateArticulo(vehiculoEditandoId.value, formData);
+            
+            if (actualizado && actualizado._id) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Vehículo modificado",
+                    text: "El vehículo ha sido actualizado correctamente.",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+            editando.value = false;
+            vehiculoEditandoId.value = null;
         } else {
-            console.error("Error al guardar el vehículo");
+            // Agregar nuevo vehículo
+            const nuevo = await addArticulo(formData);
+
+            if (nuevo && nuevo._id) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Vehículo guardado",
+                    text: "El vehículo ha sido guardado correctamente.",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            } else {
+                console.error("Error al guardar el vehículo");
+            }
         }
+        
+        // Recargar lista
+        await cargarVehiculos();
+        
         Object.assign(vehiculo.value, {
             tipo: "",
             matricula: "",
@@ -473,4 +590,99 @@ const onFileChange = (event) => {
         archivo.value = file;
     }
 };
+
+// Limpiar formulario
+const limpiarFormulario = () => {
+    Object.assign(vehiculo.value, {
+        tipo: "",
+        matricula: "",
+        marca: "",
+        modelo: "",
+        anio: "",
+        estado: "disponible",
+        kilometros: "",
+        precio: "",
+        combustible: "",
+        transmision: "",
+        potencia_cv: "",
+        descripcion: "",
+        ubicacion: {
+            provincia: "",
+            ciudad: ""
+        },
+        contacto: {
+            nombre: "",
+            telefono: "",
+            email: ""
+        },
+        fecha_publicacion: ""
+    });
+    
+    archivo.value = null;
+    editando.value = false;
+    vehiculoEditandoId.value = null;
+    telefonoValido.value = true;
+    emailValido.value = true;
+    
+    // Limpiar el input de archivo
+    const inputFoto = document.getElementById('foto');
+    if (inputFoto) {
+        inputFoto.value = '';
+    }
+};
+
+// Editar vehículo
+const editarVehiculo = (vehiculoData) => {
+    vehiculo.value = { ...vehiculoData };
+    editando.value = true;
+    vehiculoEditandoId.value = vehiculoData._id;
+    
+    // Filtrar municipios según provincia
+    filtrarCiudades();
+    
+    // Scroll al formulario
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+// Eliminar vehículo
+const eliminarVehiculo = async (id) => {
+    const result = await Swal.fire({
+        title: '¿Eliminar este vehículo?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+        await deleteArticulo(id);
+        await cargarVehiculos();
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Vehículo eliminado',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    } catch (error) {
+        console.error("Error al eliminar vehículo:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al eliminar',
+            text: 'No se pudo eliminar el vehículo.',
+            showConfirmButton: true
+        });
+    }
+};
+
+const getEstadoClass = (estado) => {
+    const estadoLower = estado?.toLowerCase();
+    if (estadoLower === 'disponible') return 'bg-success';
+    if (estadoLower === 'vendido') return 'bg-danger';
+    if (estadoLower === 'reservado') return 'bg-warning';
+    return 'bg-secondary';
+};
+
 </script>

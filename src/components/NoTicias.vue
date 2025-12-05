@@ -35,7 +35,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom">
                     <h5 class="mb-0 text-primary fw-semibold">{{ noticia.titulo }}</h5>
                     <div class="d-flex justify-content-end">
-                        <button @click.stop="eliminarNoticia(noticia.id)"
+                        <button v-if="isAdmin" @click.stop="eliminarNoticia(noticia.id)"
                             class="btn btn-outline-danger btn-sm shadow-none rounded m-10" title="Eliminar noticia"
                             aria-label="Eliminar noticia">
                             <i class="bi bi-trash"></i>

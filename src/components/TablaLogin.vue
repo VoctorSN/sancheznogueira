@@ -25,6 +25,12 @@
         <div class="text-center">
           <button type="submit" class="btn btn-primary w-50">Iniciar sesión</button>
         </div>
+
+        <div class="text-center mt-3">
+          <p class="text-muted mb-0">
+            ¿No tienes cuenta? <router-link to="/clientes" class="text-primary fw-bold text-decoration-none">Regístrate</router-link>
+          </p>
+        </div>
       </form>
     </div>
   </div>
@@ -37,8 +43,6 @@
 
 import Swal from 'sweetalert2';
 import { loginUsuario } from "@/api/authApi.js";
-import * as jwtDecode from "jwt-decode";
-
 export default {
   name: "TablaLogin",
   data() {

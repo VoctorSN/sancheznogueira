@@ -239,18 +239,22 @@
 
         </div>
     </div>
+    
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
 import provmuniData from "@/data/provmuni.json";
 import Swal from "sweetalert2";
 import { getClientes, deleteCliente, addCliente, updateCliente, getClientePorDni } from "@/api/clientes.js";
-import { checkAdmin } from "@/api/authApi.js";
+import { checkAdmin, loginUsuario } from "@/api/authApi.js";
 import bcrypt from "bcryptjs";
 
-/* =================================== SCRIPT CRUD =================================== */
+const router = useRouter();
 
+/* =================================== SCRIPT CRUD =================================== */
+///TODO el admin no puede cambiar contraseñas
 const clienteVacio = {
     dni: "",
     nombre: "",
@@ -284,7 +288,6 @@ var currentPage = ref(1);
 var clientesPerPage = 10;
 
 const isAdmin = ref(false);
-const isLogueado = sessionStorage.getItem("isLogueado") === "true"
 const dni = sessionStorage.getItem("dni")
 
 // Función Listar Clientes con get
@@ -303,7 +306,7 @@ onMounted(async () => {
         cargarClientes()
     }
     
-    if (isLogueado && dni) {
+    if (dni) {
         buscarClientePorDNI(dni)
     }
 })
@@ -402,12 +405,14 @@ const guardarCliente = async () => {
     //  cliente.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
     try {
 
-        nuevoCliente.value.password = hash
         if (editando.value) {
             // Validar campos
-            // Modificar cliente (PUT)+
+            // Modificar cliente (PUT)
 
-            const clienteActualizado = await updateCliente(clienteEditandoId.value, nuevoCliente.value);
+            const clienteActualizado = await updateCliente(clienteEditandoId.value, {
+                ...nuevoCliente.value,
+                password: hash
+            });
 
             // Actualiza el cliente en la lista local
             const index = clientes.value.findIndex(c => c.id === clienteEditandoId.value);
@@ -421,7 +426,10 @@ const guardarCliente = async () => {
         } else {
             // Agregar cliente (POST)
 
-            const clienteAgregado = await addCliente(nuevoCliente.value);
+            const clienteAgregado = await addCliente({
+                ...nuevoCliente.value,
+                password: hash
+            });
             clientes.value.push(clienteAgregado);
             Swal.fire({
                 icon: 'success',
@@ -429,6 +437,13 @@ const guardarCliente = async () => {
                 showConfirmButton: false,
                 timer: 1500
             });
+            const data = await loginUsuario(nuevoCliente.value.dni, nuevoCliente.value.password);
+
+            // Guardar token y datos del usuario en sessionStorage
+            sessionStorage.setItem('token', data.token);
+            sessionStorage.setItem('userName', data.nombre);
+            sessionStorage.setItem('dni', nuevoCliente.value.dni);
+            router.push({ name: 'Inicio' }).then(() => window.location.reload());
         }
 
         // Reset formulario y estado
