@@ -95,6 +95,7 @@
                             allowfullscreen="" 
                             loading="lazy" 
                             referrerpolicy="no-referrer-when-downgrade"
+                            allow="geolocation"
                             title="Ubicación Avenida de Galicia, 101, Teis"
                         ></iframe>
                     </div>
