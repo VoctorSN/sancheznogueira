@@ -5,8 +5,8 @@
       <a class="navbar-brand" href="#"><img class="logo" src="@/assets/logo.svg" alt="logo" /></a>
 
       <!-- Botón de hamburguesa en pantallas pequeñas -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" @click="toggleMenu"
+        aria-controls="navbarNav" :aria-expanded="isMenuOpen" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -67,6 +67,7 @@ import { checkAdmin } from '@/api/authApi.js'
 const isLogueado = ref(false)
 const userName = ref('')
 const isAdmin = ref(false)
+const isMenuOpen = ref(false)
 
 onMounted(async () => {
   isLogueado.value = sessionStorage.getItem('token') !== null
@@ -76,6 +77,18 @@ onMounted(async () => {
   isAdmin.value = adminCheck.isAdmin;
   userName.value = adminCheck.name;
 })
+
+function toggleMenu() {
+  isMenuOpen.value = !isMenuOpen.value
+  const navbarCollapse = document.getElementById('navbarNav')
+  if (navbarCollapse) {
+    if (isMenuOpen.value) {
+      navbarCollapse.classList.add('show')
+    } else {
+      navbarCollapse.classList.remove('show')
+    }
+  }
+}
 
 function logout() {
   sessionStorage.removeItem('token')
