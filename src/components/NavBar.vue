@@ -72,9 +72,7 @@ onMounted(async () => {
   isLogueado.value = sessionStorage.getItem('token') !== null
   
   // Verificar si es admin mediante API
-  const adminCheck = await checkAdmin();
-  console.log(adminCheck);
-  
+  const adminCheck = await checkAdmin();  
   isAdmin.value = adminCheck.isAdmin;
   userName.value = adminCheck.name;
 })

@@ -291,9 +291,7 @@ const dni = sessionStorage.getItem("dni")
 
 // Computed: verifica si está editando su propio perfil
 const editingCurrentUser = computed(() => {
-    if (!editando.value) return false;
-    console.log(nuevoCliente.value.dni, dni);
-    
+    if (!editando.value) return false;    
     return nuevoCliente.value.dni !== dni;
 });
 

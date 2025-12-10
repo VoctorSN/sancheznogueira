@@ -36,9 +36,7 @@ onMounted(async () => {
 
 const urlImagen = (ruta) => {
     
-    if (!ruta) return "/no-image.png";
-    console.log(ruta);
-    
+    if (!ruta) return "/no-image.png";    
     return `http://localhost:5000${ruta}`
 };
 
