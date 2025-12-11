@@ -93,3 +93,30 @@ export const checkAdmin = (req, res) => {
         return res.status(403).json({ isAdmin: false, mensaje: "Token inválido o expirado" });
     }
 };
+
+// Función para verificar el token y devolver el DNI contenido en él
+export const checkDni = (req, res) => {
+    const authHeader = req.headers.authorization;
+    
+    if (!authHeader) {
+        return res.status(401).json({ valid: false, message: "Token no proporcionado" });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    try {
+        // Decodificar el token y extraer el DNI directamente de él
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        
+        // El DNI viene del token, no del cliente, por lo que es confiable
+        return res.json({ 
+            valid: true, 
+            message: "Token válido",
+            dni: decoded.dni,
+            tipo: decoded.tipo,
+            name: decoded.name
+        });
+    } catch (err) {
+        return res.status(403).json({ valid: false, message: "Token inválido o expirado" });
+    }
+};

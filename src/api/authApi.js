@@ -34,6 +34,30 @@ export const checkAdmin = async () => {
   }
 };
 
+// Función que obtiene el DNI desde el token (más seguro que sessionStorage)
+export const getDni = async () => {
+  try {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token no encontrado en sessionStorage');
+    }
+    
+    const response = await axios.get("http://localhost:5000/api/auth/check-dni", 
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }
+    );
+    
+    // Devuelve el DNI extraído del token (fuente confiable)
+    return response.data.dni;
+  } catch (error) {
+    console.error("Error en getDni:", error);
+    throw error;
+  }
+};
+
 
 //////////// PORQUE ESTE FICHERO Y NO LLAMAR DIRECTAMENTE A authController.js desde el frontend?
 

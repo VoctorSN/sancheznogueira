@@ -92,7 +92,6 @@ function toggleMenu() {
 
 function logout() {
   sessionStorage.removeItem('token')
-  sessionStorage.removeItem('dni')
   sessionStorage.removeItem('userName')
 
   isLogueado.value = false

@@ -105,7 +105,6 @@ router.beforeEach(async (to, from, next) => {
         catch (err) {
             console.error("Token invalido: ", err);
             sessionStorage.removeItem('token');
-            sessionStorage.removeItem('dni');
             sessionStorage.removeItem('userName');
             return next("/login");
         }

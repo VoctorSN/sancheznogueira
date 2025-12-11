@@ -82,7 +82,6 @@ export default {
         // Guardar token y datos del usuario en sessionStorage
         sessionStorage.setItem('token', data.token);
         sessionStorage.setItem('userName', data.nombre);
-        sessionStorage.setItem('dni', this.dni);
 
         Swal.fire({
           title: "Bienvenido",

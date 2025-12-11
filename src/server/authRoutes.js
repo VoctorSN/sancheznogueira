@@ -1,10 +1,11 @@
-import { login, verificarToken, soloAdmin, checkAdmin } from "./authController.js";
+import { login, verificarToken, soloAdmin, checkAdmin, checkDni } from "./authController.js";
 import express from "express";
 
 const router = express.Router();
 
 router.post("/login", login);
 router.get("/check-admin", checkAdmin);
+router.get("/check-dni", checkDni);
 
 router.get("/modelos",verificarToken, soloAdmin, (req, res) => {
     // Lógica para obtener modelos (solo accesible por admin)

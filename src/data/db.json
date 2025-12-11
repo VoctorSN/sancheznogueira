@@ -366,12 +366,12 @@
       "movil": "654789465",
       "direccion": "Avda. De Galicia, 101",
       "provincia": "Cuenca",
-      "municipio": "Alconchel de la Estrella",
+      "municipio": "Alarcón",
       "fecha_alta": "2025-10-02",
       "tipo_cliente": "particular",
       "historico": false,
       "lopd": true,
-      "password": "$2b$10$GsZ1GmrPDOTvC779k3DLdunlOk3Im2Zh2fQ97XvDQV1XA3pcXGe.G",
+      "password": "$2b$10$OOc1eM6zgdNIFl51QaFHhOU2pmG7oi2kKsIvS5IfrckKYK6hnLsRG",
       "tipo": "admin"
     },
     {
@@ -388,7 +388,7 @@
       "tipo_cliente": "particular",
       "historico": false,
       "lopd": true,
-      "password": "$2b$10$auQz.13vdZ7KNqBnu6stT.xZMLcPWv4jHWMw.Ej48o5zac/1gs/cO",
+      "password": "$2b$10$08FvVVwj2ZkwozjX1ARGheOmbEY9TucmMFeEWHbsIiCBkzoSkUSK.",
       "tipo": "user"
     },
     {

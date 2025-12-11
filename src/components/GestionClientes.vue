@@ -138,13 +138,13 @@
             <div class="mb-3 row g-3 align-items-center justify-content-center">
                 <div class="col-md-4 d-flex align-items-center">
                     <label for="password" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Contraseña:</label>
-                    <input type="password" id="password" v-model="nuevoCliente.password" :disabled="editingCurrentUser"
+                    <input type="password" id="password" v-model="nuevoCliente.password" :disabled="!editingCurrentUser && editando"
                         class="form-control flex-grow-1" />
                 </div>
                 <div class="col-md-4 d-flex align-items-center ms-4">
                     <label for="repetirPassword" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Repetir
                         Contraseña:</label>
-                    <input type="password" id="repetirPassword" v-model="repetirPassword" :disabled="editingCurrentUser"
+                    <input type="password" id="repetirPassword" v-model="repetirPassword" :disabled="!editingCurrentUser && editando"
                         class="form-control flex-grow-1" />
                 </div>
             </div>
@@ -248,7 +248,7 @@ import { useRouter } from "vue-router";
 import provmuniData from "@/data/provmuni.json";
 import Swal from "sweetalert2";
 import { getClientes, deleteCliente, addCliente, updateCliente, getClientePorDni } from "@/api/clientes.js";
-import { checkAdmin, loginUsuario } from "@/api/authApi.js";
+import { checkAdmin, loginUsuario, getDni } from "@/api/authApi.js";
 import bcrypt from "bcryptjs";
 
 const router = useRouter();
@@ -287,12 +287,13 @@ var currentPage = ref(1);
 var clientesPerPage = 10;
 
 const isAdmin = ref(false);
-const dni = sessionStorage.getItem("dni")
+
+/// se carga en el onmounted ya que necesita llamar al back
+var dni;
 
 // Computed: verifica si está editando su propio perfil
 const editingCurrentUser = computed(() => {
-    if (!editando.value) return false;    
-    return nuevoCliente.value.dni !== dni;
+    return nuevoCliente.value.dni === dni && editando.value;
 });
 
 // Función Listar Clientes con get
@@ -306,6 +307,8 @@ onMounted(async () => {
     // Verificar si es admin mediante API
     const adminCheck = await checkAdmin();
     isAdmin.value = adminCheck.isAdmin;
+    dni = await getDni();
+    
 
     if (isAdmin.value) {
         cargarClientes()
@@ -447,7 +450,6 @@ const guardarCliente = async () => {
             // Guardar token y datos del usuario en sessionStorage
             sessionStorage.setItem('token', data.token);
             sessionStorage.setItem('userName', data.nombre);
-            sessionStorage.setItem('dni', nuevoCliente.value.dni);
             router.push({ name: 'Inicio' }).then(() => window.location.reload());
         }
 
