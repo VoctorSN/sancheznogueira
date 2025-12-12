@@ -46,8 +46,12 @@
 
                 <div class="col d-flex align-items-center">
                     <label for="anio" class="form-label mb-0 me-1 text-nowrap small">Año:</label>
-                    <input type="number" id="anio" v-model="vehiculo.anio"
-                        class="form-control form-control-sm rounded-0 shadow-none border text-end" required />
+                    <select id="anio" v-model="vehiculo.anio" class="form-select flex-grow-1">
+                        <option disabled value="">Seleccione año</option>
+                        <option v-for="a in aniosPosibles" :key="a" :value="a">
+                            {{ a }}
+                        </option>
+                    </select>
                 </div>
 
                 <div class="col-auto d-flex align-items-center">
@@ -242,7 +246,7 @@
             <!-- Navegación de página -->
             <div class="d-flex justify-content-center my-3">
                 <button class="btn btn-outline-primary btn-sm me-2 rounded-0 border-1 shadow-none" @click="beforePagina"
-                    :disabled="currentPage <= 1">
+                :disabled="currentPage <= 1">
                     <i class="bi bi-chevron-left"></i>
                 </button>
                 <span class="mx-3 align-self-center text-muted">Página {{ currentPage }} de {{ totalPages }}</span>
@@ -264,6 +268,9 @@ import provmuniData from "@/data/provmuni.json"
 const vehiculos = ref([]);
 const currentPage = ref(1);
 const vehiculosPerPage = 10;
+
+const anioActual = new Date().getFullYear();
+const aniosPosibles = Array.from({ length: 50 }, (_, i) => anioActual - i);
 
 const vehiculo = ref({
     tipo: "",
