@@ -44,9 +44,9 @@
                         class="form-control form-control-sm rounded-0 shadow-none border" />
                 </div>
 
-                <div class="col d-flex align-items-center">
+                <div class="col-auto d-flex align-items-center">
                     <label for="anio" class="form-label mb-0 me-1 text-nowrap small">Año:</label>
-                    <select id="anio" v-model="vehiculo.anio" class="form-select flex-grow-1">
+                    <select id="anio" v-model="vehiculo.anio" class="form-select form-select-sm w-auto rounded-0 shadow-none border">
                         <option disabled value="">Seleccione año</option>
                         <option v-for="a in aniosPosibles" :key="a" :value="a">
                             {{ a }}

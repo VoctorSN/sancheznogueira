@@ -39,7 +39,7 @@ export const getDni = async () => {
   try {
     const token = sessionStorage.getItem('token');
     if (!token) {
-      throw new Error('Token no encontrado en sessionStorage');
+      return null;
     }
     
     const response = await axios.get("http://localhost:5000/api/auth/check-dni", 
