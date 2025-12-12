@@ -161,8 +161,13 @@
                         Aceptar terminos y condiciones: <a target="_blank" href="/avisolegal">Aviso Legal</a>
                     </span>
                 </div>
-                <div class="d-flex justify-content-end form-switch">
+                <div v-if="isAdmin" class="d-flex justify-content-end form-switch">
                     <input type="checkbox" id="historico" v-model="mostrarHistorico" class="form-check-input"
+                        @change="cargarClientes" />
+                    <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
+                </div>
+                <div v-if="!isAdmin" class="d-flex justify-content-end form-switch invisible">
+                    <input type="checkbox" v-model="mostrarHistorico" class="form-check-input"
                         @change="cargarClientes" />
                     <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
                 </div>
