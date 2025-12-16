@@ -28,6 +28,9 @@ onMounted(() => {
     }, 1000) // Oculta el contenido tras 1 segundo
 })
 
+
+/* CHAT CON TAWK.IO
+
 var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
 (function () {
     var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
@@ -36,7 +39,7 @@ var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     s1.charset = 'UTF-8';
     s1.setAttribute('crossorigin', '*');
     s0.parentNode.insertBefore(s1, s0);
-})();
+})(); */
 </script>
 
 <style scoped>
