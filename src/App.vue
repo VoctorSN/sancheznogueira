@@ -6,6 +6,7 @@
       <router-view />
     </main>
     <FooTer /> <!-- Fijo abajo, pero dentro del 80% -->
+    <ChatWidget /> <!-- Chat flotante con IA -->
   </div>
 </template>
 
@@ -13,6 +14,7 @@
 <script setup>
 import NavBar from './components/NavBar.vue'
 import FooTer from './components/FooTer.vue'
+import ChatWidget from './components/ChatWidget.vue'
 </script>
 
 <style scoped>

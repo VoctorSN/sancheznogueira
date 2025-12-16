@@ -12,10 +12,11 @@ import { fileURLToPath } from "url";
 import articulosRoutes from "./articulosRoutes.js"; // ruta al router backend
 import authRoutes from "./authRoutes.js"; // ruta al router backend
 import contactoRoutes from "./contactoRoutes.js"; // ruta al router backend
+import chatRoutes from "./chatRoutes.js"; // ruta al router del chat de Gemini
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000;  // Use PORT from environment or default to 5000
+const PORT = process.env.PORT || 3001;  // Use PORT from environment or default to 3001
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +40,7 @@ app.use(express.json());
 app.use("/api/articulos", articulosRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/contacto", contactoRoutes);
+app.use("/api/chat", chatRoutes); // Ruta del chat con Gemini
 
 // Verificar variable
 //console.log("MONGODB_URI =", process.env.MONGODB_URI);
