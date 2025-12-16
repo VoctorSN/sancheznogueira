@@ -1,250 +1,255 @@
 <template>
-    <div class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light">
-        <div class="d-flex justify-content-center">
-            <h2 class="text-center mb-3 text-primary fw-bold">
-                <i class="bi bi-people-fill me-2"></i>
-                Gestión de Clientes
-            </h2>
-        </div>
 
-        <!-- Formulario -->
-        <form @submit.prevent="guardarCliente" class="mt-1 mb-2">
-            <!-- DNI con validación visual -->
-            <div class="mb-3 row g-3 align-items-center">
 
-                <!-- Columna DNI -->
-                <div class="col-md-4 d-flex align-items-center">
-                    <label for="dni" class="form-label mb-0 text-nowrap flex-shrink-0" style="min-width: 120px;">DNI:
-                    </label>
-                    <input type="text" id="dni" v-model="nuevoCliente.dni" @blur="validarDni"
-                        class="form-control w-auto" :class="{ 'is-invalid': !dniValido }" :disabled="editando"
-                        required />
-                    <button type="button" @click="buscarClientePorDNI(nuevoCliente.dni)" :hidden="editando"
-                        class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0" title="Buscar DNI"
-                        aria-label="Buscar DNI">
-                        <i class="bi bi-search"></i>
+    <body>
+        <div class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light">
+            <div class="d-flex justify-content-center">
+                <h2 class="text-center mb-3 text-primary fw-bold">
+                    <i class="bi bi-people-fill me-2"></i>
+                    Gestión de Clientes
+                </h2>
+            </div>
+
+            <!-- Formulario -->
+            <form @submit.prevent="guardarCliente" class="mt-1 mb-2">
+                <!-- DNI con validación visual -->
+                <div class="mb-3 row g-3 align-items-center">
+
+                    <!-- Columna DNI -->
+                    <div class="col-md-4 d-flex align-items-center">
+                        <label for="dni" class="form-label mb-0 text-nowrap flex-shrink-0"
+                            style="min-width: 120px;">DNI:
+                        </label>
+                        <input type="text" id="dni" v-model="nuevoCliente.dni" @blur="validarDni"
+                            class="form-control w-auto" :class="{ 'is-invalid': !dniValido }" :disabled="editando"
+                            required />
+                        <button type="button" @click="buscarClientePorDNI(nuevoCliente.dni)" :hidden="editando"
+                            class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0" title="Buscar DNI"
+                            aria-label="Buscar DNI">
+                            <i class="bi bi-search"></i>
+                        </button>
+
+                        <div v-if="!dniValido" class="invalid-feedback">
+                            DNI o NIE inválido.
+                        </div>
+                    </div>
+
+                    <!-- Columna Fecha de Alta a la derecha -->
+                    <div class="col-md-4 ms-auto d-flex align-items-center justify-content-center">
+                        <label for="fecha_alta" class="form-label me-2 mb-0 text-nowrap">Fecha de Alta:</label>
+                        <input type="date" id="fecha_alta" v-model="nuevoCliente.fecha_alta" class="form-control w-auto"
+                            oninvalid="this.setCustomValidity('Por favor, rellene este campo')"
+                            oninput="this.setCustomValidity('')" />
+                    </div>
+
+                    <!-- Tipo Cliente -->
+                    <div class="col-md-3 d-flex align-items-center">
+                        <label for="tipocliente2" class="ms-1">Tipo De Cliente: </label>
+                        <div class="mx-3 d-flex align-items-center">
+                            <input type="radio" id="tipocliente" v-model="nuevoCliente.tipo_cliente" value="particular"
+                                checked />
+                            <label for="tipocliente" class="ms-1">Particular</label>
+                        </div>
+                        <div class="mx-3 d-flex align-items-center">
+                            <input type="radio" id="tipocliente2" v-model="nuevoCliente.tipo_cliente" value="empresa" />
+                            <label for="tipocliente2" class="ms-1">Empresa</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1 ms-auto d-flex align-items-center justify-content-end">
+                        <button type="submit" class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0"
+                            @click="vaciarFormulario()">
+                            <i class=" bi bi-arrow-clockwise"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nombre y Apellidos -->
+                <div class="mb-3 row g-3 align-items-center">
+                    <!-- Nombre -->
+                    <div class="col-md-5 d-flex align-items-center">
+                        <label for="nombre" class="form-label mb-0 text-nowrap flex-shrink-0"
+                            style="min-width: 120px;">Nombre:</label>
+                        <input type="text" id="nombre" v-model="nuevoCliente.nombre" class="form-control flex-grow-1"
+                            @blur="capitalizarTexto('nombre')" required />
+                    </div>
+
+                    <!-- Apellidos -->
+                    <div class="col-md-6 d-flex align-items-center ms-5">
+                        <label for="apellidos" class="form-label mb-0 text-nowrap flex-shrink-0"
+                            style="min-width: 120px;">Apellidos:</label>
+                        <input type="text" id="apellidos" v-model="nuevoCliente.apellidos"
+                            class="form-control flex-grow-1" @blur="capitalizarTexto('apellidos')" required />
+                    </div>
+                </div>
+
+                <!-- Email y Móvil -->
+                <div class="mb-3 row g-3 align-items-center">
+                    <!-- Email -->
+                    <div class="col-md-5 d-flex align-items-center">
+                        <label for="email" class="form-label mb-0 text-nowrap flex-shrink-0"
+                            style="min-width: 120px;">Email:</label>
+                        <input type="email" id="email" v-model="nuevoCliente.email" class="form-control flex-grow-1"
+                            @blur="validarEmail" :class="{ 'is-invalid': !emailValido }" required />
+                    </div>
+
+                    <!-- Móvil -->
+                    <div class="col-md-3 d-flex align-items-center">
+                        <label for="movil" class="form-label mb-0 text-nowrap flex-shrink-0 ms-5"
+                            style="min-width: 120px;">Móvil:</label>
+                        <input type="tel" id="movil" v-model="nuevoCliente.movil" @blur="validarMovil"
+                            class="form-control flex-grow-1 text-center" :class="{ 'is-invalid': !movilValido }" />
+                    </div>
+                </div>
+
+                <!-- Dirección, Provincia y Municipio -->
+                <div class="mb-3 row g-3 align-items-center">
+                    <!-- Dirección -->
+                    <div class="col-md-5 d-flex align-items-center">
+                        <label for="direccion" class="form-label mb-0 text-nowrap flex-shrink-0"
+                            style="min-width: 120px;">Dirección:</label>
+                        <input type="text" id="direccion" @blur="capitalizarTexto('direccion')"
+                            v-model="nuevoCliente.direccion" class="form-control flex-grow-1" />
+                    </div>
+
+                    <!-- Provincia -->
+                    <div class="col-md-3 d-flex align-items-center">
+                        <label for="provincia" class="form-label mb-0 text-nowrap flex-shrink-0 ms-5"
+                            style="min-width: 120px;">Provincia:</label>
+                        <select id="provincia" v-model="nuevoCliente.provincia" class="form-select flex-grow-1"
+                            @change="filtrarMunicipios">
+                            <option disabled value="">Seleccione provincia</option>
+                            <option v-for="prov in provincias" :key="prov" :value="prov.nm">
+                                {{ prov.nm }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Municipio -->
+                    <div class="col-md-4 d-flex align-items-center">
+                        <label for="municipio" class="form-label mb-0 text-nowrap flex-shrink-0 ms-4"
+                            style="min-width: 100px;">Municipio:</label>
+                        <select id="municipio" v-model="nuevoCliente.municipio" class="form-select flex-grow-1">
+                            <option disabled value="">Seleccione municipio</option>
+                            <option v-for="mun in municipiosFiltrados" :key="mun" :value="mun.nm">
+                                {{ mun.nm }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Contraseña y Repetir Contraseña -->
+                <div class="mb-3 row g-3 align-items-center justify-content-center">
+                    <div class="col-md-4 d-flex align-items-center">
+                        <label for="password" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Contraseña:</label>
+                        <input type="password" id="password" v-model="nuevoCliente.password"
+                            :disabled="!editingCurrentUser && editando" class="form-control flex-grow-1" />
+                    </div>
+                    <div class="col-md-4 d-flex align-items-center ms-4">
+                        <label for="repetirPassword" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Repetir
+                            Contraseña:</label>
+                        <input type="password" id="repetirPassword" v-model="repetirPassword"
+                            :disabled="!editingCurrentUser && editando" class="form-control flex-grow-1" />
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mb-2">
+                    <div class="d-flex justify-content-end form-switch invisible">
+                        <input type="checkbox" v-model="mostrarHistorico" class="form-check-input"
+                            @change="cargarClientes" />
+                        <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
+                    </div>
+                    <div class="text-center ">
+                        <input type="checkbox" id="avisolegal" v-model="nuevoCliente.lopd" class="form-check-input" />
+                        <span class="form-check-label ms-3 me-5 mb-0">
+                            Aceptar terminos y condiciones: <a target="_blank" href="/avisolegal">Aviso Legal</a>
+                        </span>
+                    </div>
+                    <div v-if="isAdmin" class="d-flex justify-content-end form-switch">
+                        <input type="checkbox" id="historico" v-model="mostrarHistorico" class="form-check-input"
+                            @change="cargarClientes" />
+                        <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
+                    </div>
+                    <div v-if="!isAdmin" class="d-flex justify-content-end form-switch invisible">
+                        <input type="checkbox" v-model="mostrarHistorico" class="form-check-input"
+                            @change="cargarClientes" />
+                        <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
+                    </div>
+                </div>
+
+
+                <!-- Histórico -->
+
+
+                <!-- Botón centrado -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary border-0 shadow-none rounded-0"
+                        :disabled="!nuevoCliente.lopd">
+                        {{ editando ? 'Modificar' : 'Grabar' }}
                     </button>
-
-                    <div v-if="!dniValido" class="invalid-feedback">
-                        DNI o NIE inválido.
-                    </div>
                 </div>
+            </form>
+            <!-- Lista de Clientes -->
+            <div v-if="isAdmin" class="table-responsive">
+                <h4 class="text-center w-100">Listado Clientes</h4>
+                <table class="table table-bordered table-striped table-hover table-sm align-middle">
+                    <thead class="table-primary">
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Apellidos</th>
+                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Móvil</th>
+                            <th class="text-center">Municipio</th>
+                            <th class="text-center w-5">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(cliente, index) in clientesPaginados" :key="index">
+                            <th scope="row" class="text-center">{{ (currentPage - 1) * clientesPerPage + index + 1 }}
+                            </th>
+                            <td>{{ cliente.apellidos }}</td>
+                            <td>{{ cliente.nombre }}</td>
+                            <td class="text-center">{{ cliente.movil }}</td>
+                            <td class="text-center">{{ cliente.municipio }}</td>
+                            <td class="text-center w-10">
+                                <button @click="eliminarCliente(cliente.movil)"
+                                    class="btn btn-danger btn-sm me-2 border-0 shadow-none rounded-0"
+                                    title="Eliminar cliente" aria-label="Eliminar cliente">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                <button @click="editarCliente(cliente.movil)"
+                                    class="btn btn-warning btn-sm border-0 dow-none rounded-0" title="Editar cliente"
+                                    aria-label="Editar cliente">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button @click="activarCliente(cliente)"
+                                    :class="['btn', 'btn-secondary', 'btn-sm', 'ms-2', 'border-0', 'shadow-none', 'rounded-0', { 'invisible': !cliente.historico }]"
+                                    title="Activar cliente">
+                                    <i class="bi bi-person-check"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                <!-- Columna Fecha de Alta a la derecha -->
-                <div class="col-md-4 ms-auto d-flex align-items-center justify-content-center">
-                    <label for="fecha_alta" class="form-label me-2 mb-0 text-nowrap">Fecha de Alta:</label>
-                    <input type="date" id="fecha_alta" v-model="nuevoCliente.fecha_alta" class="form-control w-auto"
-                        oninvalid="this.setCustomValidity('Por favor, rellene este campo')"
-                        oninput="this.setCustomValidity('')" />
-                </div>
-
-                <!-- Tipo Cliente -->
-                <div class="col-md-3 d-flex align-items-center">
-                    <label for="tipocliente2" class="ms-1">Tipo De Cliente: </label>
-                    <div class="mx-3 d-flex align-items-center">
-                        <input type="radio" id="tipocliente" v-model="nuevoCliente.tipo_cliente" value="particular"
-                            checked />
-                        <label for="tipocliente" class="ms-1">Particular</label>
-                    </div>
-                    <div class="mx-3 d-flex align-items-center">
-                        <input type="radio" id="tipocliente2" v-model="nuevoCliente.tipo_cliente" value="empresa" />
-                        <label for="tipocliente2" class="ms-1">Empresa</label>
-                    </div>
-                </div>
-
-                <div class="col-md-1 ms-auto d-flex align-items-center justify-content-end">
-                    <button type="submit" class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0"
-                        @click="vaciarFormulario()">
-                        <i class=" bi bi-arrow-clockwise"></i>
+                <!--  NAVEGACION DE PAGINAS -->
+                <!-- Navegación de página-->
+                <div class="d-flex justify-content-center my-3">
+                    <button class="btn btn-outline-primary btn-sm me-2 rounded-0 border-1 shadow-none"
+                        @click="beforePagina" :disabled="currentPage <= 1">
+                        <i class="bi bi-chevron-left "></i>
+                    </button>
+                    <span class="mx-3 align-self-center text-muted">Página {{ currentPage }}</span>
+                    <button class="btn btn-outline-primary btn-sm rounded-0 border-1 shadow-none" @click="nextPagina"
+                        :disabled="currentPage >= totalPages">
+                        <i class="bi bi-chevron-right "></i>
                     </button>
                 </div>
+
+
             </div>
-
-            <!-- Nombre y Apellidos -->
-            <div class="mb-3 row g-3 align-items-center">
-                <!-- Nombre -->
-                <div class="col-md-5 d-flex align-items-center">
-                    <label for="nombre" class="form-label mb-0 text-nowrap flex-shrink-0"
-                        style="min-width: 120px;">Nombre:</label>
-                    <input type="text" id="nombre" v-model="nuevoCliente.nombre" class="form-control flex-grow-1"
-                        @blur="capitalizarTexto('nombre')" required />
-                </div>
-
-                <!-- Apellidos -->
-                <div class="col-md-6 d-flex align-items-center ms-5">
-                    <label for="apellidos" class="form-label mb-0 text-nowrap flex-shrink-0"
-                        style="min-width: 120px;">Apellidos:</label>
-                    <input type="text" id="apellidos" v-model="nuevoCliente.apellidos" class="form-control flex-grow-1"
-                        @blur="capitalizarTexto('apellidos')" required />
-                </div>
-            </div>
-
-            <!-- Email y Móvil -->
-            <div class="mb-3 row g-3 align-items-center">
-                <!-- Email -->
-                <div class="col-md-5 d-flex align-items-center">
-                    <label for="email" class="form-label mb-0 text-nowrap flex-shrink-0"
-                        style="min-width: 120px;">Email:</label>
-                    <input type="email" id="email" v-model="nuevoCliente.email" class="form-control flex-grow-1"
-                        @blur="validarEmail" :class="{ 'is-invalid': !emailValido }" required />
-                </div>
-
-                <!-- Móvil -->
-                <div class="col-md-3 d-flex align-items-center">
-                    <label for="movil" class="form-label mb-0 text-nowrap flex-shrink-0 ms-5"
-                        style="min-width: 120px;">Móvil:</label>
-                    <input type="tel" id="movil" v-model="nuevoCliente.movil" @blur="validarMovil"
-                        class="form-control flex-grow-1 text-center" :class="{ 'is-invalid': !movilValido }" />
-                </div>
-            </div>
-
-            <!-- Dirección, Provincia y Municipio -->
-            <div class="mb-3 row g-3 align-items-center">
-                <!-- Dirección -->
-                <div class="col-md-5 d-flex align-items-center">
-                    <label for="direccion" class="form-label mb-0 text-nowrap flex-shrink-0"
-                        style="min-width: 120px;">Dirección:</label>
-                    <input type="text" id="direccion" @blur="capitalizarTexto('direccion')"
-                        v-model="nuevoCliente.direccion" class="form-control flex-grow-1" />
-                </div>
-
-                <!-- Provincia -->
-                <div class="col-md-3 d-flex align-items-center">
-                    <label for="provincia" class="form-label mb-0 text-nowrap flex-shrink-0 ms-5"
-                        style="min-width: 120px;">Provincia:</label>
-                    <select id="provincia" v-model="nuevoCliente.provincia" class="form-select flex-grow-1"
-                        @change="filtrarMunicipios">
-                        <option disabled value="">Seleccione provincia</option>
-                        <option v-for="prov in provincias" :key="prov" :value="prov.nm">
-                            {{ prov.nm }}
-                        </option>
-                    </select>
-                </div>
-
-                <!-- Municipio -->
-                <div class="col-md-4 d-flex align-items-center">
-                    <label for="municipio" class="form-label mb-0 text-nowrap flex-shrink-0 ms-4"
-                        style="min-width: 100px;">Municipio:</label>
-                    <select id="municipio" v-model="nuevoCliente.municipio" class="form-select flex-grow-1">
-                        <option disabled value="">Seleccione municipio</option>
-                        <option v-for="mun in municipiosFiltrados" :key="mun" :value="mun.nm">
-                            {{ mun.nm }}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Contraseña y Repetir Contraseña -->
-            <div class="mb-3 row g-3 align-items-center justify-content-center">
-                <div class="col-md-4 d-flex align-items-center">
-                    <label for="password" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Contraseña:</label>
-                    <input type="password" id="password" v-model="nuevoCliente.password" :disabled="!editingCurrentUser && editando"
-                        class="form-control flex-grow-1" />
-                </div>
-                <div class="col-md-4 d-flex align-items-center ms-4">
-                    <label for="repetirPassword" class="form-label mb-0 text-nowrap flex-shrink-0 me-2">Repetir
-                        Contraseña:</label>
-                    <input type="password" id="repetirPassword" v-model="repetirPassword" :disabled="!editingCurrentUser && editando"
-                        class="form-control flex-grow-1" />
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-between mb-2">
-                <div class="d-flex justify-content-end form-switch invisible">
-                    <input type="checkbox" v-model="mostrarHistorico" class="form-check-input"
-                        @change="cargarClientes" />
-                    <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
-                </div>
-                <div class="text-center ">
-                    <input type="checkbox" id="avisolegal" v-model="nuevoCliente.lopd" class="form-check-input" />
-                    <span class="form-check-label ms-3 me-5 mb-0">
-                        Aceptar terminos y condiciones: <a target="_blank" href="/avisolegal">Aviso Legal</a>
-                    </span>
-                </div>
-                <div v-if="isAdmin" class="d-flex justify-content-end form-switch">
-                    <input type="checkbox" id="historico" v-model="mostrarHistorico" class="form-check-input"
-                        @change="cargarClientes" />
-                    <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
-                </div>
-                <div v-if="!isAdmin" class="d-flex justify-content-end form-switch invisible">
-                    <input type="checkbox" v-model="mostrarHistorico" class="form-check-input"
-                        @change="cargarClientes" />
-                    <label for="historico" class="form-check-label ms-3 me-5 mb-0">Histórico</label>
-                </div>
-            </div>
-
-
-            <!-- Histórico -->
-
-
-            <!-- Botón centrado -->
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary border-0 shadow-none rounded-0"
-                    :disabled="!nuevoCliente.lopd">
-                    {{ editando ? 'Modificar' : 'Grabar' }}
-                </button>
-            </div>
-        </form>
-        <!-- Lista de Clientes -->
-        <div v-if="isAdmin" class="table-responsive">
-            <h4 class="text-center w-100">Listado Clientes</h4>
-            <table class="table table-bordered table-striped table-hover table-sm align-middle">
-                <thead class="table-primary">
-                    <tr>
-                        <th class="text-center">ID</th>
-                        <th class="text-center">Apellidos</th>
-                        <th class="text-center">Nombre</th>
-                        <th class="text-center">Móvil</th>
-                        <th class="text-center">Municipio</th>
-                        <th class="text-center w-5">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(cliente, index) in clientesPaginados" :key="index">
-                        <th scope="row" class="text-center">{{ (currentPage - 1) * clientesPerPage + index + 1 }}</th>
-                        <td>{{ cliente.apellidos }}</td>
-                        <td>{{ cliente.nombre }}</td>
-                        <td class="text-center">{{ cliente.movil }}</td>
-                        <td class="text-center">{{ cliente.municipio }}</td>
-                        <td class="text-center w-10">
-                            <button @click="eliminarCliente(cliente.movil)"
-                                class="btn btn-danger btn-sm me-2 border-0 shadow-none rounded-0"
-                                title="Eliminar cliente" aria-label="Eliminar cliente">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                            <button @click="editarCliente(cliente.movil)"
-                                class="btn btn-warning btn-sm border-0 dow-none rounded-0" title="Editar cliente"
-                                aria-label="Editar cliente">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <button @click="activarCliente(cliente)"
-                                :class="['btn', 'btn-secondary', 'btn-sm', 'ms-2', 'border-0', 'shadow-none', 'rounded-0', { 'invisible': !cliente.historico }]"
-                                title="Activar cliente">
-                                <i class="bi bi-person-check"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!--  NAVEGACION DE PAGINAS -->
-            <!-- Navegación de página-->
-            <div class="d-flex justify-content-center my-3">
-                <button class="btn btn-outline-primary btn-sm me-2 rounded-0 border-1 shadow-none" @click="beforePagina"
-                    :disabled="currentPage <= 1">
-                    <i class="bi bi-chevron-left "></i>
-                </button>
-                <span class="mx-3 align-self-center text-muted">Página {{ currentPage }}</span>
-                <button class="btn btn-outline-primary btn-sm rounded-0 border-1 shadow-none" @click="nextPagina"
-                    :disabled="currentPage >= totalPages">
-                    <i class="bi bi-chevron-right "></i>
-                </button>
-            </div>
-
-
         </div>
-    </div>
-
+    </body>
 </template>
 
 <script setup>
@@ -313,12 +318,12 @@ onMounted(async () => {
     const adminCheck = await checkAdmin();
     isAdmin.value = adminCheck.isAdmin;
     dni = await getDni();
-    
+
 
     if (isAdmin.value) {
         cargarClientes()
     }
-    
+
     if (dni) {
         buscarClientePorDNI(dni)
     }
@@ -789,6 +794,16 @@ function formatearFechaParaInput(fecha) {
 
     return '';
 }
+
+var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+(function () {
+    var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+    s1.async = true;
+    s1.src = 'https://embed.tawk.to/69410a3ab562b2197fa5ad70/1jcj0vts9';
+    s1.charset = 'UTF-8';
+    s1.setAttribute('crossorigin', '*');
+    s0.parentNode.insertBefore(s1, s0);
+})();
 </script>
 
 <style scoped>
