@@ -375,23 +375,6 @@
       "tipo": "admin"
     },
     {
-      "id": "9afd",
-      "dni": "99999999R",
-      "nombre": "Francisco",
-      "apellidos": "Alonso Gil",
-      "email": "gil@gil.com",
-      "movil": "654654654",
-      "direccion": "Avenida Del Puente, 80",
-      "provincia": "Pontevedra",
-      "municipio": "Vigo",
-      "fecha_alta": "2025-02-10",
-      "tipo_cliente": "particular",
-      "historico": false,
-      "lopd": true,
-      "password": "$2b$10$08FvVVwj2ZkwozjX1ARGheOmbEY9TucmMFeEWHbsIiCBkzoSkUSK.",
-      "tipo": "user"
-    },
-    {
       "id": "c9ee",
       "dni": "39390917J",
       "nombre": "Paula",
@@ -594,6 +577,23 @@
       "lopd": true,
       "password": "$2b$10$VaLwIR8tDlcl2vOIkeVlHOak8wsfz8CqLyFcrKYYksmZ2pqjtLlMu",
       "tipo": "user"
+    },
+    {
+      "id": "74bf",
+      "dni": "99999999R",
+      "nombre": "Víctor",
+      "apellidos": "Sánchez Nogueira",
+      "email": "victorsancheznogueir1312312a@gmail.com",
+      "movil": "654987987",
+      "direccion": "Rúa Da Laxe, 10",
+      "provincia": "Pontevedra",
+      "municipio": "Arbo",
+      "fecha_alta": "2025-12-11",
+      "tipo_cliente": "",
+      "historico": false,
+      "lopd": true,
+      "password": "$2a$10$VCrQBQ8Z0TdYbhqlkbCjD.6u2Xbl9RxAvH4HBLv7P6AlWmnJHQVIK",
+      "tipo": "admin"
     }
   ],
   "noticias": [

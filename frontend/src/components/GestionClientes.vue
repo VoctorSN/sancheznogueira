@@ -255,9 +255,9 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
-import provmuniData from "@/data/provmuni.json";
 import Swal from "sweetalert2";
 import { getClientes, deleteCliente, addCliente, updateCliente, getClientePorDni } from "@/api/clientes.js";
+import provmuniData from "@/data/provmuni.json";
 import { checkAdmin, loginUsuario, getDni } from "@/api/authApi.js";
 import bcrypt from "bcryptjs";
 
@@ -478,7 +478,7 @@ const guardarCliente = async () => {
         updateTabla();
 
     } catch (error) {
-        console.error('Error al guardar cliente:', error);
+        console.log('Error al guardar cliente:', error);
         Swal.fire({
             icon: 'error',
             title: 'Error al guardar cliente',

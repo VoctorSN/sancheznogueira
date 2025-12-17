@@ -5,15 +5,17 @@
   "type": "module",
   "scripts": {
     "server": "node ./server/server.js",
-    "dev": "node ./server/server.js"
+    "dev": "node ./server/server.js",
+    "json-server": "json-server --watch ./server/data/db.json --port 3000"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "axios": "^1.12.2",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "axios":"^1.12.2",
+    "json-server": "^1.0.0-beta.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.2",
     "multer": "^2.0.2",

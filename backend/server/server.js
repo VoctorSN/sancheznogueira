@@ -16,7 +16,7 @@ import chatRoutes from "./chatRoutes.js"; // ruta al router del chat de Gemini
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3001;  // Use PORT from environment or default to 3001
+const PORT = process.env.PORT || 5000;  // Use PORT from environment or default to 5000
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -7,7 +7,7 @@ Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://
 
 Puertos:
 
--3001
+-5000
     server.js
 
 -5173
