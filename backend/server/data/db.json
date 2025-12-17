@@ -358,23 +358,6 @@
       "tipo": "user"
     },
     {
-      "id": "971c",
-      "dni": "00000000T",
-      "nombre": "Sonia",
-      "apellidos": "Abalos Martínez",
-      "email": "sonia@gmil.com",
-      "movil": "654789465",
-      "direccion": "Avda. De Galicia, 101",
-      "provincia": "Cuenca",
-      "municipio": "Alarcón",
-      "fecha_alta": "2025-10-02",
-      "tipo_cliente": "particular",
-      "historico": false,
-      "lopd": true,
-      "password": "$2b$10$OOc1eM6zgdNIFl51QaFHhOU2pmG7oi2kKsIvS5IfrckKYK6hnLsRG",
-      "tipo": "admin"
-    },
-    {
       "id": "c9ee",
       "dni": "39390917J",
       "nombre": "Paula",
@@ -593,6 +576,23 @@
       "historico": false,
       "lopd": true,
       "password": "$2a$10$VCrQBQ8Z0TdYbhqlkbCjD.6u2Xbl9RxAvH4HBLv7P6AlWmnJHQVIK",
+      "tipo": "user"
+    },
+    {
+      "id": "183f",
+      "dni": "00000000T",
+      "nombre": "Víctor",
+      "apellidos": "Sánchez Nogueira",
+      "email": "victorsancheznog123123123ueira@gmail.com",
+      "movil": "654654333",
+      "direccion": "Rúa Da Laxe, 10",
+      "provincia": "Pontevedra",
+      "municipio": "Barro",
+      "fecha_alta": "",
+      "tipo_cliente": "",
+      "historico": false,
+      "lopd": true,
+      "password": "$2a$10$9YkrI9qN1WuNrzrPHfR.yOm7yagAKBI8YwfMKdM04fs9pmoLmP2IW",
       "tipo": "admin"
     }
   ],
