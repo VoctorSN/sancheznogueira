@@ -5,7 +5,7 @@
         </h4>
 
         <form @submit.prevent="guardarVehiculo" class="mb-2 mt-1">
-            <!-- FILA: Tipo, Marca, Modelo, Estado -->
+            <!-- FILA: Tipo, Marca, Modelo, Año y Estado -->
             <div class="row g-1 align-items-center">
                 <div class="col d-flex align-items-center">
                     <label class="form-label mb-0 me-1 text-nowrap small">Tipo:</label>
@@ -26,47 +26,41 @@
                     </div>
                 </div>
 
-                <div class="col d-flex align-items-center">
+                <div class="col d-flex align-items-center ms-5">
                     <label for="marca" class="form-label mb-0 me-1 text-nowrap small">Marca:</label>
                     <input type="text" id="marca" v-model="vehiculo.marca" @blur="capitalizarTexto('marca')"
                         class="form-control form-control-sm rounded-0 shadow-none border" required />
                 </div>
 
-                <div class="col d-flex align-items-center">
+                <div class="col d-flex align-items-center ms-5">
                     <label for="modelo" class="form-label mb-0 me-1 text-nowrap small">Modelo:</label>
                     <input type="text" id="modelo" v-model="vehiculo.modelo" @blur="capitalizarTexto('modelo')"
                         class="form-control form-control-sm rounded-0 shadow-none border" required />
                 </div>
 
-                <div class="col d-flex align-items-center">
+                <div class="col d-flex align-items-center ms-5">
                     <label for="matricula" class="form-label mb-0 me-1 text-nowrap small">Matrícula:</label>
                     <input type="text" id="matricula" v-model="vehiculo.matricula" @blur="convertirMatriculaMayusculas"
-                        class="form-control form-control-sm rounded-0 shadow-none border" />
+                        class="form-control form-control-sm rounded-0 shadow-none border" :readonly="editando"
+                        :class="{ 'readonly-input': editando }" style="width: 130px" />
+                    <button type="button" class="btn btn-primary btn-sm ms-2 border-0 shadow-none rounded-0"
+                        @click="buscarVehiculoPorMatricula(vehiculo.matricula)" :disabled="editando"
+                        title="Buscar por matrícula">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </div>
 
                 <div class="col-auto d-flex align-items-center">
-                    <label for="anio" class="form-label mb-0 me-1 text-nowrap small">Año:</label>
-                    <select id="anio" v-model="vehiculo.anio" class="form-select form-select-sm w-auto rounded-0 shadow-none border">
-                        <option disabled value="">Seleccione año</option>
-                        <option v-for="a in aniosPosibles" :key="a" :value="a">
-                            {{ a }}
-                        </option>
-                    </select>
+                    <button type="button" @click="limpiarFormulario"
+                        class="btn btn-secondary btn-sm rounded border shadow-none" title="Limpiar formulario">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
                 </div>
 
-                <div class="col-auto d-flex align-items-center">
-                    <label class="form-label mb-0 me-1 small">Estado:</label>
-                    <select v-model="vehiculo.estado"
-                        class="form-select form-select-sm d-inline-block w-auto rounded shadow-none border">
-                        <option value="disponible">Disponible</option>
-                        <option value="vendido">Vendido</option>
-                        <option value="reservado">Reservado</option>
-                    </select>
-                </div>
             </div>
 
             <!-- FILA: Año, Kilómetros, Precio -->
-            <div class="row g-3 align-items-center mt-2">
+            <div class="row g-2 align-items-center mt-1">
                 <div class="col-12 col-md-2 d-flex align-items-center">
                     <label for="kilometros" class="form-label mb-0 me-3 text-nowrap">Kilómetros:</label>
                     <input type="number" id="kilometros" v-model="vehiculo.kilometros"
@@ -108,10 +102,26 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-2 d-flex align-items-center">
-                    <label for="potencia" class="form-label mb-0 me-3 text-nowrap">Potencia (CV):</label>
-                    <input type="number" id="potencia" v-model="vehiculo.potencia_cv"
-                        class="form-control rounded-0 shadow-none border text-end" />
+
+                <div class="col d-flex align-items-center">
+                    <label for="anio" class="form-label mb-0 me-1 text-nowrap small">Año:</label>
+                    <select id="anio" v-model="vehiculo.anio"
+                        class="form-select form-select-sm d-inline-block w-auto rounded shadow-none border" required>
+                        <option disabled value="">Seleccione año</option>
+                        <option v-for="year in generarAños" :key="year" :value="year">
+                            {{ year }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-auto d-flex align-items-center">
+                    <label class="form-label mb-0 me-1 small">Estado:</label>
+                    <select v-model="vehiculo.estado"
+                        class="form-select form-select-sm d-inline-block w-auto rounded shadow-none border">
+                        <option value="disponible">Disponible</option>
+                        <option value="vendido">Vendido</option>
+                        <option value="reservado">Reservado</option>
+                    </select>
                 </div>
             </div>
             <!-- FILA: Descripción -->
@@ -191,16 +201,16 @@
             <!-- FILA: botón -->
             <div class="d-flex align-items-center justify-content-center mt-3">
                 <div>
-                    <button type="button" @click="limpiarFormulario"
-                        class="btn btn-secondary rounded border shadow-none px-3 me-2" title="Limpiar formulario">
-                        <i class="bi bi-arrow-clockwise"></i>
-                    </button>
+
                     <button v-if="editando" @click.prevent="eliminarVehiculo(vehiculoEditandoId)"
                         class="btn btn-danger rounded border shadow-none px-4 me-2" type="button">
                         <i class="bi bi-trash me-1"></i>Eliminar
                     </button>
-                    <button class="btn btn-primary rounded border shadow-none px-4" type="submit">{{ editando ?
+                    <button class="btn btn-primary rounded border shadow-none px-4  me-2" type="submit">{{ editando ?
                         "Modificar" : "Guardar" }}</button>
+                    <button class="btn btn-secondary rounded border shadow-none px-4" @click="imprimirPDF"
+                        type="button"><i class="bi bi-printer"></i>Imprimir</button>
+                    
                 </div>
             </div>
         </form>
@@ -222,7 +232,7 @@
                 <tbody>
                     <tr v-for="vehiculoItem in vehiculosPaginados" :key="vehiculoItem._id">
                         <th class="text-center">
-                            {{ vehiculoItem.matricula}}
+                            {{ vehiculoItem.matricula }}
                         </th>
                         <td>{{ vehiculoItem.marca }}</td>
                         <td>{{ vehiculoItem.modelo }}</td>
@@ -246,7 +256,7 @@
             <!-- Navegación de página -->
             <div class="d-flex justify-content-center my-3">
                 <button class="btn btn-outline-primary btn-sm me-2 rounded-0 border-1 shadow-none" @click="beforePagina"
-                :disabled="currentPage <= 1">
+                    :disabled="currentPage <= 1">
                     <i class="bi bi-chevron-left"></i>
                 </button>
                 <span class="mx-3 align-self-center text-muted">Página {{ currentPage }} de {{ totalPages }}</span>
@@ -264,6 +274,8 @@ import Swal from "sweetalert2"
 import { ref, computed, onMounted } from "vue"
 import { addArticulo, getArticulos, updateArticulo, deleteArticulo } from "@/api/articulos.js"
 import provmuniData from "@/data/provmuni.json"
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const vehiculos = ref([]);
 const currentPage = ref(1);
@@ -650,6 +662,53 @@ const editarVehiculo = (vehiculoData) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
+// Buscar vehículo por matrícula
+const buscarVehiculoPorMatricula = (matricula) => {
+    if (!matricula || matricula.trim() === "") {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Matrícula vacía',
+            text: 'Por favor, introduce una matrícula para buscar.',
+            showConfirmButton: true
+        });
+        return;
+    }
+
+    const matriculaBuscar = matricula.trim().toUpperCase();
+    const vehiculoEncontrado = vehiculos.value.find(
+        (v) => v.matricula?.toUpperCase() === matriculaBuscar
+    );
+
+    if (vehiculoEncontrado) {
+        editarVehiculo(vehiculoEncontrado);
+        Swal.fire({
+            icon: 'success',
+            title: 'Vehículo encontrado',
+            text: `Se ha cargado el vehículo con matrícula ${vehiculoEncontrado.matricula}`,
+            timer: 2000,
+            showConfirmButton: false
+        });
+    } else {
+        Swal.fire({
+            icon: 'info',
+            title: 'Vehículo no encontrado',
+            text: `No se encontró ningún vehículo con la matrícula ${matriculaBuscar}`,
+            showConfirmButton: true
+        });
+    }
+};
+
+const convertirMatriculaMayusculas = () => {
+    if (vehiculo.value.matricula) {
+        vehiculo.value.matricula = vehiculo.value.matricula.toUpperCase();
+    }
+};
+
+const generarAños = computed(() => {
+    const anioActual = new Date().getFullYear();
+    return Array.from({ length: 50 }, (_, i) => anioActual - i);
+});
+
 // Eliminar vehículo
 const eliminarVehiculo = async (id) => {
     const result = await Swal.fire({
@@ -689,6 +748,113 @@ const getEstadoClass = (estado) => {
     if (estadoLower === 'vendido') return 'bg-danger';
     if (estadoLower === 'reservado') return 'bg-warning';
     return 'bg-secondary';
+};
+
+const imprimirPDF = () => {
+    const doc = new jsPDF();
+
+    // Obtener fecha y hora actual
+    const ahora = new Date();
+    const fechaHora = ahora.toLocaleString("es-ES", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+
+    // Encabezado con título principal
+    doc.setFontSize(20);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(41, 128, 185); // Azul
+    doc.text("Listado de Vehículos", 105, 20, { align: "center" });
+
+    // Fecha y hora
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Generado: ${fechaHora}`, 105, 28, { align: "center" });
+
+    // Línea decorativa
+    doc.setDrawColor(41, 128, 185);
+    doc.setLineWidth(0.5);
+    doc.line(14, 32, 196, 32);
+
+    // Definir las columnas de la tabla
+    const headers = [
+        ["Matrícula", "Marca", "Modelo", "Estado", "Combustible", "Precio"],
+    ];
+
+    // Definir las filas de la tabla
+    const body = vehiculos.value.map((v) => [
+        v.matricula,
+        v.marca,
+        v.modelo,
+        v.estado,
+        v.combustible,
+        v.precio + " €",
+    ]);
+
+    // Generar la tabla con estilos mejorados
+    autoTable(doc, {
+        startY: 38,
+        head: headers,
+        body: body,
+        theme: "grid",
+        headStyles: {
+            fillColor: [41, 128, 185], // Azul
+            textColor: [255, 255, 255],
+            fontSize: 11,
+            fontStyle: "bold",
+            halign: "center",
+        },
+        bodyStyles: {
+            fontSize: 10,
+            cellPadding: 4,
+            halign: "center",
+        },
+        alternateRowStyles: {
+            fillColor: [245, 245, 245], // Gris claro para filas alternas
+        },
+        columnStyles: {
+            0: { fontStyle: "bold" },
+            1: { halign: "left" },
+            2: { halign: "left" },
+            // Matrícula en negrita
+            5: { halign: "right" },
+        },
+        styles: {
+            lineColor: [200, 200, 200],
+            lineWidth: 0.1,
+        },
+        margin: { left: 14, right: 14 },
+    });
+
+    // Pie de página
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(9);
+        doc.setTextColor(150, 150, 150);
+        doc.text(
+            `Página ${i} de ${pageCount}`,
+            105,
+            doc.internal.pageSize.height - 10,
+            { align: "center" }
+        );
+    }
+
+    // Guardar el PDF con fecha y hora española
+    const fechaArchivo = ahora.toLocaleString("es-ES", {
+        timeZone: "Europe/Madrid",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    }).replace(/[/:]/g, '-').replace(/,/g, '').replace(/ /g, '_');
+    doc.save(`listado_vehiculos_${fechaArchivo}.pdf`);
 };
 
 </script>
