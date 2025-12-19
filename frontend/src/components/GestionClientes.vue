@@ -1,6 +1,4 @@
 <template>
-
-
     <body>
         <div class="mx-auto mt-2 p-4 pb-5 border rounded-3 shadow-sm min-vh-75 bg-light">
             <div class="d-flex justify-content-center">
@@ -23,7 +21,7 @@
                         <input type="text" id="dni" v-model="nuevoCliente.dni" @blur="validarDni"
                             class="form-control w-auto" :class="{ 'is-invalid': !dniValido }" :disabled="editando"
                             required />
-                        <button type="button" @click="buscarClientePorDNI(nuevoCliente.dni)" :hidden="editando"
+                        <button type="button" @click="buscarClientePorDNI(nuevoCliente.dni)" :hidden="!isAdmin"
                             class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0" title="Buscar DNI"
                             aria-label="Buscar DNI">
                             <i class="bi bi-search"></i>
@@ -99,6 +97,14 @@
                             style="min-width: 120px;">Móvil:</label>
                         <input type="tel" id="movil" v-model="nuevoCliente.movil" @blur="validarMovil"
                             class="form-control flex-grow-1 text-center" :class="{ 'is-invalid': !movilValido }" />
+                        <button type="button" @click="buscarClientePorMovil(nuevoCliente.movil)" :hidden="!isAdmin"
+                            class="btn btn-primary btn-sm mx-2 border-0 shadow-none rounded-0" title="Buscar por móvil"
+                            aria-label="Buscar por móvil">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <div v-if="!movilValido" class="invalid-feedback">
+                            Móvil inválido (debe empezar por 6 o 7 y tener 9 dígitos).
+                        </div>
                     </div>
                 </div>
 
@@ -662,6 +668,62 @@ const buscarClientePorDNI = async (dni) => {
         });
     }
 }
+
+const buscarClientePorMovil = async (movil) => {
+    if (!movil || movil.trim() === '') {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Debe introducir un móvil antes de buscar.',
+            timer: 1500,
+            showConfirmButton: false
+        });
+        return;
+    }
+
+    try {
+        // Buscar el cliente en la lista local por móvil
+        const cliente = clientes.value.find(c => c.movil === movil.trim());
+
+        if (!cliente) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Cliente no encontrado',
+                text: 'No existe ningún cliente con ese móvil.',
+                timer: 1500,
+                showConfirmButton: false
+            });
+            return;
+        }
+
+        // ✅ Cargar los datos en el formulario
+        nuevoCliente.value = { ...cliente, password: "" };
+        nuevoCliente.value.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
+
+        // Actualiza lista de municipios si cambia la provincia
+        filtrarMunicipios();
+        nuevoCliente.value.municipio = cliente.municipio;
+
+        //opcional
+        editando.value = true;
+        clienteEditandoId.value = cliente.id;
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Cliente encontrado y cargado',
+            timer: 1500,
+            showConfirmButton: false
+        });
+    } catch (error) {
+        console.error('Error buscando cliente por móvil:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al buscar cliente',
+            text: 'Verifique la conexión o contacte con el administrador.',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    }
+}
 const vaciarFormulario = async () => {
     nuevoCliente.value = { ...clienteVacio };
     repetirPassword.value = "";
@@ -794,6 +856,7 @@ function formatearFechaParaInput(fecha) {
 
     return '';
 }
+/// TODO add report clientes
 
 </script>
 

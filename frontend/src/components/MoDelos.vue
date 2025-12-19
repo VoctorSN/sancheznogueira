@@ -519,6 +519,23 @@ const guardarVehiculo = async () => {
         return;
     }
 
+    // Validar que la matrícula no exista (solo al crear, no al editar)
+    if (!editando.value && vehiculo.value.matricula) {
+        const matriculaExiste = vehiculos.value.some(
+            v => v.matricula?.toUpperCase() === vehiculo.value.matricula.toUpperCase()
+        );
+        
+        if (matriculaExiste) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Matrícula duplicada',
+                text: 'Ya existe un vehículo con esta matrícula.',
+                showConfirmButton: true
+            });
+            return;
+        }
+    }
+
     try {
 
         const formData = new FormData();
@@ -661,6 +678,9 @@ const editarVehiculo = (vehiculoData) => {
     // Scroll al formulario
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
+
+///TODO fix que coja todos los campos al editar
+///TODO fix editar no funciona bien con la imagen ni con nada
 
 // Buscar vehículo por matrícula
 const buscarVehiculoPorMatricula = (matricula) => {
