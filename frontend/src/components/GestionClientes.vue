@@ -193,6 +193,8 @@
                         :disabled="!nuevoCliente.lopd">
                         {{ editando ? 'Modificar' : 'Grabar' }}
                     </button>
+                    <button v-if="isAdmin" class="btn btn-secondary rounded border shadow-none px-4 ms-2" @click="imprimirPDF"
+                        type="button"><i class="bi bi-printer"></i>Imprimir</button>
                 </div>
             </form>
             <!-- Lista de Clientes -->
@@ -265,6 +267,8 @@ import Swal from "sweetalert2";
 import { getClientes, deleteCliente, addCliente, updateCliente, getClientePorDni } from "@/api/clientes.js";
 import provmuniData from "@/data/provmuni.json";
 import { checkAdmin, loginUsuario, getDni } from "@/api/authApi.js";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import bcrypt from "bcryptjs";
 
 const router = useRouter();
@@ -856,7 +860,111 @@ function formatearFechaParaInput(fecha) {
 
     return '';
 }
-/// TODO add report clientes
+const imprimirPDF = () => {
+    const doc = new jsPDF();
+
+    // Obtener fecha y hora actual
+    const ahora = new Date();
+    const fechaHora = ahora.toLocaleString("es-ES", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+
+    // Encabezado con título principal
+    doc.setFontSize(20);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(41, 128, 185); // Azul
+    doc.text("Listado de Vehículos", 105, 20, { align: "center" });
+
+    // Fecha y hora
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Generado: ${fechaHora}`, 105, 28, { align: "center" });
+
+    // Línea decorativa
+    doc.setDrawColor(41, 128, 185);
+    doc.setLineWidth(0.5);
+    doc.line(14, 32, 196, 32);
+
+    // Definir las columnas de la tabla
+    const headers = [
+        ["DNI", "Nombre", "Email", "Provincia", "Municipio"],
+    ];
+
+    // Definir las filas de la tabla
+    const body = clientes.value.map((v) => [
+        v.dni,
+        v.nombre,
+        v.email,
+        v.provincia,
+        v.municipio,
+    ]);
+
+    // Generar la tabla con estilos mejorados
+    autoTable(doc, {
+        startY: 38,
+        head: headers,
+        body: body,
+        theme: "grid",
+        headStyles: {
+            fillColor: [41, 128, 185], // Azul
+            textColor: [255, 255, 255],
+            fontSize: 11,
+            fontStyle: "bold",
+            halign: "center",
+        },
+        bodyStyles: {
+            fontSize: 10,
+            cellPadding: 4,
+            halign: "center",
+        },
+        alternateRowStyles: {
+            fillColor: [245, 245, 245], // Gris claro para filas alternas
+        },
+        columnStyles: {
+            0: { fontStyle: "bold" },
+            1: { halign: "left" },
+            2: { halign: "left" },
+            // Matrícula en negrita
+            5: { halign: "right" },
+        },
+        styles: {
+            lineColor: [200, 200, 200],
+            lineWidth: 0.1,
+        },
+        margin: { left: 14, right: 14 },
+    });
+
+    // Pie de página
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(9);
+        doc.setTextColor(150, 150, 150);
+        doc.text(
+            `Página ${i} de ${pageCount}`,
+            105,
+            doc.internal.pageSize.height - 10,
+            { align: "center" }
+        );
+    }
+
+    // Guardar el PDF con fecha y hora española
+    const fechaArchivo = ahora.toLocaleString("es-ES", {
+        timeZone: "Europe/Madrid",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    }).replace(/[/:]/g, '-').replace(/,/g, '').replace(/ /g, '_');
+    doc.save(`listado_clientes_${fechaArchivo}.pdf`);
+};
 
 </script>
 
