@@ -80,7 +80,6 @@ export const checkAdmin = (req, res) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const isAdmin = decoded.tipo === "admin";
-        console.log(decoded);
         
         
         res.json({ 

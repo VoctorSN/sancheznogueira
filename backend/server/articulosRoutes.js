@@ -71,7 +71,76 @@ router.post("/", upload.single('imagen'), async (req, res) => {
     }
 });
 
+// Actualizar artículo con imagen
+router.put("/:id", upload.single('imagen'), async (req, res) => {
+    try {
+        if (!req.body.vehiculo) {
+            console.error("No se recibió el campo 'vehiculo'");
+            return res.status(400).json({ error: "Campo 'vehiculo' vacío" });
+        }
 
-// otras rutas PUT, DELETE, GET /:id igual
+        let datos;
+        try {
+            datos = JSON.parse(req.body.vehiculo);
+        } catch (e) {
+            console.error("Error parseando JSON:", e.message);
+            return res.status(400).json({ error: "JSON inválido en 'vehiculo'", detalle: e.message });
+        }
+
+        // Si hay nueva imagen, actualizar la ruta
+        if (req.file) {
+            datos.imagen = `/uploads/${req.file.filename}`;
+        }
+
+        // Actualizar el artículo por ID
+        const actualizado = await Articulo.findByIdAndUpdate(
+            req.params.id,
+            datos,
+            { new: true, runValidators: true }
+        );
+
+        if (!actualizado) {
+            return res.status(404).json({ error: "Artículo no encontrado" });
+        }
+
+        res.json(actualizado);
+
+    } catch (err) {
+        console.error("Error actualizando artículo:", err);
+        res.status(500).json({ error: err.message, stack: err.stack });
+    }
+});
+
+// Eliminar artículo
+router.delete("/:id", async (req, res) => {
+    try {
+        const eliminado = await Articulo.findByIdAndDelete(req.params.id);
+        
+        if (!eliminado) {
+            return res.status(404).json({ error: "Artículo no encontrado" });
+        }
+
+        res.json({ mensaje: "Artículo eliminado correctamente", articulo: eliminado });
+    } catch (err) {
+        console.error("Error eliminando artículo:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Obtener artículo por ID
+router.get("/:id", async (req, res) => {
+    try {
+        const articulo = await Articulo.findById(req.params.id);
+        
+        if (!articulo) {
+            return res.status(404).json({ error: "Artículo no encontrado" });
+        }
+
+        res.json(articulo);
+    } catch (err) {
+        console.error("Error obteniendo artículo:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
 
 export default router;

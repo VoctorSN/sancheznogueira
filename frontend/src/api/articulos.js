@@ -26,7 +26,16 @@ export const deleteArticulo = (id) => {
 }
 
 export const updateArticulo = (id, articuloActualizado) => {
-    return axios.put(`${API_URL}/${id}`, articuloActualizado)
-        .then(res => res.data)
+    console.log('📤 Enviando actualización para ID:', id);
+    console.log('📦 Datos a enviar:');
+    for (let [key, value] of articuloActualizado.entries()) {
+        console.log(`  ${key}:`, value);
+    }
+    
+    return axios.put(`${API_URL}/${id}`, articuloActualizado, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(res => res.data)
 }
 

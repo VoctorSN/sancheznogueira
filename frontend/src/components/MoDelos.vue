@@ -355,7 +355,7 @@ const municipios = ref(provmuniData.municipios);
 const municipiosFiltrados = ref([]);
 
 // Filtrar municipios según provincia seleccionada
-const filtrarCiudades = () => {
+const filtrarCiudades = (preservarCiudad = false) => {
     const nombreProv = vehiculo.value.ubicacion.provincia;
     const prov = provincias.value.find((p) => p.nm === nombreProv);
     if (!prov) {
@@ -366,7 +366,10 @@ const filtrarCiudades = () => {
     municipiosFiltrados.value = municipios.value.filter((m) =>
         m.id.startsWith(codigoProv)
     );
-    vehiculo.value.ubicacion.ciudad = "";
+    // Solo limpiar la ciudad si no estamos preservando
+    if (!preservarCiudad) {
+        vehiculo.value.ubicacion.ciudad = "";
+    }
 };
 
 const capitalizarTexto = (campo) => {
@@ -549,6 +552,13 @@ const guardarVehiculo = async () => {
         }
 
         formData.append('vehiculo', JSON.stringify(vehiculo.value));
+        
+        // Logs para depuración
+        console.log('📝 Datos del vehículo:', vehiculo.value);
+        console.log('📦 FormData entries:');
+        for (let [key, value] of formData.entries()) {
+            console.log(`  ${key}:`, value);
+        }
 
         if (editando.value) {
             // Modificar vehículo existente
@@ -676,15 +686,21 @@ const editarVehiculo = (vehiculoData) => {
     editando.value = true;
     vehiculoEditandoId.value = vehiculoData._id;
 
-    // Filtrar municipios según provincia
-    filtrarCiudades();
+    // Formatear fecha para el input type="date" (de ISO a YYYY-MM-DD)
+    if (vehiculoData.fecha_publicacion) {
+        const fecha = new Date(vehiculoData.fecha_publicacion);
+        const year = fecha.getFullYear();
+        const month = String(fecha.getMonth() + 1).padStart(2, '0');
+        const day = String(fecha.getDate()).padStart(2, '0');
+        vehiculo.value.fecha_publicacion = `${year}-${month}-${day}`;
+    }
+
+    // Filtrar municipios según provincia y preservar la ciudad
+    filtrarCiudades(true);
 
     // Scroll al formulario
     window.scrollTo({ top: 0, behavior: 'smooth' });
 };
-
-///TODO fix que coja todos los campos al editar
-///TODO fix editar no funciona bien con la imagen ni con nada
 
 // Buscar vehículo por matrícula
 const buscarVehiculoPorMatricula = (matricula) => {
