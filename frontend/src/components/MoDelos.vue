@@ -208,7 +208,7 @@
                     </button>
                     <button class="btn btn-primary rounded border shadow-none px-4  me-2" type="submit">{{ editando ?
                         "Modificar" : "Guardar" }}</button>
-                    <button class="btn btn-secondary rounded border shadow-none px-4" @click="imprimirPDF"
+                    <button v-if="isAdmin" class="btn btn-secondary rounded border shadow-none px-4" @click="imprimirPDF"
                         type="button"><i class="bi bi-printer"></i>Imprimir</button>
                     
                 </div>
@@ -276,10 +276,12 @@ import { addArticulo, getArticulos, updateArticulo, deleteArticulo } from "@/api
 import provmuniData from "@/data/provmuni.json"
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { checkAdmin } from "@/api/authApi.js";
 
 const vehiculos = ref([]);
 const currentPage = ref(1);
 const vehiculosPerPage = 10;
+const isAdmin = ref(false);
 
 const anioActual = new Date().getFullYear();
 const aniosPosibles = Array.from({ length: 50 }, (_, i) => anioActual - i);
@@ -316,6 +318,8 @@ const vehiculoEditandoId = ref(null);
 // Cargar vehículos al montar
 onMounted(async () => {
     await cargarVehiculos();
+    const adminCheck = await checkAdmin();
+    isAdmin.value = adminCheck.isAdmin;
 });
 
 const cargarVehiculos = async () => {
