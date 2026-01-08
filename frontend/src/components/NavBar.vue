@@ -37,6 +37,20 @@
         </ul>
       </div>
 
+      <!-- Formulario de búsqueda -->
+      <form v-if="isAdmin" @submit.prevent="realizarBusqueda" class="d-flex me-2">
+        <input 
+          v-model="terminoBusqueda" 
+          class="form-control me-2" 
+          type="search" 
+          placeholder="Buscar..." 
+          aria-label="Buscar"
+        />
+        <button class="btn btn-outline-light" type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+
       <div class="dropdown ms-auto">
         <span class="text-white" v-if="isLogueado">{{ userName }}</span>
 
@@ -62,12 +76,15 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { checkAdmin } from '@/api/authApi.js'
 
+const router = useRouter()
 const isLogueado = ref(false)
 const userName = ref('')
 const isAdmin = ref(false)
 const isMenuOpen = ref(false)
+const terminoBusqueda = ref('')
 
 onMounted(async () => {
   isLogueado.value = sessionStorage.getItem('token') !== null
@@ -87,6 +104,17 @@ function toggleMenu() {
     } else {
       navbarCollapse.classList.remove('show')
     }
+  }
+}
+
+function realizarBusqueda() {
+  if (terminoBusqueda.value.trim()) {
+    // Navegar programáticamente al componente BusCar con el término como query
+    router.push({
+      name: 'BusCar',
+      query: { q: terminoBusqueda.value }
+    })
+    terminoBusqueda.value = '' // Limpiar el input
   }
 }
 

@@ -10,6 +10,7 @@ import CitasTaller from "../components/CitasTaller.vue";
 import MoDelos from "../components/MoDelos.vue";
 import TablaLogin from "../components/TablaLogin.vue";
 import ContacTo from "../components/ContacTo.vue";
+import BusCar from "../components/BusCar.vue";
 
 const routes = [
     {
@@ -68,6 +69,11 @@ const routes = [
         path: '/politicaprivacidad',
         name: 'PoliticaPrivacidad',
         component: PoliticaPrivacidad
+    },
+    {
+        path: '/buscar',
+        name: 'BusCar',
+        component: BusCar
     },
     {
         path: '/:pathMatch(.*)*',
