@@ -38,7 +38,7 @@
       </div>
 
       <!-- Formulario de búsqueda -->
-      <form v-if="isAdmin" @submit.prevent="realizarBusqueda" class="d-flex me-2">
+      <form @submit.prevent="realizarBusqueda" class="d-flex me-2">
         <input 
           v-model="terminoBusqueda" 
           class="form-control me-2" 

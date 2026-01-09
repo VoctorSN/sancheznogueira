@@ -82,6 +82,7 @@
 import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
+import { checkAdmin } from '@/api/authApi.js'
 
 const route = useRoute()
 const searchTerm = ref('')
@@ -89,8 +90,26 @@ const clientes = ref([])
 const noticias = ref([])
 const articulos = ref([])
 
+const isLogueado = ref(false)
+const isAdmin = ref(false)
+
+
+const checkToken = async () => {
+  isLogueado.value = sessionStorage.getItem('token') !== null
+  
+  // Verificar si es admin mediante API
+  const adminCheck = await checkAdmin();
+  isAdmin.value = adminCheck.isAdmin;
+}
+
+
 // Función para buscar clientes
 const buscarClientes = async (termino) => {
+  
+  if(!isAdmin.value) {
+    clientes.value = []  // Limpiar resultados si no es admin
+    return
+  }
   try {
     const response = await axios.get(`http://localhost:3000/clientes`)
     // Filtramos localmente por nombre, apellidos, email o provincia
@@ -121,6 +140,10 @@ const buscarNoticias = async (termino) => {
 
 // Función para buscar artículos desde el BACKEND (MongoDB)
 const buscarArticulos = async (termino) => {
+  if (!isLogueado.value) {
+    clientes.value = []  // Limpiar resultados si no es admin
+    return
+  }
   try {
     // Búsqueda profesional: delegamos el filtrado al backend
     const response = await axios.get(`http://localhost:5000/api/articulos/buscar?q=${termino}`)
@@ -134,6 +157,7 @@ const buscarArticulos = async (termino) => {
 const realizarBusqueda = async () => {
   searchTerm.value = route.query.q || ''
   if (searchTerm.value) {
+    await checkToken()
     await buscarClientes(searchTerm.value)
     await buscarNoticias(searchTerm.value)
     await buscarArticulos(searchTerm.value)
