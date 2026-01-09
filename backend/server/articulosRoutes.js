@@ -41,6 +41,32 @@ router.get("/", async (req, res) => {
     res.json(articulos);
 });
 
+// Ruta de búsqueda de artículos por marca, modelo o descripción
+// IMPORTANTE: Esta ruta debe estar ANTES de "/:id" para evitar que "buscar" se interprete como un ID
+router.get("/buscar", async (req, res) => {
+    try {
+        const { q } = req.query;
+        
+        if (!q) {
+            return res.status(400).json({ error: "Parámetro de búsqueda 'q' es requerido" });
+        }
+
+        // Buscar en MongoDB usando expresiones regulares (case insensitive)
+        const articulos = await Articulo.find({
+            $or: [
+                { marca: { $regex: q, $options: 'i' } },
+                { modelo: { $regex: q, $options: 'i' } },
+                { descripcion: { $regex: q, $options: 'i' } }
+            ]
+        });
+
+        res.json(articulos);
+    } catch (err) {
+        console.error("Error en búsqueda de artículos:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Guardar artículo con imagen
 router.post("/", upload.single('imagen'), async (req, res) => {
     try {

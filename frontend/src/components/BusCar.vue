@@ -46,8 +46,31 @@
       </div>
     </div>
 
+    <!-- Resultados de Artículos -->
+    <div v-if="articulos.length > 0" class="mt-4">
+      <h3>Artículos (Vehículos)</h3>
+      <div class="row">
+        <div v-for="articulo in articulos" :key="articulo._id" class="col-md-4 mb-3">
+          <div class="card">
+            <img v-if="articulo.imagen" :src="`http://localhost:5000${articulo.imagen}`" class="card-img-top" alt="Imagen vehículo">
+            <img v-else src="/no-image.png" class="card-img-top" alt="Sin imagen">
+            <div class="card-body">
+              <h5 class="card-title">{{ articulo.marca }} {{ articulo.modelo }}</h5>
+              <p class="card-text">
+                <strong>Año:</strong> {{ articulo.anio }}<br>
+                <strong>Precio:</strong> {{ articulo.precio }}€<br>
+                <strong>Combustible:</strong> {{ articulo.combustible }}<br>
+                <strong>Descripción:</strong> {{ articulo.descripcion }}
+              </p>
+              <span class="badge bg-success">{{ articulo.estado }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Sin resultados -->
-    <div v-if="clientes.length === 0 && noticias.length === 0" class="mt-4">
+    <div v-if="clientes.length === 0 && noticias.length === 0 && articulos.length === 0" class="mt-4">
       <div class="alert alert-info">
         No se encontraron resultados para "{{ searchTerm }}"
       </div>
@@ -64,6 +87,7 @@ const route = useRoute()
 const searchTerm = ref('')
 const clientes = ref([])
 const noticias = ref([])
+const articulos = ref([])
 
 // Función para buscar clientes
 const buscarClientes = async (termino) => {
@@ -95,12 +119,24 @@ const buscarNoticias = async (termino) => {
   }
 }
 
+// Función para buscar artículos desde el BACKEND (MongoDB)
+const buscarArticulos = async (termino) => {
+  try {
+    // Búsqueda profesional: delegamos el filtrado al backend
+    const response = await axios.get(`http://localhost:5000/api/articulos/buscar?q=${termino}`)
+    articulos.value = response.data
+  } catch (error) {
+    console.error('Error al buscar artículos:', error)
+  }
+}
+
 // Función principal de búsqueda
 const realizarBusqueda = async () => {
   searchTerm.value = route.query.q || ''
   if (searchTerm.value) {
     await buscarClientes(searchTerm.value)
     await buscarNoticias(searchTerm.value)
+    await buscarArticulos(searchTerm.value)
   }
 }
 
