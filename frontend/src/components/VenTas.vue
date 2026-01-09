@@ -32,6 +32,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <img :src="urlImagen(vehiculoSeleccionado.imagen)" class="img-fluid rounded" alt="vehiculo">
+                        <p class="info-description mx-3">{{ vehiculoSeleccionado.descripcion }}</p>
                     </div>
                     
                     <div class="col-md-6">
@@ -78,11 +79,6 @@
                             <div class="info-row">
                                 <span class="info-label"><i class="bi bi-currency-euro me-2"></i>Precio:</span>
                                 <span class="info-value fw-bold text-primary fs-5">{{ vehiculoSeleccionado.precio.toLocaleString() }}€</span>
-                            </div>
-                            
-                            <div class="info-row" v-if="vehiculoSeleccionado.descripcion">
-                                <span class="info-label"><i class="bi bi-info-circle me-2"></i>Descripción:</span>
-                                <p class="info-description">{{ vehiculoSeleccionado.descripcion }}</p>
                             </div>
                             
                             <div class="contacto-info mt-4 p-3 bg-light rounded" v-if="vehiculoSeleccionado.contacto">
