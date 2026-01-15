@@ -13,6 +13,7 @@ import articulosRoutes from "./articulosRoutes.js"; // ruta al router backend
 import authRoutes from "./authRoutes.js"; // ruta al router backend
 import contactoRoutes from "./contactoRoutes.js"; // ruta al router backend
 import chatRoutes from "./chatRoutes.js"; // ruta al router del chat de Gemini
+import paypalRoutes from "./paypalRoutes.js"; // ruta al router de PayPal
 
 dotenv.config();
 const app = express();
@@ -41,6 +42,7 @@ app.use("/api/articulos", articulosRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/contacto", contactoRoutes);
 app.use("/api/chat", chatRoutes); // Ruta del chat con Gemini
+app.use("/api/paypal", paypalRoutes); // Ruta de PayPal
 
 // Verificar variable
 //console.log("MONGODB_URI =", process.env.MONGODB_URI);
