@@ -17,7 +17,11 @@
 
                     <div class="card-footer text-end bg-white">
                         <span class="badge" :class="getEstadoClass(car.estado)">{{ car.estado }}</span>
+                        <div class="btn badge btn-sm btn-primary ms-2" @click.stop="agregarACesta(car)"><i
+                                class="bi bi-cart3 me-1"></i>Añadir Cesta
+                        </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -28,66 +32,70 @@
                 <button class="btn-close-modal" @click="cerrarDetalles">
                     <i class="bi bi-x-lg"></i>
                 </button>
-                
+
                 <div class="row">
                     <div class="col-md-6">
                         <img :src="urlImagen(vehiculoSeleccionado.imagen)" class="img-fluid rounded" alt="vehiculo">
                         <p class="info-description mx-3">{{ vehiculoSeleccionado.descripcion }}</p>
                     </div>
-                    
+
                     <div class="col-md-6">
                         <h2 class="mb-3">{{ vehiculoSeleccionado.marca }} {{ vehiculoSeleccionado.modelo }}</h2>
-                        
+
                         <div class="detalle-info">
                             <div class="info-row">
                                 <span class="info-label"><i class="bi bi-calendar3 me-2"></i>Año:</span>
                                 <span class="info-value">{{ vehiculoSeleccionado.anio }}</span>
                             </div>
-                            
+
                             <div class="info-row">
                                 <span class="info-label"><i class="bi bi-speedometer2 me-2"></i>Kilómetros:</span>
-                                <span class="info-value">{{ vehiculoSeleccionado.kilometros.toLocaleString() }} km</span>
+                                <span class="info-value">{{ vehiculoSeleccionado.kilometros.toLocaleString() }}
+                                    km</span>
                             </div>
-                            
+
                             <div class="info-row">
                                 <span class="info-label"><i class="bi bi-fuel-pump me-2"></i>Combustible:</span>
                                 <span class="info-value">{{ vehiculoSeleccionado.combustible }}</span>
                             </div>
-                            
+
                             <div class="info-row">
                                 <span class="info-label"><i class="bi bi-gear me-2"></i>Transmisión:</span>
                                 <span class="info-value">{{ vehiculoSeleccionado.transmision }}</span>
                             </div>
-                            
+
                             <div class="info-row" v-if="vehiculoSeleccionado.potencia_cv">
                                 <span class="info-label"><i class="bi bi-lightning me-2"></i>Potencia:</span>
                                 <span class="info-value">{{ vehiculoSeleccionado.potencia_cv }} CV</span>
                             </div>
-                            
+
                             <div class="info-row" v-if="vehiculoSeleccionado.matricula">
                                 <span class="info-label"><i class="bi bi-credit-card-2-front me-2"></i>Matrícula:</span>
                                 <span class="info-value">{{ vehiculoSeleccionado.matricula }}</span>
                             </div>
-                            
+
                             <div class="info-row">
                                 <span class="info-label"><i class="bi bi-tag me-2"></i>Estado:</span>
                                 <span class="badge" :class="getEstadoClass(vehiculoSeleccionado.estado)">
                                     {{ vehiculoSeleccionado.estado }}
                                 </span>
                             </div>
-                            
+
                             <div class="info-row">
                                 <span class="info-label"><i class="bi bi-currency-euro me-2"></i>Precio:</span>
-                                <span class="info-value fw-bold text-primary fs-5">{{ vehiculoSeleccionado.precio.toLocaleString() }}€</span>
+                                <span class="info-value fw-bold text-primary fs-5">{{
+                                    vehiculoSeleccionado.precio.toLocaleString() }}€</span>
                             </div>
-                            
+
                             <div class="contacto-info mt-4 p-3 bg-light rounded" v-if="vehiculoSeleccionado.contacto">
                                 <h5 class="mb-3"><i class="bi bi-person-circle me-2"></i>Información de Contacto</h5>
                                 <p class="mb-1"><strong>Nombre:</strong> {{ vehiculoSeleccionado.contacto.nombre }}</p>
-                                <p class="mb-1"><strong>Teléfono:</strong> {{ vehiculoSeleccionado.contacto.telefono }}</p>
+                                <p class="mb-1"><strong>Teléfono:</strong> {{ vehiculoSeleccionado.contacto.telefono }}
+                                </p>
                                 <p class="mb-1"><strong>Email:</strong> {{ vehiculoSeleccionado.contacto.email }}</p>
                                 <p class="mb-0" v-if="vehiculoSeleccionado.ubicacion">
-                                    <strong>Ubicación:</strong> {{ vehiculoSeleccionado.ubicacion.ciudad }}, {{ vehiculoSeleccionado.ubicacion.provincia }}
+                                    <strong>Ubicación:</strong> {{ vehiculoSeleccionado.ubicacion.ciudad }}, {{
+                                        vehiculoSeleccionado.ubicacion.provincia }}
                                 </p>
                             </div>
                         </div>
@@ -101,6 +109,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { getArticulos } from "@/api/articulos.js";
+import { useCestaStore } from "../store/cesta";
+
+const cestaStore = useCestaStore();
 
 const vehiculos = ref([]);
 const vehiculoSeleccionado = ref(null);
@@ -110,8 +121,8 @@ onMounted(async () => {
 });
 
 const urlImagen = (ruta) => {
-    
-    if (!ruta) return "/no-image.png";    
+
+    if (!ruta) return "/no-image.png";
     return `http://localhost:5000${ruta}`
 };
 
@@ -129,6 +140,15 @@ const mostrarDetalles = (vehiculo) => {
 
 const cerrarDetalles = () => {
     vehiculoSeleccionado.value = null;
+};
+
+const agregarACesta = (vehiculo) => {
+    cestaStore.addProducto({
+        id: vehiculo._id,
+        nombre: `${vehiculo.marca} ${vehiculo.modelo}`,
+        precio: vehiculo.precio,
+        imagen: urlImagen(vehiculo.imagen)
+    });
 };
 
 </script>
@@ -176,6 +196,7 @@ const cerrarDetalles = () => {
         opacity: 0;
         transform: scale(0.9);
     }
+
     to {
         opacity: 1;
         transform: scale(1);

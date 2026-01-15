@@ -1,12 +1,12 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
-    <div class="container-fluid">
+    <div class="container-fluid justify-content-around">
       <!-- Marca o logo -->
       <a class="navbar-brand" href="#"><img class="logo" src="@/assets/logo.svg" alt="logo" /></a>
 
       <!-- Botón de hamburguesa en pantallas pequeñas -->
-      <button class="navbar-toggler" type="button" @click="toggleMenu"
-        aria-controls="navbarNav" :aria-expanded="isMenuOpen" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" @click="toggleMenu" aria-controls="navbarNav"
+        :aria-expanded="isMenuOpen" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -37,20 +37,20 @@
         </ul>
       </div>
 
+      
       <!-- Formulario de búsqueda -->
-      <form @submit.prevent="realizarBusqueda" class="d-flex me-2">
-        <input 
-          v-model="terminoBusqueda" 
-          class="form-control me-2" 
-          type="search" 
-          placeholder="Buscar..." 
-          aria-label="Buscar"
-        />
+      <form @submit.prevent="realizarBusqueda" class="d-flex me-4 ">
+        <input v-model="terminoBusqueda" class="form-control me-2" type="search" placeholder="Buscar..."
+        aria-label="Buscar" />
         <button class="btn btn-outline-light" type="submit">
           <i class="bi bi-search"></i>
         </button>
       </form>
-
+      
+      <router-link class="btn btn-primary position-relative ms-3 me-2" to="/cesta"><i class="bi bi-cart"></i><span v-if="cestaStore.totalItems > 0"
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          {{ cestaStore.totalItems }}
+        </span></router-link>
       <div class="dropdown ms-auto">
         <span class="text-white" v-if="isLogueado">{{ userName }}</span>
 
@@ -69,7 +69,7 @@
           <li v-if="isLogueado"><router-link class="dropdown-item" to="/clientes">Perfil</router-link></li>
         </ul>
       </div>
-      
+
     </div>
   </nav>
 </template>
@@ -78,6 +78,10 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { checkAdmin } from '@/api/authApi.js'
+
+import { useCestaStore } from '../store/cesta'
+
+const cestaStore = useCestaStore()
 
 const router = useRouter()
 const isLogueado = ref(false)
@@ -88,9 +92,9 @@ const terminoBusqueda = ref('')
 
 onMounted(async () => {
   isLogueado.value = sessionStorage.getItem('token') !== null
-  
+
   // Verificar si es admin mediante API
-  const adminCheck = await checkAdmin();  
+  const adminCheck = await checkAdmin();
   isAdmin.value = adminCheck.isAdmin;
   userName.value = adminCheck.name;
 })
