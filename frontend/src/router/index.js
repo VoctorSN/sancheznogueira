@@ -12,6 +12,8 @@ import TablaLogin from "../components/TablaLogin.vue";
 import ContacTo from "../components/ContacTo.vue";
 import BusCar from "../components/BusCar.vue";
 import CesTa from "../components/CesTa.vue";
+import PaymentSuccess from "../components/PaymentSuccess.vue";
+import PaymentCancel from "../components/PaymentCancel.vue";
 
 const routes = [
     {
@@ -80,6 +82,16 @@ const routes = [
         path: '/buscar',
         name: 'BusCar',
         component: BusCar
+    },
+    {
+        path: '/success',
+        name: 'PaymentSuccess',
+        component: PaymentSuccess
+    },
+    {
+        path: '/cancel',
+        name: 'PaymentCancel',
+        component: PaymentCancel
     },
     {
         path: '/:pathMatch(.*)*',

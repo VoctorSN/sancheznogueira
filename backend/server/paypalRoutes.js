@@ -70,7 +70,7 @@ router.post("/create-order", async (req, res) => {
           cancelUrl: "http://localhost:5173/cancel",
           brandName: "Sanchez Nogueira Motors",
           userAction: "PAY_NOW",
-          landingPage: "GUEST_CHECKOUT",
+          landingPage: "BILLING",
           shippingPreference: "NO_SHIPPING"
         }
       },

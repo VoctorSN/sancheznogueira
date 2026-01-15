@@ -60,9 +60,11 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useCestaStore } from '@/store/cesta.js'
 import { crearOrdenPayPal, capturarOrdenPayPal, obtenerConfigPayPal } from '@/api/paypal.js'
 
+const router = useRouter()
 const cesta = useCestaStore()
 const mostrarPayPal = ref(false)
 const procesando = ref(false)
@@ -148,16 +150,13 @@ const renderizarBotonesPayPal = async () => {
         const captureData = await capturarOrdenPayPal(data.orderID)
         
         if (captureData.status === 'COMPLETED') {
-          mensaje.value = '¡Pago realizado con éxito! Gracias por tu compra.'
-          mensajeTipo.value = 'success'
-          
           // Vaciar la cesta después de un pago exitoso
-          setTimeout(() => {
-            cesta.items.forEach(item => {
-              cesta.removeProducto(item.id)
-            })
-            mostrarPayPal.value = false
-          }, 2000)
+          cesta.items.forEach(item => {
+            cesta.removeProducto(item.id)
+          })
+          
+          // Redirigir a la página de éxito
+          router.push('/success')
         } else {
           mensaje.value = 'El pago no se completó correctamente'
           mensajeTipo.value = 'error'
@@ -173,9 +172,8 @@ const renderizarBotonesPayPal = async () => {
 
     // Cancelar pago
     onCancel: (data) => {
-      mensaje.value = 'Pago cancelado'
-      mensajeTipo.value = 'error'
-      procesando.value = false
+      // Redirigir a la página de cancelación
+      router.push('/cancel')
     },
 
     // Error en el pago
