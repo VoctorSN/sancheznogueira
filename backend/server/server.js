@@ -15,6 +15,7 @@ import contactoRoutes from "./contactoRoutes.js"; // ruta al router backend
 import chatRoutes from "./chatRoutes.js"; // ruta al router del chat de Gemini
 import paypalRoutes from "./paypalRoutes.js"; // ruta al router de PayPal
 import stripeRoutes from "./stripeRoutes.js"; // ruta al router de Stripe
+import facturasRoutes from "./facturasRoutes.js"; // ruta al router de Facturas
 
 dotenv.config();
 const app = express();
@@ -45,14 +46,30 @@ app.use("/api/contacto", contactoRoutes);
 app.use("/api/chat", chatRoutes); // Ruta del chat con Gemini
 app.use("/api/paypal", paypalRoutes); // Ruta de PayPal
 app.use("/api/stripe", stripeRoutes); // Ruta de Stripe
+app.use("/api/facturas", facturasRoutes); // Ruta de Facturas
 
 // Verificar variable
 //console.log("MONGODB_URI =", process.env.MONGODB_URI);
 
 /// Conexión a MongoDB 
 mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log("Connected to MongoDB a la base de datos BBDD"))
-    .catch((err) => console.error("Could not connect to MongoDB:", err));
+    .then(() => {
+        console.log("✅ Connected to MongoDB a la base de datos BBDD");
+        console.log("📊 Base de datos:", mongoose.connection.db.databaseName);
+    })
+    .catch((err) => {
+        console.error("❌ Could not connect to MongoDB:", err);
+        console.error("Verifica que MongoDB esté corriendo: mongod --dbpath C:\\mongodb\\data");
+    });
+
+// Log cuando la conexión se pierde
+mongoose.connection.on('disconnected', () => {
+    console.error('⚠️ MongoDB desconectado');
+});
+
+mongoose.connection.on('error', (err) => {
+    console.error('❌ Error de MongoDB:', err);
+});
 
 
 

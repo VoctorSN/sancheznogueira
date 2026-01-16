@@ -2,6 +2,7 @@ import express from "express";
 import pkg from "@paypal/paypal-server-sdk";
 const { Client, Environment, LogLevel, OrdersController } = pkg;
 import dotenv from "dotenv";
+import Factura from "../model/Factura.js";
 
 dotenv.config();
 
@@ -95,7 +96,7 @@ router.post("/create-order", async (req, res) => {
 // Capturar pago
 router.post("/capture-order", async (req, res) => {
   try {
-    const { orderID } = req.body;
+    const { orderID, items, total } = req.body;
 
     if (!orderID) {
       return res.status(400).json({ error: "Falta orderID" });
@@ -107,6 +108,44 @@ router.post("/capture-order", async (req, res) => {
     };
 
     const response = await ordersController.captureOrder(collect);
+
+    // Si el pago fue exitoso, guardar la factura en MongoDB
+    if (response.result.status === 'COMPLETED') {
+      try {
+        console.log('💾 Intentando guardar factura en MongoDB...');
+        console.log('Items recibidos:', items);
+        console.log('Total:', total);
+        
+        const factura = new Factura({
+          items: items.map(item => ({
+            productoId: item.id || item.productoId,
+            nombre: item.nombre,
+            precio: item.precio,
+            cantidad: item.cantidad,
+            total: item.precio * item.cantidad
+          })),
+          totalFactura: total,
+          fecha: new Date(),
+          metodoPago: 'paypal',
+          estadoPago: 'completado',
+          transaccionId: orderID,
+          cliente: {
+            email: response.result.payer?.email_address,
+            nombre: response.result.payer?.name?.given_name + ' ' + response.result.payer?.name?.surname
+          }
+        });
+
+        const facturaGuardada = await factura.save();
+        console.log('✅ Factura guardada exitosamente:', facturaGuardada._id);
+      } catch (dbError) {
+        console.error('❌ Error al guardar factura en MongoDB:', dbError);
+        console.error('Detalles del error:', dbError.message);
+        console.error('Stack:', dbError.stack);
+        // No detenemos la respuesta aunque falle el guardado
+      }
+    } else {
+      console.log('⚠️ Pago no completado, estado:', response.result.status);
+    }
 
     res.json({
       id: response.result.id,

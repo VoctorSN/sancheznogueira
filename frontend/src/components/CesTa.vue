@@ -211,7 +211,11 @@ const renderizarBotonesPayPal = async () => {
         mensaje.value = 'Procesando pago...'
         mensajeTipo.value = 'success'
         
-        const captureData = await capturarOrdenPayPal(data.orderID)
+        const captureData = await capturarOrdenPayPal(
+          data.orderID, 
+          cesta.items, 
+          cesta.totalPrecio
+        )
         
         if (captureData.status === 'COMPLETED') {
           // Vaciar la cesta después de un pago exitoso

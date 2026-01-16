@@ -1,0 +1,75 @@
+import express from 'express';
+import Factura from '../model/Factura.js';
+
+const router = express.Router();
+
+// Obtener todas las facturas
+router.get('/', async (req, res) => {
+  try {
+    const facturas = await Factura.find().sort({ fecha: -1 });
+    res.json(facturas);
+  } catch (error) {
+    console.error('Error al obtener facturas:', error);
+    res.status(500).json({ 
+      error: 'Error al obtener facturas',
+      details: error.message 
+    });
+  }
+});
+
+// Obtener una factura por ID
+router.get('/:id', async (req, res) => {
+  try {
+    const factura = await Factura.findById(req.params.id);
+    
+    if (!factura) {
+      return res.status(404).json({ error: 'Factura no encontrada' });
+    }
+    
+    res.json(factura);
+  } catch (error) {
+    console.error('Error al obtener factura:', error);
+    res.status(500).json({ 
+      error: 'Error al obtener factura',
+      details: error.message 
+    });
+  }
+});
+
+// Obtener facturas por email de cliente
+router.get('/cliente/:email', async (req, res) => {
+  try {
+    const facturas = await Factura.find({ 
+      'cliente.email': req.params.email 
+    }).sort({ fecha: -1 });
+    
+    res.json(facturas);
+  } catch (error) {
+    console.error('Error al obtener facturas del cliente:', error);
+    res.status(500).json({ 
+      error: 'Error al obtener facturas del cliente',
+      details: error.message 
+    });
+  }
+});
+
+// Eliminar una factura
+router.delete('/:id', async (req, res) => {
+  try {
+    const factura = await Factura.findByIdAndDelete(req.params.id);
+    
+    if (!factura) {
+      return res.status(404).json({ error: 'Factura no encontrada' });
+    }
+    
+    res.json({ message: 'Factura eliminada correctamente', factura });
+  } catch (error) {
+    console.error('Error al eliminar factura:', error);
+    res.status(500).json({ 
+      error: 'Error al eliminar factura',
+      details: error.message 
+    });
+  }
+});
+
+export default router;

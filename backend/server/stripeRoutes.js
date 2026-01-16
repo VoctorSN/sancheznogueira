@@ -1,5 +1,6 @@
 import express from 'express'
 import Stripe from 'stripe'
+import Factura from '../model/Factura.js'
 
 const router = express.Router()
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
@@ -42,7 +43,7 @@ router.post('/create-checkout-session', async (req, res) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `http://localhost:5000/api/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/cancel`,
       metadata: {
         total: total.toString()
@@ -62,12 +63,134 @@ router.post('/create-checkout-session', async (req, res) => {
   }
 })
 
-// Verificar el pago
+// Endpoint de éxito que verifica, guarda y redirecciona
+router.get('/success', async (req, res) => {
+  try {
+    const { session_id } = req.query;
+
+    if (!session_id) {
+      return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/cancel`);
+    }
+
+    console.log('💾 Stripe success callback, sessionId:', session_id);
+
+    const session = await stripe.checkout.sessions.retrieve(session_id, {
+      expand: ['line_items']
+    });
+
+    console.log('Estado del pago:', session.payment_status);
+
+    // Si el pago fue exitoso, guardar la factura en MongoDB
+    if (session.payment_status === 'paid') {
+      try {
+        console.log('💾 Intentando guardar factura de Stripe en MongoDB...');
+        
+        // Verificar si ya existe una factura con esta transacción
+        const facturaExistente = await Factura.findOne({ transaccionId: session_id });
+        
+        if (facturaExistente) {
+          console.log('⚠️ La factura ya existe:', facturaExistente._id);
+        } else {
+          const items = session.line_items.data.map(item => ({
+            productoId: item.price.product,
+            nombre: item.description || 'Producto',
+            precio: item.price.unit_amount / 100,
+            cantidad: item.quantity,
+            total: (item.price.unit_amount / 100) * item.quantity
+          }));
+
+          console.log('Items procesados:', items);
+
+          const factura = new Factura({
+            items: items,
+            totalFactura: session.amount_total / 100,
+            fecha: new Date(),
+            metodoPago: 'stripe',
+            estadoPago: 'completado',
+            transaccionId: session_id,
+            cliente: {
+              email: session.customer_details?.email,
+              nombre: session.customer_details?.name
+            }
+          });
+
+          const facturaGuardada = await factura.save();
+          console.log('✅ Factura de Stripe guardada exitosamente:', facturaGuardada._id);
+        }
+      } catch (dbError) {
+        console.error('❌ Error al guardar factura de Stripe en MongoDB:', dbError);
+        console.error('Detalles del error:', dbError.message);
+      }
+    } else {
+      console.log('⚠️ Pago de Stripe no completado, estado:', session.payment_status);
+    }
+
+    // Redirigir al frontend
+    res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/success`);
+  } catch (error) {
+    console.error('❌ Error en callback de éxito de Stripe:', error);
+    res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/cancel`);
+  }
+});
+
+// Verificar el pago (endpoint legacy para uso manual si es necesario)
 router.get('/verify-payment/:sessionId', async (req, res) => {
   try {
     const { sessionId } = req.params
+    console.log('💾 Verificando pago de Stripe, sessionId:', sessionId);
 
-    const session = await stripe.checkout.sessions.retrieve(sessionId)
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items']
+    })
+
+    console.log('Estado del pago:', session.payment_status);
+
+    // Si el pago fue exitoso, guardar la factura en MongoDB
+    if (session.payment_status === 'paid') {
+      try {
+        console.log('💾 Intentando guardar factura de Stripe en MongoDB...');
+        
+        // Verificar si ya existe una factura con esta transacción
+        const facturaExistente = await Factura.findOne({ transaccionId: sessionId });
+        
+        if (facturaExistente) {
+          console.log('⚠️ La factura ya existe:', facturaExistente._id);
+        } else {
+          const items = session.line_items.data.map(item => ({
+            productoId: item.price.product,
+            nombre: item.description || 'Producto',
+            precio: item.price.unit_amount / 100,
+            cantidad: item.quantity,
+            total: (item.price.unit_amount / 100) * item.quantity
+          }));
+
+          console.log('Items procesados:', items);
+
+          const factura = new Factura({
+            items: items,
+            totalFactura: session.amount_total / 100,
+            fecha: new Date(),
+            metodoPago: 'stripe',
+            estadoPago: 'completado',
+            transaccionId: sessionId,
+            cliente: {
+              email: session.customer_details?.email,
+              nombre: session.customer_details?.name
+            }
+          });
+
+          const facturaGuardada = await factura.save();
+          console.log('✅ Factura de Stripe guardada exitosamente:', facturaGuardada._id);
+        }
+      } catch (dbError) {
+        console.error('❌ Error al guardar factura de Stripe en MongoDB:', dbError);
+        console.error('Detalles del error:', dbError.message);
+        console.error('Stack:', dbError.stack);
+        // No detenemos la respuesta aunque falle el guardado
+      }
+    } else {
+      console.log('⚠️ Pago de Stripe no completado, estado:', session.payment_status);
+    }
 
     res.json({
       status: session.payment_status,
