@@ -87,6 +87,16 @@
               <div id="paypal-button-container"></div>
             </div>
 
+            <!-- Botón para pagar con Stripe -->
+            <button 
+              class="btn btn-success w-100 mb-3" 
+              @click="pagarConStripe"
+              :disabled="procesando"
+            >
+              <i class="bi bi-credit-card me-2"></i>
+              Pagar con Tarjeta (Stripe)
+            </button>
+
             <!-- Mensaje de estado -->
             <div v-if="mensaje" :class="['alert', mensajeTipo === 'success' ? 'alert-success' : 'alert-danger']">
               {{ mensaje }}
@@ -115,6 +125,7 @@ import { ref, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCestaStore } from '@/store/cesta.js'
 import { crearOrdenPayPal, capturarOrdenPayPal, obtenerConfigPayPal } from '@/api/paypal.js'
+import { crearSesionStripe, obtenerConfigStripe } from '@/api/stripe.js'
 
 const router = useRouter()
 const cesta = useCestaStore()
@@ -123,6 +134,7 @@ const procesando = ref(false)
 const mensaje = ref('')
 const mensajeTipo = ref('success')
 const paypalClientId = ref('')
+const stripePublishableKey = ref('')
 
 const incrementar = (id) => cesta.incrementar(id)
 const decrementar = (id) => cesta.decrementar(id)
@@ -248,13 +260,38 @@ watch(mostrarPayPal, async (nuevoValor) => {
   }
 })
 
+// Función para pagar con Stripe
+const pagarConStripe = async () => {
+  try {
+    procesando.value = true
+    mensaje.value = 'Redirigiendo a Stripe...'
+    mensajeTipo.value = 'success'
+
+    // Crear sesión de checkout en el backend
+    const { url } = await crearSesionStripe(cesta.items, cesta.totalPrecio)
+    
+    // Redirigir al checkout de Stripe
+    window.location.href = url
+  } catch (error) {
+    console.error('Error al iniciar pago con Stripe:', error)
+    mensaje.value = 'Error al procesar el pago con Stripe'
+    mensajeTipo.value = 'error'
+    procesando.value = false
+  }
+}
+
 onMounted(async () => {
   try {
-    const config = await obtenerConfigPayPal()
-    paypalClientId.value = config.clientId
+    // Cargar configuración de PayPal
+    const configPayPal = await obtenerConfigPayPal()
+    paypalClientId.value = configPayPal.clientId
+    
+    // Cargar configuración de Stripe
+    const configStripe = await obtenerConfigStripe()
+    stripePublishableKey.value = configStripe.publishableKey
   } catch (error) {
-    console.error('Error al obtener configuración de PayPal:', error)
-    mensaje.value = 'Error al configurar PayPal'
+    console.error('Error al obtener configuración de pasarelas de pago:', error)
+    mensaje.value = 'Error al configurar métodos de pago'
     mensajeTipo.value = 'error'
   }
 })

@@ -14,6 +14,7 @@ import authRoutes from "./authRoutes.js"; // ruta al router backend
 import contactoRoutes from "./contactoRoutes.js"; // ruta al router backend
 import chatRoutes from "./chatRoutes.js"; // ruta al router del chat de Gemini
 import paypalRoutes from "./paypalRoutes.js"; // ruta al router de PayPal
+import stripeRoutes from "./stripeRoutes.js"; // ruta al router de Stripe
 
 dotenv.config();
 const app = express();
@@ -43,6 +44,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/contacto", contactoRoutes);
 app.use("/api/chat", chatRoutes); // Ruta del chat con Gemini
 app.use("/api/paypal", paypalRoutes); // Ruta de PayPal
+app.use("/api/stripe", stripeRoutes); // Ruta de Stripe
 
 // Verificar variable
 //console.log("MONGODB_URI =", process.env.MONGODB_URI);
