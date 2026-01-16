@@ -552,13 +552,6 @@ const guardarVehiculo = async () => {
         }
 
         formData.append('vehiculo', JSON.stringify(vehiculo.value));
-        
-        // Logs para depuración
-        console.log('📝 Datos del vehículo:', vehiculo.value);
-        console.log('📦 FormData entries:');
-        for (let [key, value] of formData.entries()) {
-            console.log(`  ${key}:`, value);
-        }
 
         if (editando.value) {
             // Modificar vehículo existente

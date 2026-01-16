@@ -26,11 +26,6 @@ export const deleteArticulo = (id) => {
 }
 
 export const updateArticulo = (id, articuloActualizado) => {
-    console.log('📤 Enviando actualización para ID:', id);
-    console.log('📦 Datos a enviar:');
-    for (let [key, value] of articuloActualizado.entries()) {
-        console.log(`  ${key}:`, value);
-    }
     
     return axios.put(`${API_URL}/${id}`, articuloActualizado, {
         headers: {

@@ -488,7 +488,7 @@ const guardarCliente = async () => {
         updateTabla();
 
     } catch (error) {
-        console.log('Error al guardar cliente:', error);
+        console.error('Error al guardar cliente:', error);
         Swal.fire({
             icon: 'error',
             title: 'Error al guardar cliente',

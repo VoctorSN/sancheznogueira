@@ -89,7 +89,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
   if (!webhookSecret) {
-    console.log('Webhook secret no configurado')
+    console.error('Webhook secret no configurado')
     return res.sendStatus(200)
   }
 
@@ -106,19 +106,15 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
   switch (event.type) {
     case 'checkout.session.completed':
       const session = event.data.object
-      console.log('Pago completado:', session.id)
       // Aquí puedes guardar el pedido en la base de datos
       break
     case 'payment_intent.succeeded':
       const paymentIntent = event.data.object
-      console.log('Payment Intent exitoso:', paymentIntent.id)
       break
     case 'payment_intent.payment_failed':
       const failedPayment = event.data.object
-      console.log('Pago fallido:', failedPayment.id)
       break
     default:
-      console.log(`Evento no manejado: ${event.type}`)
   }
 
   res.json({ received: true })
