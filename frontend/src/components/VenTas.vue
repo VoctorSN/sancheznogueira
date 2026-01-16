@@ -17,7 +17,7 @@
 
                     <div class="card-footer text-end bg-white">
                         <span class="badge" :class="getEstadoClass(car.estado)">{{ car.estado }}</span>
-                        <div class="btn badge btn-sm btn-primary ms-2" @click.stop="agregarACesta(car)"><i
+                        <div v-if="car.estado !== 'vendido'" class="btn badge btn-sm btn-primary ms-2" @click.stop="agregarACesta(car)"><i
                                 class="bi bi-cart3 me-1"></i>Añadir Cesta
                         </div>
                     </div>
