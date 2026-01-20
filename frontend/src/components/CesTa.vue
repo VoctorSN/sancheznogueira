@@ -66,52 +66,69 @@
       <!-- Columna derecha: Métodos de pago -->
       <div class="col-lg-5 col-md-6">
         <div class="card shadow-sm sticky-top" style="top: 20px;">
-          <div class="card-header bg-success text-white">
-            <h5 class="mb-0">Métodos de pago</h5>
+          <!-- Mensaje para usuarios no autenticados -->
+          <div v-if="!estaLogueado" class="card-body">
+            <div class="alert alert-warning mb-0">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              <strong>Debes iniciar sesión para poder pagar</strong>
+              <div class="mt-3">
+                <router-link to="/login" class="btn btn-primary w-100">
+                  <i class="bi bi-box-arrow-in-right me-2"></i>
+                  Iniciar sesión
+                </router-link>
+              </div>
+            </div>
           </div>
-          <div class="card-body">
-            <p class="text-muted mb-3">Selecciona tu método de pago preferido</p>
-            
-            <!-- Botón para mostrar PayPal -->
-            <button 
-              class="btn btn-primary w-100 mb-3" 
-              @click="mostrarPayPal = !mostrarPayPal"
-              :disabled="procesando"
-            >
-              <i class="bi bi-paypal me-2"></i>
-              {{ mostrarPayPal ? 'Ocultar PayPal' : 'Pagar con PayPal' }}
-            </button>
 
-            <!-- Contenedor de botones de PayPal -->
-            <div v-if="mostrarPayPal" class="paypal-container">
-              <div id="paypal-button-container"></div>
+          <!-- Métodos de pago (solo si está logueado) -->
+          <div v-else>
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0">Métodos de pago</h5>
             </div>
+            <div class="card-body">
+              <p class="text-muted mb-3">Selecciona tu método de pago preferido</p>
+              
+              <!-- Botón para mostrar PayPal -->
+              <button 
+                class="btn btn-primary w-100 mb-3" 
+                @click="mostrarPayPal = !mostrarPayPal"
+                :disabled="procesando"
+              >
+                <i class="bi bi-paypal me-2"></i>
+                {{ mostrarPayPal ? 'Ocultar PayPal' : 'Pagar con PayPal' }}
+              </button>
 
-            <!-- Botón para pagar con Stripe -->
-            <button 
-              class="btn btn-success w-100 mb-3" 
-              @click="pagarConStripe"
-              :disabled="procesando"
-            >
-              <i class="bi bi-credit-card me-2"></i>
-              Pagar con Tarjeta (Stripe)
-            </button>
+              <!-- Contenedor de botones de PayPal -->
+              <div v-if="mostrarPayPal" class="paypal-container">
+                <div id="paypal-button-container"></div>
+              </div>
 
-            <!-- Mensaje de estado -->
-            <div v-if="mensaje" :class="['alert', mensajeTipo === 'success' ? 'alert-success' : 'alert-danger']">
-              {{ mensaje }}
-            </div>
+              <!-- Botón para pagar con Stripe -->
+              <button 
+                class="btn btn-success w-100 mb-3" 
+                @click="pagarConStripe"
+                :disabled="procesando"
+              >
+                <i class="bi bi-credit-card me-2"></i>
+                Pagar con Tarjeta (Stripe)
+              </button>
 
-            <!-- Información de seguridad -->
-            <div class="mt-4 pt-3 border-top">
-              <p class="text-muted small mb-2">
-                <i class="bi bi-shield-check text-success me-2"></i>
-                Pago 100% seguro y encriptado
-              </p>
-              <p class="text-muted small mb-0">
-                <i class="bi bi-lock text-success me-2"></i>
-                Tus datos están protegidos
-              </p>
+              <!-- Mensaje de estado -->
+              <div v-if="mensaje" :class="['alert', mensajeTipo === 'success' ? 'alert-success' : 'alert-danger']">
+                {{ mensaje }}
+              </div>
+
+              <!-- Información de seguridad -->
+              <div class="mt-4 pt-3 border-top">
+                <p class="text-muted small mb-2">
+                  <i class="bi bi-shield-check text-success me-2"></i>
+                  Pago 100% seguro y encriptado
+                </p>
+                <p class="text-muted small mb-0">
+                  <i class="bi bi-lock text-success me-2"></i>
+                  Tus datos están protegidos
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -121,7 +138,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCestaStore } from '@/store/cesta.js'
 import { crearOrdenPayPal, capturarOrdenPayPal, obtenerConfigPayPal } from '@/api/paypal.js'
@@ -135,6 +152,11 @@ const mensaje = ref('')
 const mensajeTipo = ref('success')
 const paypalClientId = ref('')
 const stripePublishableKey = ref('')
+
+// Verificar si el usuario está logueado
+const estaLogueado = computed(() => {
+  return !!sessionStorage.getItem('token')
+})
 
 const incrementar = (id) => cesta.incrementar(id)
 const decrementar = (id) => cesta.decrementar(id)

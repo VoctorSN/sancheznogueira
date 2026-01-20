@@ -58,10 +58,10 @@ const routes = [
     {
         path: '/ventas',
         name: 'VenTas',
-        component: VenTas,
-        meta: {
+        component: VenTas
+        /* meta: {
             requiresAuth: true,
-        }
+        } */
     },
     {
         path: '/taller',
