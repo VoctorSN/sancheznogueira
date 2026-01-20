@@ -7,9 +7,20 @@
           <button class="btn btn-secondary" @click="volverAtras">
             <i class="bi bi-arrow-left me-2"></i>Volver
           </button>
-          <button class="btn btn-primary" @click="imprimirFactura">
-            <i class="bi bi-printer me-2"></i>Imprimir Factura
-          </button>
+          <div>
+            <button class="btn btn-primary me-2" @click="imprimirFactura">
+              <i class="bi bi-printer me-2"></i>Imprimir Factura
+            </button>
+            <button class="btn btn-success" @click="descargarFactura" :disabled="procesando">
+              <span v-if="procesando">
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Generando...
+              </span>
+              <span v-else>
+                <i class="bi bi-download me-2"></i>Descargar PDF
+              </span>
+            </button>
+          </div>
         </div>
 
         <!-- Mensaje de carga -->
@@ -136,12 +147,14 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { obtenerFacturaParaImprimir } from '@/api/facturas.js'
+import { usePdfGenerator } from '@/composables/usePdfGenerator.js'
 
 const route = useRoute()
 const router = useRouter()
 const factura = ref(null)
 const cargando = ref(true)
 const error = ref('')
+const { procesando, generarPdfFactura } = usePdfGenerator()
 
 // Cargar factura al montar el componente
 onMounted(async () => {
@@ -201,6 +214,11 @@ const volverAtras = () => {
 // Imprimir factura
 const imprimirFactura = () => {
   window.print()
+}
+
+// Descargar factura en PDF
+const descargarFactura = () => {
+  generarPdfFactura(factura.value, `factura_${factura.value._id}.pdf`)
 }
 </script>
 
