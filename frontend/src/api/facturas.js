@@ -57,10 +57,10 @@ export const obtenerFacturaParaImprimir = async (id) => {
   }
 };
 
-// Eliminar una factura
+// Eliminar una factura (eliminación lógica)
 export const eliminarFactura = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}/${id}`);
+    const response = await axios.patch(`${API_URL}/${id}/eliminar`);
     return response.data;
   } catch (error) {
     console.error('Error al eliminar factura:', error);

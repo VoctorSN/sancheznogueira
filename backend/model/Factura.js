@@ -15,6 +15,7 @@ const facturaSchema = new mongoose.Schema({
   fecha: { type: Date, default: Date.now },
   metodoPago: { type: String, enum: ['paypal', 'stripe'], required: true },
   estadoPago: { type: String, default: 'completado' },
+  estado: { type: String, enum: ['activo', 'eliminado'], default: 'activo' },
   transaccionId: { type: String, required: true },
   cliente: {
     email: String,
