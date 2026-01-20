@@ -36,6 +36,25 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Obtener HTML de factura para imprimir
+router.get('/imprimir/:id', async (req, res) => {
+  try {
+    const factura = await Factura.findById(req.params.id);
+    
+    if (!factura) {
+      return res.status(404).json({ error: 'Factura no encontrada' });
+    }
+    
+    res.json(factura);
+  } catch (error) {
+    console.error('Error al obtener factura para imprimir:', error);
+    res.status(500).json({ 
+      error: 'Error al obtener factura',
+      details: error.message 
+    });
+  }
+});
+
 // Obtener facturas por email de cliente
 router.get('/cliente/:email', async (req, res) => {
   try {

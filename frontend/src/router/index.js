@@ -14,6 +14,8 @@ import BusCar from "../components/BusCar.vue";
 import CesTa from "../components/CesTa.vue";
 import PaymentSuccess from "../components/PaymentSuccess.vue";
 import PaymentCancel from "../components/PaymentCancel.vue";
+import MisFacturas from "../components/MisFacturas.vue";
+import VerFactura from "../components/VerFactura.vue";
 
 const routes = [
     {
@@ -92,6 +94,22 @@ const routes = [
         path: '/cancel',
         name: 'PaymentCancel',
         component: PaymentCancel
+    },
+    {
+        path: '/facturas',
+        name: 'MisFacturas',
+        component: MisFacturas,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/factura/:id',
+        name: 'VerFactura',
+        component: VerFactura,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/:pathMatch(.*)*',

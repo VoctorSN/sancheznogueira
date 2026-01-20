@@ -46,6 +46,17 @@ export const obtenerFacturasPorDni = async (dni) => {
   }
 };
 
+// Obtener factura para imprimir
+export const obtenerFacturaParaImprimir = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/imprimir/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener factura para imprimir:', error);
+    throw error;
+  }
+};
+
 // Eliminar una factura
 export const eliminarFactura = async (id) => {
   try {

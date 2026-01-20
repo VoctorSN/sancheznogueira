@@ -62,11 +62,13 @@
           <!-- Mostra “Acceso/Registro” se NON hai usuario logueado -->
           <li v-if="!isLogueado"><router-link class="dropdown-item" to="/login">Acceso</router-link></li>
           <li v-if="!isLogueado"><router-link class="dropdown-item" to="/clientes">Registro</router-link></li>
-          <!-- Mostra “Cerrar Sesión” se está logueado -->
-          <li v-if="isLogueado">
-            <a class="dropdown-item" href="#" @click.prevent="logout">Cerrar Sesión</a>
-          </li>
+          <!-- Mostra opciones se está logueado -->
           <li v-if="isLogueado"><router-link class="dropdown-item" to="/clientes">Perfil</router-link></li>
+          <li v-if="isLogueado"><router-link class="dropdown-item" to="/facturas"><i class="bi bi-receipt-cutoff me-2"></i>Mis Facturas</router-link></li>
+          <li v-if="isLogueado"><hr class="dropdown-divider"></li>
+          <li v-if="isLogueado">
+            <a class="dropdown-item text-danger" href="#" @click.prevent="logout"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a>
+          </li>
         </ul>
       </div>
 
