@@ -63,7 +63,11 @@
           <li v-if="!isLogueado"><router-link class="dropdown-item" to="/login">Acceso</router-link></li>
           <li v-if="!isLogueado"><router-link class="dropdown-item" to="/clientes">Registro</router-link></li>
           <!-- Mostra opciones se está logueado -->
-          <li v-if="isLogueado"><router-link class="dropdown-item" to="/clientes">Perfil</router-link></li>
+          <li v-if="isLogueado"></li>
+                <li v-if="isLogueado">
+            <router-link class="dropdown-item" to="/clientes"><i
+                class="bi bi-person fs-4"></i>Perfil</router-link>
+          </li>
           <li v-if="isLogueado"><router-link class="dropdown-item" to="/facturas"><i class="bi bi-receipt-cutoff me-2"></i>Mis Facturas</router-link></li>
           <li v-if="isLogueado"><hr class="dropdown-divider"></li>
           <li v-if="isLogueado">
@@ -82,7 +86,7 @@ import { useRouter } from 'vue-router'
 import { checkAdmin } from '@/api/authApi.js'
 
 import { useCestaStore } from '../store/cesta'
-
+///TODO añadir descargar pdf
 const cestaStore = useCestaStore()
 
 const router = useRouter()
