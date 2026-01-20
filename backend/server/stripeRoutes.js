@@ -15,7 +15,7 @@ router.get('/config', (req, res) => {
 // Crear sesión de checkout de Stripe
 router.post('/create-checkout-session', async (req, res) => {
   try {
-    const { items, total } = req.body
+    const { items, total, dni } = req.body
 
     // Construir los line items para Stripe
     const lineItems = items.map(item => {
@@ -46,7 +46,8 @@ router.post('/create-checkout-session', async (req, res) => {
       success_url: `http://localhost:5000/api/stripe/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/cancel`,
       metadata: {
-        total: total.toString()
+        total: total.toString(),
+        dni: dni || ''
       }
     })
 
@@ -110,7 +111,8 @@ router.get('/success', async (req, res) => {
             transaccionId: session_id,
             cliente: {
               email: session.customer_details?.email,
-              nombre: session.customer_details?.name
+              nombre: session.customer_details?.name,
+              dni: session.metadata?.dni || null
             }
           });
 
@@ -175,6 +177,7 @@ router.get('/verify-payment/:sessionId', async (req, res) => {
             transaccionId: sessionId,
             cliente: {
               email: session.customer_details?.email,
+              dni: session.metadata?.dni || null,
               nombre: session.customer_details?.name
             }
           });

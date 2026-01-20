@@ -12,11 +12,12 @@ export const obtenerConfigStripe = async () => {
   }
 }
 
-export const crearSesionStripe = async (items, total) => {
+export const crearSesionStripe = async (items, total, dni) => {
   try {
     const response = await axios.post(`${API_URL}/create-checkout-session`, {
       items,
-      total
+      total,
+      dni
     })
     return response.data
   } catch (error) {

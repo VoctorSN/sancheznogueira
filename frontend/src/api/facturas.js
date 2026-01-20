@@ -35,6 +35,17 @@ export const obtenerFacturasPorCliente = async (email) => {
   }
 };
 
+// Obtener facturas por DNI de cliente
+export const obtenerFacturasPorDni = async (dni) => {
+  try {
+    const response = await axios.get(`${API_URL}/cliente/dni/${dni}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener facturas del cliente por DNI:', error);
+    throw error;
+  }
+};
+
 // Eliminar una factura
 export const eliminarFactura = async (id) => {
   try {

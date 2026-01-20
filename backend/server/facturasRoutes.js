@@ -53,6 +53,23 @@ router.get('/cliente/:email', async (req, res) => {
   }
 });
 
+// Obtener facturas por DNI de cliente
+router.get('/cliente/dni/:dni', async (req, res) => {
+  try {
+    const facturas = await Factura.find({ 
+      'cliente.dni': req.params.dni 
+    }).sort({ fecha: -1 });
+    
+    res.json(facturas);
+  } catch (error) {
+    console.error('Error al obtener facturas del cliente por DNI:', error);
+    res.status(500).json({ 
+      error: 'Error al obtener facturas del cliente por DNI',
+      details: error.message 
+    });
+  }
+});
+
 // Eliminar una factura
 router.delete('/:id', async (req, res) => {
   try {

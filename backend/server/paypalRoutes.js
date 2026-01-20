@@ -96,7 +96,7 @@ router.post("/create-order", async (req, res) => {
 // Capturar pago
 router.post("/capture-order", async (req, res) => {
   try {
-    const { orderID, items, total } = req.body;
+    const { orderID, items, total, dni } = req.body;
 
     if (!orderID) {
       return res.status(400).json({ error: "Falta orderID" });
@@ -130,8 +130,9 @@ router.post("/capture-order", async (req, res) => {
           estadoPago: 'completado',
           transaccionId: orderID,
           cliente: {
-            email: response.result.payer?.email_address,
-            nombre: response.result.payer?.name?.given_name + ' ' + response.result.payer?.name?.surname
+            email: response.result.payer?.emailAddress,
+            nombre: response.result.payer?.name?.givenName + ' ' + response.result.payer?.name?.surname,
+            dni: dni || null
           }
         });
 

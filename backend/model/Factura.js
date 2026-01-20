@@ -19,6 +19,7 @@ const facturaSchema = new mongoose.Schema({
   cliente: {
     email: String,
     nombre: String,
+    dni: String,
   }
 },
   {

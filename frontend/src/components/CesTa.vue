@@ -143,6 +143,7 @@ import { useRouter } from 'vue-router'
 import { useCestaStore } from '@/store/cesta.js'
 import { crearOrdenPayPal, capturarOrdenPayPal, obtenerConfigPayPal } from '@/api/paypal.js'
 import { crearSesionStripe, obtenerConfigStripe } from '@/api/stripe.js'
+import { getDni } from '@/api/authApi.js'
 
 const router = useRouter()
 const cesta = useCestaStore()
@@ -152,6 +153,7 @@ const mensaje = ref('')
 const mensajeTipo = ref('success')
 const paypalClientId = ref('')
 const stripePublishableKey = ref('')
+const dniUsuario = ref('')
 
 // Verificar si el usuario está logueado
 const estaLogueado = computed(() => {
@@ -236,7 +238,8 @@ const renderizarBotonesPayPal = async () => {
         const captureData = await capturarOrdenPayPal(
           data.orderID, 
           cesta.items, 
-          cesta.totalPrecio
+          cesta.totalPrecio,
+          dniUsuario.value
         )
         
         if (captureData.status === 'COMPLETED') {
@@ -293,7 +296,7 @@ const pagarConStripe = async () => {
     mensaje.value = 'Redirigiendo a Stripe...'
     mensajeTipo.value = 'success'
 
-    // Crear sesión de checkout en el backend
+    // Crear sesión de checkout en el backend, dniUsuario.value
     const { url } = await crearSesionStripe(cesta.items, cesta.totalPrecio)
     
     // Redirigir al checkout de Stripe
@@ -315,6 +318,15 @@ onMounted(async () => {
     // Cargar configuración de Stripe
     const configStripe = await obtenerConfigStripe()
     stripePublishableKey.value = configStripe.publishableKey
+    
+    // Obtener DNI del usuario si está logueado
+    if (estaLogueado.value) {
+      try {
+        dniUsuario.value = await getDni()
+      } catch (error) {
+        console.error('Error al obtener DNI del usuario:', error)
+      }
+    }
   } catch (error) {
     console.error('Error al obtener configuración de pasarelas de pago:', error)
     mensaje.value = 'Error al configurar métodos de pago'

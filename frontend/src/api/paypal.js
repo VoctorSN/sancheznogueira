@@ -25,12 +25,13 @@ export const crearOrdenPayPal = async (items, total) => {
   }
 };
 
-export const capturarOrdenPayPal = async (orderID, items, total) => {
+export const capturarOrdenPayPal = async (orderID, items, total, dni) => {
   try {
     const response = await axios.post(`${API_URL}/capture-order`, {
       orderID,
       items,
-      total
+      total,
+      dni
     });
     return response.data;
   } catch (error) {
