@@ -296,8 +296,8 @@ const pagarConStripe = async () => {
     mensaje.value = 'Redirigiendo a Stripe...'
     mensajeTipo.value = 'success'
 
-    // Crear sesión de checkout en el backend, dniUsuario.value
-    const { url } = await crearSesionStripe(cesta.items, cesta.totalPrecio)
+    // Crear sesión de checkout en el backend pasando el DNI del usuario
+    const { url } = await crearSesionStripe(cesta.items, cesta.totalPrecio, dniUsuario.value)
     
     // Redirigir al checkout de Stripe
     window.location.href = url
