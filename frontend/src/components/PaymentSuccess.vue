@@ -69,8 +69,6 @@ onMounted(async () => {
       // Tomar la primera (más reciente)
       if (facturas && facturas.length > 0) {
         ultimaFactura.value = facturas[0]
-        console.log(ultimaFactura.value.items.map(item => item.productoId));
-        
         setCochesToVendido(ultimaFactura.value.items.map(item => item.productoId))
       }
     }

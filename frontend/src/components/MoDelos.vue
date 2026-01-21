@@ -199,7 +199,13 @@
             </div>
 
             <!-- FILA: botón -->
-            <div class="d-flex align-items-center justify-content-center mt-3">
+            <div class="d-flex align-items-center justify-content-between mt-3">
+                <div>
+                    <div v-if="isAdmin" class="d-flex justify-content-end form-switch invisible">
+                        <input type="checkbox" class="form-check-input"/>
+                        <label class="form-check-label ms-3 me-5 mb-0">Mostrar Vendidos</label>
+                    </div>
+                </div>
                 <div>
 
                     <button v-if="editando" @click.prevent="eliminarVehiculo(vehiculoEditandoId)"
@@ -210,7 +216,15 @@
                         "Modificar" : "Guardar" }}</button>
                     <button v-if="isAdmin" class="btn btn-secondary rounded border shadow-none px-4" @click="imprimirPDF"
                         type="button"><i class="bi bi-printer"></i>Imprimir</button>
+                        
                     
+                </div>
+                <div>
+                    <div v-if="isAdmin" class="d-flex justify-content-end form-switch">
+                        <input type="checkbox" id="historico" v-model="mostrarVendidos" class="form-check-input"
+                            @change="cargarVehiculos" />
+                        <label for="historico" class="form-check-label ms-3 me-5 mb-0">Mostrar Vendidos</label>
+                    </div>
                 </div>
             </div>
         </form>
@@ -248,6 +262,10 @@
                                 class="btn btn-warning btn-sm border-0 shadow-none rounded-0" title="Editar vehículo">
                                 <i class="bi bi-pencil"></i>
                             </button>
+                            <button v-if="mostrarVendidos" @click="descargarFactura(vehiculoItem._id)"
+                                class="btn btn-primary btn-sm border-0 shadow-none rounded-0 ms-1" title="Descargar Factura">
+                                <i class="bi bi-file-earmark-pdf"></i>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -273,6 +291,7 @@
 import Swal from "sweetalert2"
 import { ref, computed, onMounted } from "vue"
 import { addArticulo, getArticulos, updateArticulo, deleteArticulo } from "@/api/articulos.js"
+import { obtenerFacturas } from "@/api/facturas.js"
 import provmuniData from "@/data/provmuni.json"
 import { usePdfGenerator } from "@/composables/usePdfGenerator.js"
 import { checkAdmin } from "@/api/authApi.js";
@@ -281,7 +300,8 @@ const vehiculos = ref([]);
 const currentPage = ref(1);
 const vehiculosPerPage = 10;
 const isAdmin = ref(false);
-const { generarPdfListadoVehiculos } = usePdfGenerator();
+const { generarPdfListadoVehiculos, generarPdfFactura } = usePdfGenerator();
+const mostrarVendidos = ref(false);
 
 const anioActual = new Date().getFullYear();
 const aniosPosibles = Array.from({ length: 50 }, (_, i) => anioActual - i);
@@ -324,7 +344,13 @@ onMounted(async () => {
 
 const cargarVehiculos = async () => {
     try {
-        vehiculos.value = await getArticulos();
+        vehiculos.value = (await getArticulos()).filter(vehiculo => {
+            if (mostrarVendidos.value) {
+                return vehiculo.estado === 'vendido'; // Mostrar todos los vehículos
+            } else {
+                return vehiculo.estado !== 'vendido'; // Ocultar vehículos vendidos
+            }
+        });
     } catch (error) {
         console.error("Error al cargar vehículos:", error);
     }
@@ -630,6 +656,46 @@ const onFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
         archivo.value = file;
+    }
+};
+
+const descargarFactura = async (vehiculoId) => {
+    try {
+        // Obtener todas las facturas
+        const facturas = await obtenerFacturas();
+        
+        // Buscar la factura que contiene el vehículo en sus items
+        const facturaEncontrada = facturas.find(factura => 
+            factura.items.some(item => item.productoId === vehiculoId)
+        );
+        
+        if (facturaEncontrada) {
+            // Generar PDF de la factura
+            generarPdfFactura(facturaEncontrada, `factura_${facturaEncontrada._id}.pdf`);
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Factura descargada',
+                text: 'La factura se ha descargado correctamente.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Factura no encontrada',
+                text: 'No se encontró ninguna factura asociada a este vehículo.',
+                showConfirmButton: true
+            });
+        }
+    } catch (error) {
+        console.error('Error al descargar factura:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo descargar la factura.',
+            showConfirmButton: true
+        });
     }
 };
 
