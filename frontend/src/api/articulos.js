@@ -34,3 +34,11 @@ export const updateArticulo = (id, articuloActualizado) => {
     }).then(res => res.data)
 }
 
+export const setCochesToVendido = (ids) => {
+    return axios.put(`${API_URL}/vendido`, { ids }, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.data)
+}
+

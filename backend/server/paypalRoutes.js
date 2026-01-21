@@ -122,7 +122,8 @@ router.post("/capture-order", async (req, res) => {
             nombre: item.nombre,
             precio: item.precio,
             cantidad: item.cantidad,
-            total: item.precio * item.cantidad
+            total: item.precio * item.cantidad,
+            matricula: item.matricula || null
           })),
           totalFactura: total,
           fecha: new Date(),

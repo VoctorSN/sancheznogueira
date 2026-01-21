@@ -67,6 +67,32 @@ router.get("/buscar", async (req, res) => {
     }
 });
 
+// Cambiar estado de múltiples vehículos a vendido
+// IMPORTANTE: Esta ruta debe estar ANTES de "/:id" para evitar que "vendido" se interprete como un ID
+router.put("/vendido", async (req, res) => {
+    try {
+        const { ids } = req.body;
+
+        if (!ids || !Array.isArray(ids) || ids.length === 0) {
+            return res.status(400).json({ error: "Se requiere un array de IDs" });
+        }
+
+        // Actualizar todos los vehículos con los IDs proporcionados
+        const resultado = await Articulo.updateMany(
+            { _id: { $in: ids } },
+            { $set: { estado: "vendido" } }
+        );
+
+        res.json({
+            mensaje: `${resultado.modifiedCount} vehículo(s) marcado(s) como vendido(s)`,
+            modificados: resultado.modifiedCount
+        });
+    } catch (err) {
+        console.error("Error actualizando estado de vehículos:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Guardar artículo con imagen
 router.post("/", upload.single('imagen'), async (req, res) => {
     try {
@@ -97,12 +123,16 @@ router.post("/", upload.single('imagen'), async (req, res) => {
     }
 });
 
-// Actualizar artículo con imagen
+// Actualizar artículo individual con imagen (usa multipart/form-data)
 router.put("/:id", upload.single('imagen'), async (req, res) => {
     try {
         if (!req.body.vehiculo) {
-            console.error("No se recibió el campo 'vehiculo'");
-            return res.status(400).json({ error: "Campo 'vehiculo' vacío" });
+            console.error("PUT /:id - No se recibió el campo 'vehiculo' para actualización individual");
+            console.log("Body: " + req.body);
+            return res.status(400).json({ 
+                error: "Campo 'vehiculo' requerido para actualizar artículo individual",
+                nota: "Este endpoint requiere multipart/form-data con el campo 'vehiculo' como JSON string"
+            });
         }
 
         let datos;

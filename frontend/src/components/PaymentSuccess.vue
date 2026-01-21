@@ -47,6 +47,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { obtenerFacturasPorDni } from '@/api/facturas.js'
+import { setCochesToVendido } from '@/api/articulos.js'
 import { checkAdmin } from '@/api/authApi.js'
 import { usePdfGenerator } from '@/composables/usePdfGenerator.js'
 
@@ -68,6 +69,9 @@ onMounted(async () => {
       // Tomar la primera (más reciente)
       if (facturas && facturas.length > 0) {
         ultimaFactura.value = facturas[0]
+        console.log(ultimaFactura.value.items.map(item => item.productoId));
+        
+        setCochesToVendido(ultimaFactura.value.items.map(item => item.productoId))
       }
     }
   } catch (error) {

@@ -47,7 +47,14 @@ router.post('/create-checkout-session', async (req, res) => {
       cancel_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/cancel`,
       metadata: {
         total: total.toString(),
-        dni: dni || ''
+        dni: dni || '',
+        items: JSON.stringify(items.map(item => ({
+          productoId: item.id,
+          nombre: item.nombre,
+          precio: item.precio,
+          cantidad: item.cantidad,
+          matricula: item.matricula || null
+        })))
       }
     })
 
@@ -92,12 +99,26 @@ router.get('/success', async (req, res) => {
         if (facturaExistente) {
           console.log('⚠️ La factura ya existe:', facturaExistente._id);
         } else {
-          const items = session.line_items.data.map(item => ({
-            productoId: item.price.product,
-            nombre: item.description || 'Producto',
-            precio: item.price.unit_amount / 100,
-            cantidad: item.quantity,
-            total: (item.price.unit_amount / 100) * item.quantity
+          // Recuperar items desde metadata con matrícula
+          let items = [];
+          try {
+            items = JSON.parse(session.metadata?.items || '[]');
+          } catch (e) {
+            // Fallback a line_items si no hay metadata
+            items = session.line_items.data.map(item => ({
+              productoId: item.price.product,
+              nombre: item.description || 'Producto',
+              precio: item.price.unit_amount / 100,
+              cantidad: item.quantity,
+              total: (item.price.unit_amount / 100) * item.quantity,
+              matricula: null
+            }));
+          }
+
+          // Añadir total a cada item si no lo tiene
+          items = items.map(item => ({
+            ...item,
+            total: item.total || item.precio * item.cantidad
           }));
 
           console.log('Items procesados:', items);

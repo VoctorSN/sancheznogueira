@@ -29,7 +29,10 @@ export const capturarOrdenPayPal = async (orderID, items, total, dni) => {
   try {
     const response = await axios.post(`${API_URL}/capture-order`, {
       orderID,
-      items,
+      items: items.map(item => ({
+        ...item,
+        matricula: item.matricula || null
+      })),
       total,
       dni
     });

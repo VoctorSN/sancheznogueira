@@ -15,7 +15,10 @@ export const obtenerConfigStripe = async () => {
 export const crearSesionStripe = async (items, total, dni) => {
   try {
     const response = await axios.post(`${API_URL}/create-checkout-session`, {
-      items,
+      items: items.map(item => ({
+        ...item,
+        matricula: item.matricula || null
+      })),
       total,
       dni
     })

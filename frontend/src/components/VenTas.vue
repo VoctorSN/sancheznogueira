@@ -147,7 +147,8 @@ const agregarACesta = (vehiculo) => {
         id: vehiculo._id,
         nombre: `${vehiculo.marca} ${vehiculo.modelo}`,
         precio: vehiculo.precio,
-        imagen: urlImagen(vehiculo.imagen)
+        imagen: urlImagen(vehiculo.imagen),
+        matricula: vehiculo.matricula
     });
 };
 

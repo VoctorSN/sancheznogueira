@@ -8,6 +8,7 @@ const facturaSchema = new mongoose.Schema({
       precio: Number,
       cantidad: Number,
       total: Number,
+      matricula: String,
     },
   ],
   totalFactura: { type: Number, required: true },
