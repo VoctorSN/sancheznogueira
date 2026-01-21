@@ -25,6 +25,10 @@ Usuarios para Probar:
 -admin 
     dni: 00000000T
     password: abc123
+    dni: 55555555K
+    password: abc123
 -no admin
     dni: 99999999R
+    password: abc123
+    dni: Y1234567X
     password: abc123

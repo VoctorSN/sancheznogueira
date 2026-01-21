@@ -60,7 +60,7 @@ export default {
 
   methods: {
     verificarDNI(dni) {
-      const dniRegex = /^[0-9]{8}[A-Za-z]$/;
+      const dniRegex = /^([0-9]{8}[A-Za-z]|[XYZ][0-9]{7}[A-Za-z])$/;
       return dniRegex.test(dni);
     },
 
