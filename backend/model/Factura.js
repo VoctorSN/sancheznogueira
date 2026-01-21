@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-///TODO fix this model and make it work and save
 const facturaSchema = new mongoose.Schema({
   items: [
     {

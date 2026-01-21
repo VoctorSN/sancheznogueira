@@ -86,7 +86,6 @@ import { useRouter } from 'vue-router'
 import { checkAdmin } from '@/api/authApi.js'
 
 import { useCestaStore } from '../store/cesta'
-///TODO añadir descargar pdf
 const cestaStore = useCestaStore()
 
 const router = useRouter()
