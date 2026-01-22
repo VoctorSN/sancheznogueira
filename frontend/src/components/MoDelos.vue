@@ -849,8 +849,8 @@ const getEstadoClass = (estado) => {
     return 'bg-secondary';
 };
 
-const imprimirPDF = () => {
-    generarPdfListadoVehiculos(vehiculos.value, 'listado_vehiculos');
+const imprimirPDF = async () => {
+    generarPdfListadoVehiculos(await getArticulos(), 'listado_vehiculos');
 };
 
 </script>
