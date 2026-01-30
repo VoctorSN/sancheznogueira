@@ -8,11 +8,18 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PWD}
       MONGO_INITDB_DATABASE: ${MONGODB_NAME}
+      HOST_MONGODB_USERNAME: ${MONGODB_USERNAME}
+      HOST_MONGODB_PASSWORD: ${MONGODB_PWD}
+      HOST_MONGODB_DATABASE: ${MONGODB_NAME}
     ports:
       - "27017:27017"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - mongodb_data:/data/db
       - mongodb_config:/data/configdb
+      - ./mongo-init:/docker-entrypoint-initdb.d
+      - ./backend/server/data:/data/seed
     networks:
       - sancheznogueira-network
     healthcheck:
