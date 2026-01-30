@@ -49,9 +49,10 @@ app.use("/api/stripe", stripeRoutes); // Ruta de Stripe
 app.use("/api/facturas", facturasRoutes); // Ruta de Facturas
 
 // Verificar variable
-//console.log("MONGODB_URI =", process.env.MONGODB_URI);
+console.log("🔍 MONGODB_URI =", process.env.MONGODB_URI);
 
 /// Conexión a MongoDB 
+
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log("✅ Connected to MongoDB a la base de datos BBDD");

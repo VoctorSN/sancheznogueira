@@ -6,7 +6,8 @@ export const login = async (req, res) => {
     const { dni, password } = req.body;
 
     try {
-        const response = await axios.get(`http://localhost:3000/clientes?dni=${dni}`);
+        const jsonServerUrl = process.env.JSON_SERVER_URL || 'http://localhost:3000';
+        const response = await axios.get(`${jsonServerUrl}/clientes?dni=${dni}`);
         const user = response.data[0];
 
         if (!user) return res.status(400).json({ message: 'Usuario no encontrado' });
