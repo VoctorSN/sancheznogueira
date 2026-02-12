@@ -42,6 +42,19 @@
                 </tr>
               </tbody>
             </table>
+            <form @submit.prevent="guardarDescuento" class="mt-1 mb-2">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <label for="descuento" class="form-label mb-0 text-nowrap flex-shrink-0">Descuento:</label>
+                <input type="text" id="descuento" v-model="descuento" class="form-control flex-grow-1" />
+                <button type="submit" class="btn btn-primary text-nowrap">
+                  Aplicar Descuento
+                </button>
+              </div>
+              <div v-if="descuentoMsj"
+                :class="['alert', descuentoMsj.includes('aplicado') ? 'alert-success' : 'alert-danger', 'mb-0']">
+                {{ descuentoMsj }}
+              </div>
+            </form>
             
             <!-- Resumen de la cesta -->
             <div class="border-top pt-3 mt-3">
@@ -53,10 +66,14 @@
                 <span>Envío:</span>
                 <strong>Gratis</strong>
               </div>
+              <div v-if="descuentoMsj" class="d-flex justify-content-between mb-2">
+                <span>Descuento:</span>
+                <strong>{{ cesta.totalPrecio * 0.2 }}</strong>
+              </div>
               <hr>
               <div class="d-flex justify-content-between">
                 <h5>Total:</h5>
-                <h5 class="text-primary">{{ cesta.totalPrecio }} €</h5>
+                <h5 class="text-primary">{{ calcularPrecioTotal() }} €</h5>
               </div>
             </div>
           </div>
@@ -154,6 +171,8 @@ const mensajeTipo = ref('success')
 const paypalClientId = ref('')
 const stripePublishableKey = ref('')
 const dniUsuario = ref('')
+const descuento = ref('')
+const descuentoMsj = ref('')
 
 // Verificar si el usuario está logueado
 const estaLogueado = computed(() => {
@@ -188,6 +207,19 @@ const cargarPayPalScript = () => {
     script.onerror = reject
     document.head.appendChild(script)
   })
+}
+
+const guardarDescuento = async () => {
+  if (descuento.value === "123") {
+    console.log("aplicando descuento");
+    descuentoMsj.value = "Descuento aplicado correctamente";
+  }else{
+    descuentoMsj.value = "Código de descuento inválido";
+  }
+}
+
+const calcularPrecioTotal = () => {
+  return cesta.totalPrecio - (descuentoMsj.value.includes('aplicado') ? cesta.totalPrecio * 0.2 : 0)
 }
 
 // Renderizar botones de PayPal
@@ -238,7 +270,7 @@ const renderizarBotonesPayPal = async () => {
         const captureData = await capturarOrdenPayPal(
           data.orderID, 
           cesta.items, 
-          cesta.totalPrecio,
+          await calcularPrecioTotal(),
           dniUsuario.value
         )
         
@@ -297,7 +329,7 @@ const pagarConStripe = async () => {
     mensajeTipo.value = 'success'
 
     // Crear sesión de checkout en el backend pasando el DNI del usuario
-    const { url } = await crearSesionStripe(cesta.items, cesta.totalPrecio, dniUsuario.value)
+    const { url } = await crearSesionStripe(cesta.items, await calcularPrecioTotal(), dniUsuario.value)
     
     // Redirigir al checkout de Stripe
     window.location.href = url
