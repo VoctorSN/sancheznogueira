@@ -335,10 +335,210 @@ export function usePdfGenerator() {
     }
   }
 
+  const generarPdfDetalleArticulo = (articulo, nombreArchivo = 'detalle_articulo.pdf') => {
+    if (!articulo) {
+      console.error('❌ No hay artículo para generar PDF.')
+      return
+    }
+
+    procesando.value = true
+
+    try {
+      const doc = new jsPDF()
+
+      // Obtener fecha y hora actual
+      const ahora = new Date()
+      const fechaHora = ahora.toLocaleString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+
+      // Logo en la parte superior izquierda
+      doc.addImage(logoPng, 'PNG', 10, 10, 30, 30)
+
+      // Título del documento
+      doc.setFontSize(22)
+      doc.setFont('helvetica', 'bold')
+      doc.setTextColor(41, 128, 185) // Azul
+      doc.text('Detalle del Vehículo', 105, 25, { align: 'center' })
+
+      // Fecha y hora
+      doc.setFontSize(9)
+      doc.setFont('helvetica', 'normal')
+      doc.setTextColor(100, 100, 100)
+      doc.text(`Generado: ${fechaHora}`, 105, 32, { align: 'center' })
+
+      // Línea decorativa
+      doc.setDrawColor(41, 128, 185)
+      doc.setLineWidth(0.5)
+      doc.line(14, 42, 196, 42)
+
+      // Título del vehículo
+      doc.setFontSize(18)
+      doc.setFont('helvetica', 'bold')
+      doc.setTextColor(0, 0, 0)
+      const tituloVehiculo = `${articulo.marca ? String(articulo.marca) : ''} ${articulo.modelo ? String(articulo.modelo) : ''}`
+      doc.text(tituloVehiculo, 14, 50)
+
+      // Precio destacado
+      doc.setFontSize(20)
+      doc.setFont('helvetica', 'bold')
+      doc.setTextColor(41, 128, 185)
+      const precioTexto = articulo.precio ? `${articulo.precio.toLocaleString()}€` : '0€'
+      doc.text(precioTexto, 196, 50, { align: 'right' })
+
+      // Información principal en dos columnas
+      let yPosition = 62
+
+      // Columna izquierda
+      doc.setFontSize(11)
+      doc.setFont('helvetica', 'bold')
+      doc.setTextColor(0, 0, 0)
+
+      const infoItems = [
+        { label: 'Año:', value: articulo.anio ? String(articulo.anio) : 'N/A', icon: '📅' },
+        { label: 'Kilómetros:', value: articulo.kilometros ? `${articulo.kilometros.toLocaleString()} km` : 'N/A', icon: '🏁' },
+        { label: 'Combustible:', value: articulo.combustible ? String(articulo.combustible) : 'N/A', icon: '⛽' },
+        { label: 'Transmisión:', value: articulo.transmision ? String(articulo.transmision) : 'N/A', icon: '⚙️' },
+      ]
+
+      if (articulo.potencia_cv) {
+        infoItems.push({ label: 'Potencia:', value: `${articulo.potencia_cv} CV`, icon: '⚡' })
+      }
+
+      if (articulo.matricula) {
+        infoItems.push({ label: 'Matrícula:', value: String(articulo.matricula), icon: '🚗' })
+      }
+
+      infoItems.push({ label: 'Estado:', value: articulo.estado ? String(articulo.estado) : 'N/A', icon: '🏷️' })
+
+      // Dibujar la información en formato de lista
+      infoItems.forEach((item, index) => {
+        doc.setFontSize(11)
+        doc.setFont('helvetica', 'bold')
+        doc.setTextColor(60, 60, 60)
+        doc.text(`${item.label}`, 14, yPosition)
+
+        doc.setFont('helvetica', 'normal')
+        doc.setTextColor(0, 0, 0)
+        doc.text(String(item.value), 60, yPosition)
+
+        yPosition += 8
+      })
+
+      // Descripción
+      if (articulo.descripcion) {
+        yPosition += 5
+        doc.setDrawColor(200, 200, 200)
+        doc.setLineWidth(0.3)
+        doc.line(14, yPosition, 196, yPosition)
+
+        yPosition += 8
+        doc.setFontSize(12)
+        doc.setFont('helvetica', 'bold')
+        doc.setTextColor(41, 128, 185)
+        doc.text('Descripción:', 14, yPosition)
+
+        yPosition += 8
+        doc.setFontSize(10)
+        doc.setFont('helvetica', 'normal')
+        doc.setTextColor(60, 60, 60)
+        const descripcionLines = doc.splitTextToSize(String(articulo.descripcion), 168)
+        doc.text(descripcionLines, 14, yPosition)
+        yPosition += descripcionLines.length * 6 + 8
+      }
+
+      // Información de contacto
+      if (articulo.contacto) {
+        yPosition += 5
+        doc.setDrawColor(200, 200, 200)
+        doc.setLineWidth(0.3)
+        doc.line(14, yPosition, 196, yPosition)
+
+        yPosition += 8
+        doc.setFontSize(12)
+        doc.setFont('helvetica', 'bold')
+        doc.setTextColor(41, 128, 185)
+        doc.text('Información de Contacto:', 14, yPosition)
+
+        yPosition += 8
+        doc.setFontSize(10)
+        doc.setFont('helvetica', 'normal')
+        doc.setTextColor(60, 60, 60)
+
+        if (articulo.contacto.nombre) {
+          doc.setFont('helvetica', 'bold')
+          doc.text('Nombre:', 14, yPosition)
+          doc.setFont('helvetica', 'normal')
+          doc.text(String(articulo.contacto.nombre), 40, yPosition)
+          yPosition += 6
+        }
+
+        if (articulo.contacto.telefono) {
+          doc.setFont('helvetica', 'bold')
+          doc.text('Teléfono:', 14, yPosition)
+          doc.setFont('helvetica', 'normal')
+          doc.text(String(articulo.contacto.telefono), 40, yPosition)
+          yPosition += 6
+        }
+
+        if (articulo.contacto.email) {
+          doc.setFont('helvetica', 'bold')
+          doc.text('Email:', 14, yPosition)
+          doc.setFont('helvetica', 'normal')
+          doc.text(String(articulo.contacto.email), 40, yPosition)
+          yPosition += 6
+        }
+
+        if (articulo.ubicacion) {
+          doc.setFont('helvetica', 'bold')
+          doc.text('Ubicación:', 14, yPosition)
+          doc.setFont('helvetica', 'normal')
+          doc.text(`${String(articulo.ubicacion.ciudad)}, ${String(articulo.ubicacion.provincia)}`, 40, yPosition)
+        }
+      }
+
+      // Pie de página
+      doc.setFontSize(8)
+      doc.setTextColor(150, 150, 150)
+      doc.text(
+        'Documento generado automáticamente',
+        105,
+        doc.internal.pageSize.height - 10,
+        { align: 'center' }
+      )
+
+      // Guardar el PDF con el nombre del vehículo y fecha
+      const fechaArchivo = ahora.toLocaleString('es-ES', {
+        timeZone: 'Europe/Madrid',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }).replace(/[/:]/g, '-').replace(/,/g, '').replace(/ /g, '_')
+      
+      const marcaStr = articulo.marca ? String(articulo.marca) : 'vehiculo'
+      const modeloStr = articulo.modelo ? String(articulo.modelo) : ''
+      const nombreVehiculo = `${marcaStr}_${modeloStr}`.replace(/\s+/g, '_')
+      doc.save(`${nombreVehiculo}_${fechaArchivo}.pdf`)
+    } catch (error) {
+      console.error('Error al generar PDF de detalle de artículo:', error)
+      throw error
+    } finally {
+      procesando.value = false
+    }
+  }
+
   return {
     procesando,
     generarPdfFactura,
     generarPdfListadoClientes,
-    generarPdfListadoVehiculos
+    generarPdfListadoVehiculos,
+    generarPdfDetalleArticulo
   }
 }

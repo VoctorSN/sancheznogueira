@@ -32,11 +32,20 @@
                 <button class="btn-close-modal" @click="cerrarDetalles">
                     <i class="bi bi-x-lg"></i>
                 </button>
+                
+                
 
                 <div class="row">
                     <div class="col-md-6">
                         <img :src="urlImagen(vehiculoSeleccionado.imagen)" class="img-fluid rounded" alt="vehiculo">
                         <p class="info-description mx-3">{{ vehiculoSeleccionado.descripcion }}</p>
+                        
+                            <div class="btn badge btn-sm btn-primary ms-2"
+                                @click.stop="imprimirPdf()"><i
+                                    class="bi bi-printer me-2"></i>Imprimir PDF
+                            </div>
+      
+                    
                     </div>
 
                     <div class="col-md-6">
@@ -110,8 +119,10 @@
 import { ref, onMounted } from "vue";
 import { getArticulos } from "@/api/articulos.js";
 import { useCestaStore } from "../store/cesta";
+import { usePdfGenerator } from "@/composables/usePdfGenerator";
 
 const cestaStore = useCestaStore();
+const { generarPdfDetalleArticulo } = usePdfGenerator();
 
 const vehiculos = ref([]);
 const vehiculoSeleccionado = ref(null);
@@ -150,6 +161,12 @@ const agregarACesta = (vehiculo) => {
         imagen: urlImagen(vehiculo.imagen),
         matricula: vehiculo.matricula
     });
+};
+
+const imprimirPdf = () => {
+    if (vehiculoSeleccionado.value) {
+        generarPdfDetalleArticulo(vehiculoSeleccionado.value);
+    }
 };
 
 </script>
@@ -220,7 +237,29 @@ const agregarACesta = (vehiculo) => {
     cursor: pointer;
     font-size: 1.2rem;
     transition: background 0.3s;
+}btn-print-pdf {
+    position: absolute;
+    top: 15px;
+    right: 70px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.3s;
+    font-weight: 500;
 }
+
+.btn-print-pdf:hover {
+    background: #218838;
+}
+
+
 
 .btn-close-modal:hover {
     background: #c82333;
