@@ -4,6 +4,8 @@ services:
     image: mongo:7
     container_name: sancheznogueira-mongodb
     restart: always
+    env_file:
+      - ./backend/.env
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PWD}
@@ -35,20 +37,13 @@ services:
       dockerfile: Dockerfile
     container_name: sancheznogueira-backend
     restart: always
+    env_file:
+      - ./backend/.env
     environment:
       NODE_ENV: production
-      PORT: 5000
       JSON_SERVER_URL: http://json-server:3000
       MONGODB_URI: mongodb://admin:${MONGODB_PWD}@mongodb:27017/bbdd?authSource=admin
-      JWT_SECRET: ${JWT_SECRET}
-      RESEND_API_KEY: ${RESEND_API_KEY}
-      EMAIL_TO: ${EMAIL_TO}
-      GEMINI_API_KEY: ${GEMINI_API_KEY}
-      PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID}
-      PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET}
-      PAYPAL_MODE: ${PAYPAL_MODE}
-      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
-      STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
     ports:
       - "5000:5000"
     expose:

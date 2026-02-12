@@ -17,6 +17,13 @@ export function usePdfGenerator() {
     try {
       const doc = new jsPDF()
       const cart = factura.items
+      const numeroFactura = factura._id || factura.id || factura.numero || 'N/A'
+      const fechaFactura = factura.fecha
+        ? new Date(factura.fecha).toLocaleDateString('es-ES')
+        : new Date().toLocaleDateString('es-ES')
+      const clienteNombre = factura.cliente?.nombre || 'Cliente'
+      const clienteDni = factura.cliente?.dni || 'DNI no disponible'
+      const clienteEmail = factura.cliente?.email || ''
 
       // Logo en la parte superior izquierda
       doc.addImage(logoPng, 'PNG', 10, 10, 30, 30)
@@ -24,6 +31,18 @@ export function usePdfGenerator() {
       // Título de la factura
       doc.setFontSize(18)
       doc.text('Factura de Compra', 60, 20)
+
+      // Datos de la factura y del cliente
+      doc.setFontSize(10)
+      doc.setFont('helvetica', 'bold')
+      doc.text(`Factura Nº: ${numeroFactura}`, 14, 46)
+      doc.setFont('helvetica', 'normal')
+      doc.text(`Fecha: ${fechaFactura}`, 14, 54)
+      doc.text(`Cliente: ${clienteNombre}`, 14, 60)
+      doc.text(`DNI: ${clienteDni}`, 14, 66)
+      if (clienteEmail) {
+        doc.text(`Email: ${clienteEmail}`, 14, 72)
+      }
 
       // Información del cliente
       doc.setFontSize(9)
